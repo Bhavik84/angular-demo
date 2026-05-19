@@ -116,6 +116,9 @@
             "karmaConfig": "karma.conf.js",
             "codeCoverage": true,
             "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/assets/styles"]
+            },
             "assets": ["src/favicon.ico", "src/assets", "src/sitemap.xml"],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",

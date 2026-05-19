@@ -5,19 +5,5 @@
     "outDir": "./out-tsc/spec",
     "types": ["jasmine"]
   },
-  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"],
-  "exclude": [
-    "src/app/core/resolver/article-detail/article-detail.resolver.spec.ts",
-    "src/app/core/resolver/artwork-detail/artwork-detail.resolver.spec.ts",
-    "src/app/core/resolver/institute-detail/institute-detail.resolver.spec.ts",
-    "src/app/core/resolver/photograph-detail/photograph-detail.resolver.spec.ts",
-    "src/app/core/resolver/photographer-detail/photographer-detail.resolver.spec.ts",
-    "src/app/shared/directives/cursor-directive/expandable-cursor-directive.spec.ts",
-    "src/app/shared/directives/custome-scroll/scroll-directive.directive.spec.ts",
-    "src/app/shared/directives/imge-error/image-error.directive.spec.ts",
-    "src/app/shared/directives/input-restrictions/input-restrictions.directive.spec.ts",
-    "src/app/shared/directives/scroll/scroll.directive.spec.ts",
-    "src/app/shared/pipes/safeUrl/safe-url.pipe.spec.ts",
-    "src/app/shared/pipes/sanitizeHtml/sanitize-html.pipe.spec.ts"
-  ]
+  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
 }
