@@ -1,0 +1,95 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  background-color: #11212d;
+}
+
+.toolbar button {
+  cursor: pointer;
+  color: white;
+  background: #11212d;
+  border: 0;
+  padding: 10px 10px;
+  outline: none;
+}
+
+.image-fullscreen {
+  cursor: grab;
+  max-width: 50vw;
+  max-height: calc(100vh - 150px);
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.zoom-popup-next {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  margin-top: -20px;
+  background-color: #fff;
+  border: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.zoom-popup-prev {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  margin-top: -20px;
+  background-color: #fff;
+  border: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.slider-data-main {
+  background-color: $black;
+  padding: 15px;
+  color: #fff;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  @media (max-width: 767px) {
+    bottom: 70px;
+  }
+}
+.slider-view {
+  .image-fullscreen {
+    max-height: calc(100vh - 300px);
+  }
+}
+.slider-number {
+  color: #fff;
+  display: block;
+  position: absolute;
+  top: 12px;
+  left: 20px;
+  z-index: 2;
+  font-weight: 600;
+  span {
+    margin: 0 5px 0 13px;
+    position: relative;
+    top: 1px;
+    font-size: var(--base-font-24);
+  }
+}

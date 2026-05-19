@@ -1,0 +1,17 @@
+<mat-form-field class="custom-search-input example-full-width">
+  <input
+    matInput
+    [formControl]="searchInput"
+    placeholder="{{ placeHolder | translate }}"
+    [readOnly]="isReadOnly"
+  />
+  <span class="search-icon" aria-hidden="true" (click)="search()">
+    <mat-icon [svgIcon]="icons.SEARCH"></mat-icon>
+  </span>
+</mat-form-field>
+
+@if (totalCountData) {
+  <div class="search-resultats-text">
+    {{ totalCountData ? totalCountData : "" }}
+  </div>
+}

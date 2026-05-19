@@ -1,0 +1,210 @@
+@if (view === constant.VIEWS.LIST) {
+  <div class="list-view-main">
+    @for (item of allImageItem; track $index) {
+      <div
+        class="list-view-list"
+        (click)="showDetailEvent.emit(item.slug)"
+        aria-hidden="true"
+      >
+        <div class="list-view-img" [id]="item.slug">
+          @if (path === common.environment.WORKS) {
+            <picture>
+              <source
+                [srcset]="getSrcSet(item.image)"
+                [sizes]="getSizes(item.image)"
+              />
+              <img
+                [src]="getWorkImageUrl(item.image, defaultSize)"
+                [attr.width]="getImageDimensions(item.image, defaultSize).width"
+                [attr.height]="
+                  getImageDimensions(item.image, defaultSize).height
+                "
+                alt="Test Image"
+                class="masonry-image"
+                loading="lazy"
+                (error)="onImageError($event)"
+              />
+            </picture>
+          } @else {
+            <img
+              appImageError
+              aria-hidden="true"
+              height="100%"
+              [path]="path"
+              [imageName]="item?.image"
+              loading="lazy"
+              (error)="directive.errorHandle($event)"
+              [alt]="item.title ? item.title : 'image'"
+            />
+          }
+        </div>
+        <div class="list-view-data">
+          <mat-card class="research-data">
+            <mat-card-header>
+              <mat-card-title-group>
+                <mat-card-title>
+                  {{ item?.title ? item?.title : " " }}
+                </mat-card-title>
+              </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content class="m-0">
+              @if (showAuthor) {
+                <p class="card-data">
+                  {{ item?.author ? item?.author : " " }}
+                </p>
+              }
+              @if (showDescription) {
+                <p class="card-data">
+                  {{ item?.description ? item?.description : " " }}
+                </p>
+              }
+              @if (showDate) {
+                <p class="card-data">
+                  {{ item?.date ? item?.date : " " }}
+                </p>
+              }
+              @if (showBornDeathDate) {
+                <p class="card-data">
+                  {{ item?.born_date }}
+                  {{
+                    item?.death_date?.trim() !== "" &&
+                    item?.death_date !== null &&
+                    item?.death_date !== "0000-00-00"
+                      ? "- " + item?.death_date
+                      : ""
+                  }}
+                </p>
+              }
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    }
+  </div>
+  @if (allImageItem.length === 0 && !isLoading) {
+    <div class="text-center mt-5">
+      <img
+        class="no-data-light"
+        [src]="common.localStaticLinks.NO_DATA"
+        alt=""
+      />
+      <img
+        class="no-data-dark"
+        [src]="common.localStaticLinks.NO_DATA_DARK"
+        alt=""
+      />
+    </div>
+  }
+} @else if (view === constant.VIEWS.GRID) {
+  <div class="grid-view-main">
+    <div
+      #masonryGrid
+      class="masonry-grid"
+      [ngClass]="{ 'hide-layout': isInitial }"
+    >
+      @if (allImageItem.length > 0) {
+        @for (item of allImageItem; track $index) {
+          <div
+            class="masonry-item"
+            (click)="showDetailEvent.emit(item.slug)"
+            (keydown.enter)="showDetailEvent.emit(item.slug)"
+            (keydown.space)="showDetailEvent.emit(item.slug)"
+            tabindex="0"
+          >
+            <div class="image-section" [id]="item.slug">
+              @if (path === common.environment.WORKS) {
+                <picture>
+                  <source
+                    [srcset]="getSrcSet(item.image)"
+                    [sizes]="getSizes(item.image)"
+                  />
+                  <img
+                    [src]="getWorkImageUrl(item.image, defaultSize)"
+                    [attr.width]="
+                      getImageDimensions(item.image, defaultSize).width
+                    "
+                    [attr.height]="
+                      getImageDimensions(item.image, defaultSize).height
+                    "
+                    alt="Test Image"
+                    class="masonry-image"
+                    loading="lazy"
+                    (error)="onImageError($event)"
+                  />
+                </picture>
+              } @else {
+                <img
+                  appImageError
+                  aria-hidden="true"
+                  [path]="path"
+                  [imageName]="item.image"
+                  class="masonry-image"
+                  loading="lazy"
+                  (error)="directive.errorHandle($event)"
+                  [alt]="item.title ? item.title : 'image'"
+                />
+              }
+            </div>
+            @if (showTitle) {
+              <div class="masonry-data-main">
+                <div class="masonry-title ellipsis-2">
+                  {{ item?.title ? item?.title : " " }}
+                </div>
+
+                <div class="masonry-data ellipsis-3">
+                  @if (showAuthor) {
+                    {{ item?.author ? item?.author?.trim() + "," : "" }}
+                  }
+                  @if (showDate) {
+                    {{ item?.date }}
+                  }
+                  @if (showBornDeathDate) {
+                    {{ item?.born_date }}
+                    {{
+                      item?.death_date?.trim() !== "" &&
+                      item?.death_date !== null &&
+                      item?.death_date !== "0000-00-00"
+                        ? "- " + item?.death_date
+                        : ""
+                    }}
+                  }
+                </div>
+                @if (showDescription) {
+                  <div class="masonry-date ellipsis-3">
+                    {{ item?.description ? item?.description : " " }}
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+      }
+    </div>
+
+    @if (showLoader && !isLoading) {
+      <div>
+        <mat-progress-spinner
+          color="primary"
+          mode="indeterminate"
+          diameter="50"
+          class="spinnerLoader"
+        ></mat-progress-spinner>
+      </div>
+    }
+
+    @if (allImageItem.length === 0 && !isLoading && !showLoader) {
+      <div class="text-center mt-5">
+        <img
+          class="no-data-light"
+          [src]="common.localStaticLinks.NO_DATA"
+          alt=""
+        />
+        <img
+          class="no-data-dark"
+          [src]="common.localStaticLinks.NO_DATA_DARK"
+          alt=""
+        />
+      </div>
+    }
+  </div>
+}

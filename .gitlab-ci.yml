@@ -1,0 +1,35 @@
+image: node:18
+
+stages:
+  - build
+  - deploy
+
+variables:
+  SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY # Replace with your encrypted SSH private key variable
+  SSH_PASSWORD: $SSH_PASSWORD # Replace with your encrypted SSH password variable
+
+before_script:
+  - apt-get update && apt-get install -y openssh-client
+
+build:
+  stage: build
+  script:
+    - npm install -g @angular/cli@17.2.1
+    - yarn install
+    - ng build
+  artifacts:
+    paths:
+      - dist/
+  only:
+    - ci
+
+deploy:
+  stage: deploy
+  script:
+    - "command -v ssh-agent > /dev/null || (apt-get update -y && apt-get install openssh-client -y)"
+    - eval "$(ssh-agent -s)"
+    - apt-get update -y && apt-get install -y openssh-client && apt-get install -y sshpass
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - sshpass -p "$SSH_PASSWORD" scp -r -o 'StrictHostKeyChecking=no' dist/* root@178.79.138.121:/var/www/samcom/alaber-frontend/
+  only:
+    - ci

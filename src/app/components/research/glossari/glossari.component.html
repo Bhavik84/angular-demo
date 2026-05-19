@@ -1,0 +1,337 @@
+<div class="project-main-wrapper mt-10 glossari-main-page">
+  <div class="container color">
+    <div class="title-section">
+      <div class="title-main-section">
+        {{ "GLOSSARY.SECTION_1_TITLE" | translate }}
+      </div>
+      <div class="right-switch-section">
+        <div class="right-switch-section-lable">
+          {{ "GLOSSARY.SECTION_1_TYPE_LABEL" | translate }}
+        </div>
+        <div class="toggle_box">
+          <span>{{ "GLOSSARY.SECTION_1_SWITCH_LEFT_LABEL" | translate }}</span>
+          <div class="toggle-switch">
+            <input
+              class="check_box"
+              type="checkbox"
+              id="switch"
+              (change)="onSearchTypeToggle()"
+              [(ngModel)]="isDecadeSearch"
+            /><label for="switch">Toggle</label>
+          </div>
+          <span>{{ "GLOSSARY.SECTION_1_SWITCH_RIGHT_LABEL" | translate }}</span>
+        </div>
+      </div>
+    </div>
+    @if (!isDecadeSearch) {
+      <div class="project-description-wrapper">
+        <div class="glossari-tag-list">
+          @if (glossaryList) {
+            @for (list of glossaryList; track list) {
+              <div class="show-more">
+                <button
+                  mat-flat-button
+                  color="primary"
+                  class="glossary_btn"
+                  [ngClass]="{
+                    'active-btn': selectedTechniqueId === list.id_technique
+                  }"
+                  (click)="golssarySelectionChange(list)"
+                >
+                  {{
+                    list.name.length > 50
+                      ? list.name.slice(0, 50) + "..."
+                      : list.name
+                  }}
+                </button>
+              </div>
+            }
+          }
+        </div>
+
+        @if (selectedGlossaryDetail && selectedGlossaryDetail.description) {
+          <div class="project-description-wrapper margin-top-40">
+            <div class="tag-title">{{ selectedGlossaryDetail.name }}</div>
+            <div class="technique-desc">
+              <span>
+                {{ selectedGlossaryDetail.description }}
+              </span>
+            </div>
+          </div>
+        }
+
+        <div class="flex acquisitions-box mt-4">
+          <div class="width80 right-wrapper-gallery">
+            <div class="mobile-view-filter flex-row-reverse justify-flex-end">
+              <div
+                class="custom-filter-field desktop-left-wrapper-author bg-gradient"
+              >
+                <div class="glossari_slider_main">
+                  <button
+                    class="slider-arrow left-arrow"
+                    [ngClass]="{ 'slider-arrow-disable': !showPrev }"
+                    (click)="prevDecadesSlide()"
+                  >
+                    <img
+                      [src]="commonService.localStaticLinks.LEFT_ARROW"
+                      alt=""
+                    />
+                  </button>
+                  <div
+                    class="timeline-container"
+                    #sliderContainer
+                    (touchstart)="onTouchStart($event)"
+                    (touchend)="onTouchEnd($event)"
+                  >
+                    <div class="timeline">
+                      @for (decade of decadeData; track i; let i = $index) {
+                        <div
+                          class="timeline-step"
+                          [class.active]="i === selectedDecadeIndex"
+                          [class.disabled]="!decade.isSelect"
+                          (click)="
+                            toggleDecadeSelection(
+                              i,
+                              decade.isSelect,
+                              decade.value
+                            )
+                          "
+                          (keydown.enter)="
+                            toggleDecadeSelection(
+                              i,
+                              decade.isSelect,
+                              decade.value
+                            )
+                          "
+                          (keydown.space)="
+                            toggleDecadeSelection(
+                              i,
+                              decade.isSelect,
+                              decade.value
+                            )
+                          "
+                          tabindex="0"
+                        >
+                          <span class="year">{{ decade.value }}</span>
+                          <div class="dot"></div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                  <button
+                    class="slider-arrow right-arrow"
+                    [ngClass]="{ 'slider-arrow-disable': !showNext }"
+                    (click)="nextDecadeSlide()"
+                  >
+                    <img
+                      [src]="commonService.localStaticLinks.RIGHT_ARROW"
+                      alt=""
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            @if (!isLoading) {
+              <app-custom-masonry-layout
+                [view]="commonService.constantsData.VIEWS.GRID"
+                [path]="commonService.environment.WORKS"
+                [allImageItem]="workList"
+                [showDescription]="true"
+                [showAuthor]="true"
+                [showDate]="true"
+                [isLoading]="isLoading"
+                [defaultSize]="commonService.constantsData.IMAGE_SIZES.BOX"
+                (showDetailEvent)="redirectToDetailPage($event)"
+              />
+            }
+            @if (isLoading) {
+              <mat-progress-spinner
+                color="primary"
+                mode="indeterminate"
+                diameter="50"
+                class="spinnerLoader"
+              ></mat-progress-spinner>
+            }
+            <div class="show-more-wrapper">
+              @if (totalCount > workList.length && !isLoading) {
+                <button
+                  mat-flat-button
+                  color="primary"
+                  class="btn gradient-blue-green"
+                  (click)="showMore()"
+                >
+                  {{ "COMMON.SEE_MORE" | translate }}
+                </button>
+              }
+              @if (totalCount >= 24) {
+                <div
+                  aria-hidden="true"
+                  color="primary"
+                  class="btn bg-black"
+                  (click)="scrollTop()"
+                >
+                  <mat-icon>arrow_upward</mat-icon>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <div class="project-description-wrapper">
+        <div class="glossari-tag-list">
+          @if (glossaryList) {
+            @for (list of glossaryList; track list) {
+              <div class="show-more">
+                <button
+                  mat-flat-button
+                  color="primary"
+                  class="glossary_btn"
+                  [ngClass]="{
+                    'active-btn': selectedTechniqueId === list.id_technique,
+                    'disable-button': !list.isEnable
+                  }"
+                  (click)="golssarySelectionChange(list)"
+                >
+                  {{
+                    list.name.length > 50
+                      ? list.name.slice(0, 50) + "..."
+                      : list.name
+                  }}
+                </button>
+              </div>
+            }
+          }
+        </div>
+
+        @if (selectedGlossaryDetail && selectedGlossaryDetail.description) {
+          <div class="project-description-wrapper margin-top-40">
+            <div class="tag-title">{{ selectedGlossaryDetail.name }}</div>
+            <div class="technique-desc">
+              <span>
+                {{ selectedGlossaryDetail.description }}
+              </span>
+            </div>
+          </div>
+        }
+
+        <div class="flex acquisitions-box mt-4">
+          <div class="width80 right-wrapper-gallery">
+            <div class="mobile-view-filter flex-row-reverse justify-flex-end">
+              <div
+                class="custom-filter-field desktop-left-wrapper-author bg-gradient"
+              >
+                <div class="glossari_slider_main">
+                  <button
+                    class="slider-arrow left-arrow"
+                    [ngClass]="{ 'slider-arrow-disable': !showPrev }"
+                    (click)="prevDecadesSlide()"
+                  >
+                    <img
+                      [src]="commonService.localStaticLinks.LEFT_ARROW"
+                      alt=""
+                    />
+                  </button>
+                  <div
+                    class="timeline-container"
+                    #sliderContainer
+                    (touchstart)="onTouchStart($event)"
+                    (touchend)="onTouchEnd($event)"
+                  >
+                    <div class="timeline">
+                      @for (decade of decadeData; track i; let i = $index) {
+                        <div
+                          class="timeline-step"
+                          [class.active]="i === selectedDecadeIndex"
+                          (click)="
+                            toggleDecadeSelection(
+                              i,
+                              decade.isSelect,
+                              decade.value
+                            )
+                          "
+                          (keydown.enter)="
+                            toggleDecadeSelection(
+                              i,
+                              decade.isSelect,
+                              decade.value
+                            )
+                          "
+                          (keydown.space)="
+                            toggleDecadeSelection(
+                              i,
+                              decade.isSelect,
+                              decade.value
+                            )
+                          "
+                          tabindex="0"
+                        >
+                          <span class="year">{{ decade.value }}</span>
+                          <div class="dot"></div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                  <button
+                    class="slider-arrow right-arrow"
+                    [ngClass]="{ 'slider-arrow-disable': !showNext }"
+                    (click)="nextDecadeSlide()"
+                  >
+                    <img
+                      [src]="commonService.localStaticLinks.RIGHT_ARROW"
+                      alt=""
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            @if (!isLoading) {
+              <app-custom-masonry-layout
+                [view]="commonService.constantsData.VIEWS.GRID"
+                [path]="commonService.environment.WORKS"
+                [allImageItem]="workList"
+                [showDescription]="true"
+                [showAuthor]="true"
+                [showDate]="true"
+                [isLoading]="isLoading"
+                (showDetailEvent)="redirectToDetailPage($event)"
+              />
+            }
+            @if (isLoading) {
+              <mat-progress-spinner
+                color="primary"
+                mode="indeterminate"
+                diameter="50"
+                class="spinnerLoader"
+              ></mat-progress-spinner>
+            }
+            <div class="show-more-wrapper">
+              @if (totalCount > workList.length && !isLoading) {
+                <button
+                  mat-flat-button
+                  color="primary"
+                  class="btn gradient-blue-green"
+                  (click)="showMore()"
+                >
+                  {{ "COMMON.SEE_MORE" | translate }}
+                </button>
+              }
+              @if (totalCount >= 24) {
+                <div
+                  aria-hidden="true"
+                  color="primary"
+                  class="btn bg-black"
+                  (click)="scrollTop()"
+                >
+                  <mat-icon>arrow_upward</mat-icon>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

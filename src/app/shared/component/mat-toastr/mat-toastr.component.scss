@@ -1,0 +1,28 @@
+.custom-snackbar {
+  margin: 0px;
+  display: flex;
+  align-items: center;
+}
+
+.custom-snackbar-icon,
+.custom-snackbar-content {
+  flex: 2;
+  display: flex;
+  align-items: center;
+}
+
+.custom-snackbar-close {
+  flex: 1;
+  text-align: right;
+  padding-right: 8px; /* Adjust padding as needed */
+}
+
+.custom-snackbar-message {
+  flex: 8;
+  text-align: left;
+  padding-right: 8px; /* Adjust padding as needed */
+}
+
+.mat-snack-bar-label {
+  padding: 5px 0px 5px 15px;
+}

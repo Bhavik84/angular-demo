@@ -1,0 +1,8 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+::ng-deep .custom-search-input {
+  input {
+    background: $gradient-blue-yellow !important;
+  }
+}

@@ -1,0 +1,207 @@
+@if (activityDetails) {
+  <div class="project-main-wrapper mt-7">
+    <div class="container">
+      <div class="photo-details-top">
+        <div class="photo-details-top-left">
+          <div class="p-relative photo-div">
+            <img
+              [ngClass]="{
+                'image-zoom-cursor':
+                  activityDetails.activities_language_images &&
+                  activityDetails.activities_language_images.length > 0 &&
+                  activityDetails.activities_language_images[0].url
+              }"
+              [path]="environment.ACTIVITIES"
+              (error)="directive.errorHandle($event)"
+              imageName="{{
+                activityDetails.activities_language_images &&
+                  activityDetails.activities_language_images.length > 0 &&
+                  activityDetails.activities_language_images[0].url
+              }}"
+              appImageError
+              (click)="
+                activityDetails.activities_language_images &&
+                activityDetails.activities_language_images.length > 0 &&
+                activityDetails.activities_language_images[0].url
+                  ? openDynamicImage(
+                      activityDetails && activityDetails.organizer
+                        ? activityDetails.organizer
+                        : undefined
+                    )
+                  : ''
+              "
+              alt="{{
+                'CALENDER_SEARCH_DETAIL.SECTION_1_NO_IMAGE_LABLE' | translate
+              }}"
+              aria-hidden="true"
+            />
+          </div>
+        </div>
+        <div class="photo-details-top-right">
+          <div class="photo-title">
+            {{ activityDetails.organizer }}
+          </div>
+          <div class="photo-data">
+            <div class="photo-data-date">
+              <span
+                >{{
+                  "CALENDER_SEARCH_DETAIL.SECTION_1_DATE_LABLE" | translate
+                }}:</span
+              >
+              {{ "CALENDER_SEARCH_DETAIL.SECTION_1_FROM_LABLE" | translate }}
+              @if (activityDetails && activityDetails.initial_date) {
+                {{ commonService.formatDateTo(activityDetails.initial_date) }}
+              }
+              {{ "CALENDER_SEARCH_DETAIL.SECTION_1_TO_LABLE" | translate }}
+              @if (activityDetails && activityDetails.final_date) {
+                {{ commonService.formatDateTo(activityDetails.final_date) }}
+              }
+            </div>
+            <div class="photo-data-text">
+              {{
+                activityDetails.activities_type &&
+                  activityDetails.activities_type.name
+              }}<br />
+              <span>{{
+                activityDetails.activities_segment &&
+                  activityDetails.activities_segment.name
+              }}</span>
+            </div>
+          </div>
+          <div class="information-box mt-2 desktop-hide">
+            <div class="download-link">
+              @if (isLoading) {
+                <mat-progress-spinner
+                  color="primary"
+                  mode="indeterminate"
+                  diameter="50"
+                  class="spinnerLoader"
+                ></mat-progress-spinner>
+              } @else if (!isLoading) {
+                <a
+                  (click)="downloadPdf()"
+                  (keydown.enter)="downloadPdf()"
+                  (keydown.space)="downloadPdf()"
+                  tabindex="0"
+                >
+                  <mat-icon [svgIcon]="icons.DOWNLOAD"></mat-icon>
+                  <div class="download-link-text">
+                    {{ "CALENDER_SEARCH_DETAIL.SECTION_2_LABLE" | translate }}
+                  </div>
+                </a>
+              }
+            </div>
+            <div class="share-link">
+              <a>
+                <mat-icon
+                  [svgIcon]="icons.SHARE"
+                  matTooltip="{{
+                    'CALENDER_SEARCH_DETAIL.SECTION_2_SHARE_TOOLTIP' | translate
+                  }}"
+                  (click)="shareContent()"
+                ></mat-icon>
+              </a>
+              <a>
+                <mat-icon
+                  [svgIcon]="icons.ATTATCHMENT"
+                  matTooltip="{{
+                    'CALENDER_SEARCH_DETAIL.SECTION_2_COPY_TOOLTIP' | translate
+                  }}"
+                  (click)="copyUrlToClipboard()"
+                ></mat-icon>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  @defer {
+    <div class="bg-gradient-blue-green mobile-hide">
+      <div class="container">
+        <div class="information-box mb-0">
+          <div class="download-link">
+            @if (isLoading) {
+              <mat-progress-spinner
+                color="primary"
+                mode="indeterminate"
+                diameter="50"
+                class="spinnerLoader"
+              ></mat-progress-spinner>
+            } @else if (!isLoading) {
+              <a
+                (click)="downloadPdf()"
+                (keydown.enter)="downloadPdf()"
+                (keydown.space)="downloadPdf()"
+                tabindex="0"
+              >
+                <mat-icon [svgIcon]="icons.DOWNLOAD"></mat-icon>
+                <div class="download-link-text">
+                  {{ "CALENDER_SEARCH_DETAIL.SECTION_2_LABLE" | translate }}
+                </div>
+              </a>
+            }
+          </div>
+          <div class="share-link">
+            <a>
+              <mat-icon
+                [svgIcon]="icons.SHARE"
+                matTooltip="{{
+                  'CALENDER_SEARCH_DETAIL.SECTION_2_SHARE_TOOLTIP' | translate
+                }}"
+                (click)="shareContent()"
+              ></mat-icon>
+            </a>
+            <a>
+              <mat-icon
+                [svgIcon]="icons.ATTATCHMENT"
+                matTooltip="{{
+                  'CALENDER_SEARCH_DETAIL.SECTION_2_COPY_TOOLTIP' | translate
+                }}"
+                (click)="copyUrlToClipboard()"
+              ></mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+  @defer {
+    <div class="container">
+      <div class="exhibition-sheet-agenda-main">
+        <div class="exhibition-sheet-agenda-title">
+          {{ "CALENDER_SEARCH_DETAIL.SECTION_3_TITLE_1" | translate }}
+        </div>
+        <div class="exhibition-sheet-agenda-data">
+          @if (
+            activityDetails.activities_languages[0] &&
+            activityDetails.activities_languages[0].description &&
+            activityDetails.activities_languages[0].name
+          ) {
+            <h1 class="activity_title">
+              {{ activityDetails.activities_languages[0].name }}
+            </h1>
+            <p>
+              {{ activityDetails.activities_languages[0].description }}
+            </p>
+          }
+          <span
+            >{{
+              "CALENDER_SEARCH_DETAIL.SECTION_3_ATTENTION_LABLE" | translate
+            }}: {{ activityDetails.address }}
+          </span>
+        </div>
+        <div class="mt-2">
+          <button
+            class="btn gradient-green-blue"
+            mat-flat-button
+            color="primary"
+            (click)="redirectToSearch()"
+          >
+            {{ "CALENDER_SEARCH_DETAIL.SECTION_3_BUTTON" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+}

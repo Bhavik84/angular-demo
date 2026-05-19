@@ -1,0 +1,548 @@
+<div class="swiper-container">
+   @if(bannerLoading){
+     <div  class="loading-overlay">
+       <div class="loading-content">
+       </div>
+     </div>
+   } @else {
+     <app-swiper-slider
+       (redirectEvent)="openDetail($event)"
+       [slides]="bannerImage"
+       [customClass]="'banner'"
+       [showThumbnail]="true"
+       [slideToShow]="1"
+       [lazyLoad]="false"
+       [checkMiddleSlide]="false"
+       [slidesPerView]="false"
+       [defaultSize]="common.constantsData.IMAGE_SIZES.BIG">
+     </app-swiper-slider>
+   }
+</div>
+
+@defer {
+  <section class="filter-section">
+    <div class="container">
+      <div class="filter-flex-wrapper">
+        <div class="filter-left-wrapper">
+          <mat-form-field>
+            <mat-select
+              [placeholder]="'HOME.SECTION_2_DROPDOWN_PLACEHOLDER' | translate"
+              matNativeControl
+              [(ngModel)]="selectedFilter"
+            >
+              <mat-select-trigger>
+                {{
+                  selectedFilter ? (selectedFilter.labelKey | translate) : ""
+                }}
+              </mat-select-trigger>
+              @for (item of filterOption; track $index) {
+                <mat-option [value]="item">{{
+                  item.labelKey | translate
+                }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="filter-right-wrapper">
+          <input
+            [placeholder]="'HOME.SECTION_2_SEARCH_PLACEHOLDER' | translate"
+            [(ngModel)]="searchText"
+            (focusout)="search()"
+            (keypress)="searchinput($event)"
+            type="text"
+          />
+          <span class="search-icon" (click)="search()" aria-hidden="true">
+            <mat-icon [svgIcon]="icons.SEARCH"></mat-icon>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+}
+@defer {
+  <section class="fotographs-section">
+    <div class="container">
+      <div class="title-flex-wrapper">
+        <div class="title-main-section mb-0">
+          {{ "HOME.SECTION_3_TITLE" | translate }}
+        </div>
+        <button
+          mat-flat-button
+          color="primary"
+          class="btn gradient-blue-green"
+          [routerLink]="'/' + common.getRoute('PHOTOGRAPHER_SEARCHER')"
+        >
+          {{ "HOME.SECTION_3_SEE_ALL_BUTTON_LABEL" | translate }}
+          <span>
+            <mat-icon>chevron_right</mat-icon>
+          </span>
+        </button>
+      </div>
+    </div>
+    <app-common-swiper-slider
+      [lazyLoad]="true"
+      [slides]="photographerImage"
+      [customClass]="'photographerItem'"
+      [enableAutoplay]="true"
+      (redirectEvent)="redirectToDetailPage($event)"
+    >
+    </app-common-swiper-slider>
+  </section>
+}
+@defer {
+  <section class="actualitate-section">
+    <div class="container px-1-5">
+      <div class="title-main-section">
+        {{ "HOME.SECTION_4_TITLE" | translate }}
+      </div>
+      <div class="actualitat-flex-wrapper">
+        <div class="actualitat-box-wrapper gradient-header-one">
+          <div class="aculite-title">
+            {{ "HOME.SECTION_4_TAB_1_LABEL" | translate }}
+          </div>
+          @if (activityDataType3) {
+            <div class="image-wrapper-big image-wrapper">
+              <img
+                appImageError
+                aria-hidden="true"
+                height="100%"
+                [path]="common.environment.ACTIVITIES"
+                imageName="{{ activityDataType3.activities_images?.[0]?.url }}"
+                (error)="directive.errorHandle($event)"
+                alt=""
+                loading="lazy"
+              />
+              <div class="image-data-content-wrapper">
+                @if (activityDataType3) {
+                  @if (
+                    activityDataType3.activities_languages &&
+                    activityDataType3.activities_languages.length > 0 &&
+                    activityDataType3.activities_languages[0].name
+                  ) {
+                    <div class="aculite-title-font">
+                      {{ activityDataType3.activities_languages[0].name }}
+                    </div>
+                  }
+                  @if (activityDataType3.organizer) {
+                    <p>{{ activityDataType3.organizer }}</p>
+                  }
+                  @if (
+                    activityDataType3.activities_type &&
+                    activityDataType3.activities_type
+                      .activities_types_languages &&
+                    activityDataType3.activities_type.activities_types_languages
+                      .length > 0 &&
+                    activityDataType3.activities_type
+                      .activities_types_languages[0].name
+                  ) {
+                    <p class="type-info">
+                      {{
+                        activityDataType3.activities_type
+                          .activities_types_languages[0].name
+                      }}
+                    </p>
+                  }
+                  @if (
+                    activityDataType3.initial_date || activityDataType3.final_date
+                  ) {
+                    <p class="image-data-date">
+                      @if (activityDataType3.initial_date) {
+                        {{
+                          activityDataType3.initial_date
+                            | date: "dd.MM.yyyy"  : common.activeLanguage
+                        }}
+                      }
+                      @if (
+                        activityDataType3.initial_date &&
+                        activityDataType3.final_date &&
+                        activityDataType3.initial_date !==
+                          activityDataType3.final_date
+                      ) {
+                        -
+                      }
+                      @if (
+                        activityDataType3.final_date &&
+                        activityDataType3.initial_date !==
+                          activityDataType3.final_date
+                      ) {
+                        {{
+                          activityDataType3.final_date
+                            | date: "dd.MM.yyyy" : common.activeLanguage
+                        }}
+                      }
+                    </p>
+                  }
+                }
+              </div>
+              <div class="image-description-wrapper">
+                <div class="btn-wrapper">
+                  <button
+                    mat-flat-button
+                    color="primary"
+                    class="btn"
+                    [routerLink]="'/' + common.getRoute('CALENDAR_SEARCH_ENGINE')"
+                  >
+                    {{ "HOME.SECTION_4_KNOW_MORE_BUTTON_LABEL" | translate }}
+                    <span>
+                      <mat-icon>chevron_right</mat-icon>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        @if (blogData) {
+          <div class="actualitat-box-wrapper gradient-header-two">
+            <div class="aculite-title">
+              {{ "HOME.SECTION_4_TAB_2_LABEL" | translate }}
+            </div>
+            <div class="image-wrapper-small image-wrapper">
+              <img
+                appImageError
+                aria-hidden="true"
+                height="100%"
+                [path]="common.environment.ARTICLES"
+                imageName="{{
+                  blogData.articles_images &&
+                    blogData.articles_images.length > 0 &&
+                    blogData.articles_images[0].url
+                }}"
+                (error)="directive.errorHandle($event)"
+                alt=""
+                loading="lazy"
+              />
+              @if (blogData) {
+                <div class="image-data-content-wrapper">
+                  @if (blogData.articles_author.name) {
+                    <div class="aculite-title-font">
+                      {{
+                        blogData.articles_author.name +
+                          (blogData.articles_author.surnames
+                            ? " " + blogData.articles_author.surnames
+                            : "")
+                      }}
+                    </div>
+                  }
+                  @if (
+                    blogData.articles_languages &&
+                    blogData.articles_languages.length > 0
+                  ) {
+                    @if (blogData.articles_languages) {
+                      <p class="blog-title">
+                        {{ blogData.articles_languages[0].title }}
+                      </p>
+                    }
+                  }
+                  @if (blogData.date) {
+                    <p class="image-data-date">
+                      {{
+                        blogData.date
+                          | date: "dd.MM.yyyy"  : common.activeLanguage
+                      }}
+                    </p>
+                  }
+                </div>
+              }
+
+              <div class="image-description-wrapper">
+                <div class="btn-wrapper">
+                  <button
+                    mat-flat-button
+                    color="primary"
+                    class="btn gradient-orange-green"
+                    [routerLink]="'/' + common.getRoute('BLOG')"
+                  >
+                    {{ "HOME.SECTION_4_KNOW_MORE_BUTTON_LABEL" | translate }}
+                    <span>
+                      <mat-icon>chevron_right</mat-icon>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+
+        <div class="actualitat-box-wrapper gradient-header-three">
+          <div class="aculite-title">
+            {{ "HOME.SECTION_4_TAB_3_LABEL" | translate }}
+          </div>
+          @if (activityData) {
+            <div class="image-wrapper-big image-wrapper">
+              <img
+                appImageError
+                aria-hidden="true"
+                height="100%"
+                [path]="common.environment.ACTIVITIES"
+                imageName="{{ activityData.activities_images?.[0]?.url }}"
+                (error)="directive.errorHandle($event)"
+                alt=""
+                loading="lazy"
+              />
+              <div class="image-data-content-wrapper">
+                @if (activityData) {
+                  @if (
+                    activityData.activities_languages &&
+                    activityData.activities_languages.length > 0 &&
+                    activityData.activities_languages[0].name
+                  ) {
+                    <div class="aculite-title-font">
+                      {{ activityData.activities_languages[0].name }}
+                    </div>
+                  }
+                  @if (activityData.organizer) {
+                    <p>{{ activityData.organizer }}</p>
+                  }
+                  @if (
+                    activityData.activities_type &&
+                    activityData.activities_type
+                      .activities_types_languages &&
+                    activityData.activities_type.activities_types_languages
+                      .length > 0 &&
+                    activityData.activities_type
+                      .activities_types_languages[0].name
+                  ) {
+                    <p class="type-info">
+                      {{
+                        activityData.activities_type
+                          .activities_types_languages[0].name
+                      }}
+                    </p>
+                  }
+                  @if (
+                    activityData.initial_date || activityData.final_date
+                  ) {
+                    <p class="image-data-date">
+                      @if (activityData.initial_date) {
+                        {{
+                          activityData.initial_date
+                            | date: "dd.MM.yyyy"  : common.activeLanguage
+                        }}
+                      }
+                      @if (
+                        activityData.initial_date &&
+                        activityData.final_date &&
+                        activityData.initial_date !==
+                          activityData.final_date
+                      ) {
+                        -
+                      }
+                      @if (
+                        activityData.final_date &&
+                        activityData.initial_date !==
+                          activityData.final_date
+                      ) {
+                        {{
+                          activityData.final_date
+                            | date: "dd.MM.yyyy" : common.activeLanguage
+                        }}
+                      }
+                    </p>
+                  }
+                }
+              </div>
+              <div class="image-description-wrapper">
+                <div class="btn-wrapper">
+                  <button
+                    mat-flat-button
+                    color="primary"
+                    class="btn gradient-green-blue"
+                    [routerLink]="
+                      '/' + common.getRoute('CALENDAR_SEARCH_ENGINE')
+                    "
+                  >
+                    {{ "HOME.SECTION_4_KNOW_MORE_BUTTON_LABEL" | translate }}
+                    <span>
+                      <mat-icon>chevron_right</mat-icon>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+        <div class="actualitat-box-wrapper gradient-header-four">
+          <div class="aculite-title">
+            {{ "HOME.SECTION_4_TAB_4_LABEL" | translate }}
+          </div>
+          @if (activityDataType2) {
+            <div class="image-wrapper-big image-wrapper">
+              <img
+                appImageError
+                aria-hidden="true"
+                height="100%"
+                [path]="common.environment.ACTIVITIES"
+                imageName="{{ activityDataType2.activities_images?.[0]?.url }}"
+                (error)="directive.errorHandle($event)"
+                alt=""
+                loading="lazy"
+              />
+              @if (activityDataType2) {
+                <div class="image-data-content-wrapper">
+                  @if (
+                    activityDataType2.activities_languages &&
+                    activityDataType2.activities_languages.length > 0 &&
+                    activityDataType2.activities_languages[0].name
+                  ) {
+                    <div class="aculite-title-font">
+                      {{ activityDataType2.activities_languages[0].name }}
+                    </div>
+                  }
+                  @if (activityDataType2.organizer) {
+                    <p>{{ activityDataType2.organizer }}</p>
+                  }
+                  @if (
+                    activityDataType2.activities_type &&
+                    activityDataType2.activities_type
+                      .activities_types_languages &&
+                    activityDataType2.activities_type
+                      .activities_types_languages.length > 0 &&
+                    activityDataType2.activities_type
+                      .activities_types_languages[0].name
+                  ) {
+                    <p class="type-info">
+                      {{
+                        activityDataType2.activities_type
+                          .activities_types_languages[0].name
+                      }}
+                    </p>
+                  }
+                  @if (
+                    activityDataType2.initial_date ||
+                    activityDataType2.final_date
+                  ) {
+                    <p class="image-data-date">
+                      @if (activityDataType2.initial_date) {
+                        {{
+                          activityDataType2.initial_date
+                            | date: "dd.MM.yyyy" : common.activeLanguage
+                        }}
+                      }
+                      @if (
+                        activityDataType2.initial_date &&
+                        activityDataType2.final_date &&
+                        activityDataType2.initial_date !==
+                          activityDataType2.final_date
+                      ) {
+                        -
+                      }
+                      @if (
+                        activityDataType2.final_date &&
+                        activityDataType2.initial_date !==
+                          activityDataType2.final_date
+                      ) {
+                        {{
+                          activityDataType2.final_date
+                            | date: "dd.MM.yyyy"  : common.activeLanguage
+                        }}
+                      }
+                    </p>
+                  }
+                </div>
+              }
+              <div class="image-description-wrapper">
+                <div class="btn-wrapper">
+                  <button
+                    mat-flat-button
+                    color="primary"
+                    class="btn gradient-blue-yellow"
+                    [routerLink]="
+                      '/' + common.getRoute('CALENDAR_SEARCH_ENGINE')
+                    "
+                  >
+                    {{ "HOME.SECTION_4_KNOW_MORE_BUTTON_LABEL" | translate }}
+                    <span>
+                      <mat-icon>chevron_right</mat-icon>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+}
+@defer {
+  <section class="tabs-section">
+    <div class="container">
+      <div
+        class="title-main-section p-0"
+        [innerHTML]="'HOME.SECTION_5_TITLE_HTML' | translate | sanitizeHtml"
+      ></div>
+      <div class="tabs-flex-wrapper">
+        <div class="tabs-left-wrapper">
+          <ul class="custom-scrollbar">
+            @for (item of mostViewsList; track $index) {
+              <li
+                (click)="setCurrentImage(item.imagesData)"
+                role="presentation"
+              >
+                <a
+                  [ngClass]="
+                    item.imagesData &&
+                    currentSelectedImage.filename === item.imagesData.filename
+                      ? 'active'
+                      : ''
+                  "
+                >
+                  <span class="image-inner-wrapper">
+                    <picture>
+                      <source
+                        [srcset]="getSrcSet(item.imagesData)"
+                        [sizes]="getSizes(item.imagesData)"
+                      />
+                      <img
+                        [src]="
+                          getImageUrl(
+                            item.imagesData,
+                            common.constantsData.IMAGE_SIZES.LIST
+                          )
+                        "
+                        loading="lazy"
+                        height="100%"
+                        alt="Image"
+                        (error)="onImageError($event)"
+                      />
+                    </picture>
+                  </span>
+                  <span class="label-text-wrapper">
+                    <h5>{{ item.name }}</h5>
+                    @if (
+                      item.author && (item.author.name || item.author.surnames)
+                    ) {
+                      <p>{{ common.checkAuthorName(item.author) }}</p>
+                    }
+                  </span>
+                </a>
+              </li>
+            }
+          </ul>
+        </div>
+        <div class="tabs-right-wrapper">
+          <picture>
+            <source
+              [srcset]="getSrcSet(currentSelectedImage)"
+              [sizes]="getSizes(currentSelectedImage)"
+            />
+            <img
+              [src]="
+                getImageUrl(
+                  currentSelectedImage,
+                  common.constantsData.IMAGE_SIZES.BOX
+                )
+              "
+              loading="lazy"
+              height="100%"
+              alt="Image"
+              (error)="onImageError($event)"
+            />
+          </picture>
+        </div>
+      </div>
+    </div>
+  </section>
+}

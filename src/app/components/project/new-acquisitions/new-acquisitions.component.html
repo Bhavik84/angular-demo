@@ -1,0 +1,153 @@
+<div class="project-main-wrapper mt-10">
+  <div class="container">
+    <div
+      class="title-main-section"
+      [innerHTML]="
+        'NEW_ACQUISTIONS.SECTION_1_TITLE_HTML' | translate | sanitizeHtml
+      "
+    ></div>
+    <div
+      class="project-description-wrapper"
+      [innerHTML]="
+        'NEW_ACQUISTIONS.SECTION_1_CONTENT_HTML' | translate | sanitizeHtml
+      "
+    ></div>
+    <div class="flex acquisitions-box">
+      <div class="left-wrapper-author">
+        <div class="title-author">
+          {{ "NEW_ACQUISTIONS.SECTION_2_TITLE" | translate }}
+        </div>
+        <div class="input-div-wrapper custom-scrollbar">
+          @for (author of authors; track $index) {
+            <div
+              [ngClass]="isLoading ? 'disableClass' : ''"
+              aria-hidden="true"
+              [ngClass]="author?.selected ? 'active' : 'inActive'"
+              class="input-wrapper-author"
+            >
+              <mat-checkbox
+                [disabled]="isLoading"
+                class="example-margin"
+                [checked]="author.selected"
+                (change)="toggleAuthorSelection(author)"
+              >
+              {{ common.checkAuthorName(author) }}
+              </mat-checkbox>
+            </div>
+          }
+          @if (authors.length < totalAuthors) {
+            <button
+              mat-flat-button
+              color="primary left-align"
+              class="btn"
+              (click)="showMoreAuthor()"
+            >
+              {{ "COMMON.SEE_MORE" | translate }}
+            </button>
+          }
+          @if (authorLoading) {
+            <mat-progress-spinner
+              color="primary"
+              mode="indeterminate"
+              diameter="30"
+              class="spinnerLoader"
+            ></mat-progress-spinner>
+          }
+          @if (authors.length === 0 && !authorLoading) {
+            <div class="text-center author-do-data">
+              <img
+                class="no-data-light"
+                [src]="common.localStaticLinks.NO_DATA"
+                alt=""
+              />
+              <img
+                class="no-data-dark"
+                [src]="common.localStaticLinks.NO_DATA_DARK"
+                alt=""
+              />
+            </div>
+          }
+        </div>
+      </div>
+      @defer {
+        <div class="width80 right-wrapper-gallery">
+          <div class="mobile-view-filter flex-row-reverse justify-flex-end">
+            <div class="custom-filter-field mobile-left-wrapper-author">
+              <mat-form-field>
+                <mat-select
+                  class="authors_select_cls"
+                  placeholder="{{
+                    'NEW_ACQUISTIONS.SECTION_2_TITLE' | translate
+                  }}"
+                  multiple
+                >
+                  <div
+                    class="select-container"
+                    [ngClass]="isLoading ? 'disableClass' : ''"
+                  >
+                    @for (author of authors; track $index) {
+                      <mat-option
+                        (onSelectionChange)="toggleAuthorSelection(author)"
+                      >
+                      {{ common.checkAuthorName(author) }}
+                      </mat-option>
+                    }
+                  </div>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div
+              class="custom-filter-field desktop-left-wrapper-author bg-gradient"
+            >
+              <app-year-selection
+                (yearChange)="yearChange($event)"
+                [displayedDecades]="years"
+              />
+            </div>
+          </div>
+          <app-custom-masonry-layout
+            [isLoading]="isLoading"
+            [view]="view"
+            [path]="common.environment.WORKS"
+            [showDescription]="true"
+            [showDate]="true"
+            [showAuthor]="true"
+            [allImageItem]="customImageList"
+            (showDetailEvent)="redirectToDetailPage($event)"
+            (loadedMasonary)="loadedMasonaryData($event)"
+          />
+          @if (isLoading) {
+            <mat-progress-spinner
+              color="primary"
+              mode="indeterminate"
+              diameter="50"
+              class="spinnerLoader"
+            ></mat-progress-spinner>
+          }
+          @if (totalCount - (offset + limit) > 0) {
+            <div class="show-more-wrapper">
+              @if (isShowViewMore) {
+                <button
+                  mat-flat-button
+                  color="primary"
+                  class="btn"
+                  (click)="showMore()"
+                >
+                  {{ "COMMON.SEE_MORE" | translate }}
+                </button>
+              }
+              <div
+                aria-hidden="true"
+                color="primary"
+                class="btn bg-black"
+                (click)="scrollTop()"
+              >
+                <mat-icon>arrow_upward</mat-icon>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,114 @@
+@use "mixins" as *;
+@use "variables.scss" as *;
+
+mat-tab-group {
+  mat-tab-header {
+    --mdc-secondary-navigation-tab-container-height: auto !important;
+    background-color: #edf0f7;
+  }
+  .mat-mdc-tab {
+    height: 95px !important;
+    min-height: 95px !important;
+    &.mdc-tab--active {
+      .mdc-tab__text-label {
+        color: $dark-blue;
+        font-family: "glacial_indifferencebold";
+      }
+      &:focus,
+      &:hover {
+        .mdc-tab__text-label {
+          color: $dark-blue;
+        }
+        .mdc-tab-indicator__content--underline {
+          border-color: $dark-blue;
+        }
+      }
+    }
+    .mdc-tab-indicator__content--underline {
+      border-color: $dark-blue;
+    }
+    .mdc-tab__text-label {
+      display: flex;
+      flex-direction: column;
+      padding: 25px 0 15px;
+      gap: 10px;
+      letter-spacing: 3px;
+      font-family: "glacial_indifferenceregular";
+      font-size: var(--base-font-14);
+      text-transform: uppercase;
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+}
+.tab-data-main {
+  padding: 30px 0 0 0;
+}
+.tab-search-box {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 30px;
+  @media (max-width: 767px) {
+    flex-direction: column;
+    gap: 20px;
+  }
+  app-custom-search {
+    width: 100%;
+  }
+  .custom-search-input {
+    input {
+      background: $white;
+      color: $dark-blue !important;
+      &::-webkit-input-placeholder {
+        color: $dark-blue !important;
+        opacity: 1;
+        font-size: var(--base-font-16) !important;
+      }
+      &::-moz-placeholder {
+        color: $dark-blue !important;
+        opacity: 1;
+        font-size: var(--base-font-16) !important;
+      }
+      &:-ms-input-placeholder {
+        color: $dark-blue !important;
+        opacity: 1;
+        font-size: var(--base-font-16) !important;
+      }
+      &:-moz-placeholder {
+        color: $dark-blue !important;
+        opacity: 1;
+        font-size: var(--base-font-16) !important;
+      }
+    }
+    mat-icon {
+      color: $dark-blue;
+    }
+  }
+  .tab-right-icons {
+    flex-wrap: nowrap;
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    @media (max-width: 767px) {
+      justify-content: center;
+    }
+    img.slider-icon {
+      width: 18px;
+      height: 18px;
+      position: relative;
+      top: -1px;
+    }
+    .mat-icon {
+      width: 18px;
+      // height: 18px;
+      line-height: initial;
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+<div
+  [ngClass]="item.description || item.date || item.author ? 'slider-view' : ''"
+>
+  <div class="slider-number">
+    @if (data.length > 1) {
+      {{ currentIndex + 1 }}<span>&#8594;</span>
+      {{ data.length }}
+    }
+  </div>
+  <div class="dialog-content" (wheel)="onWheel($event)">
+    <div class="toolbar">
+      <button mat-icon-button (click)="zoomIn()">
+        <mat-icon>zoom_in</mat-icon>
+      </button>
+      <button mat-icon-button (click)="zoomOut()">
+        <mat-icon>zoom_out</mat-icon>
+      </button>
+      @if (!iphone) {
+        <button mat-icon-button (click)="toggleFullScreen()">
+          <mat-icon>fit_screen</mat-icon>
+        </button>
+      }
+      <button mat-icon-button (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    @if (data.length > 1) {
+      <button (click)="prev()" class="zoom-popup-prev">
+        <mat-icon [svgIcon]="icons.PREVIOUS_ARROW"></mat-icon>
+      </button>
+    }
+    <div cdkDrag>
+      <img
+        appImageError
+        imageName="{{ item.src }}"
+        (error)="directive.errorHandle($event)"
+        [style.transform]="imageTransform"
+        alt="full-screen image"
+        class="image-fullscreen"
+      />
+    </div>
+  </div>
+  @if (data.length > 1) {
+    <button (click)="next()" class="zoom-popup-next">
+      <mat-icon [svgIcon]="icons.NEXT_ARROW"></mat-icon>
+    </button>
+  }
+  <div
+    class="slider-data-main"
+    [ngClass]="
+      item.description || item.date || item.author ? 'description' : ''
+    "
+  >
+    <h1 class="slider-title">
+      {{ item.title }}
+    </h1>
+    <div class="slider-name">
+      {{ item.author }}
+      {{ item.date }}
+    </div>
+    <div class="slider-data">
+      {{ item.description }}
+    </div>
+  </div>
+</div>

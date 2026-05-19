@@ -1,0 +1,226 @@
+<div class="project-main-wrapper research-top-box resource-serch-main pt-10">
+  <div class="container">
+    <div class="page-top-box">
+      <div class="title-main-section">
+        {{ "ALL_RESOURCES.SECTION_1_TITLE" | translate }}
+      </div>
+      <div
+        class="project-description-wrapper"
+        [innerHTML]="
+          'ALL_RESOURCES.SECTION_1_CONTENT_HTML' | translate | sanitizeHtml
+        "
+      ></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="custom-filter-box">
+    <div class="web-wrapper-filter">
+      <div class="custom-filter">
+        <app-custom-filter
+          [type]="common.constantsData.RESOURCE_FILTER_TYPE.RESOURCES"
+          selectPlaceholder="{{
+            'ALL_RESOURCES.SECTION_2_FLITER_TYPOLOGY' | translate
+          }}"
+          [isLoading]="dropDownLoader"
+          [isLoadOnSearch]="false"
+          [isLocalSearch]="true"
+          [allItems]="resourceType"
+          [selectedItems]="selectedResourceType"
+          (selectedItemsChange)="receiveDataFromChild($event)"
+        ></app-custom-filter>
+        <app-custom-filter
+          [type]="common.constantsData.RESOURCE_FILTER_TYPE.FORMATS"
+          selectPlaceholder="{{
+            'ALL_RESOURCES.SECTION_2_FLITER_THEMATIC' | translate
+          }}"
+          [isLoading]="dropDownLoader"
+          [isLoadOnSearch]="false"
+          [isLocalSearch]="true"
+          [allItems]="formats"
+          [selectedItems]="selectedFormats"
+          (selectedItemsChange)="receiveDataFromChild($event)"
+        ></app-custom-filter>
+      </div>
+    </div>
+    <div class="custom-filter-box-list research-search-box">
+      <div class="custom-search-box mobile-view-filter">
+        <app-custom-search
+          [totalCountData]="
+            ('COMMON.BEFORE_SEARCH_RESULT' | translate) +
+            ' ' +
+            totalCount +
+            ' ' +
+            ('COMMON.AFTER_SEARCH_RESULT' | translate)
+          "
+          (searchResults)="search($event)"
+          placeHolder="ALL_RESOURCES.SECTION_2_SEARCH_PLACEHOLDER"
+          [initialSearch]="searchResult"
+        ></app-custom-search>
+        <div class="show-more-wrapper mobile-wrapper-filter">
+          <button class="btn gradient-orange-red" (click)="openDialog(filters)">
+            {{ "ALL_RESOURCES.SECTION_2_FILTERS" | translate }}
+            <span>
+              <mat-icon
+                role="img"
+                class="mat-icon notranslate material-icons mat-ligature-font mat-icon-no-color"
+                aria-hidden="true"
+                data-mat-icon-type="font"
+                >chevron_right</mat-icon
+              >
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <app-mat-chip
+      class="filter-mat-chips"
+      [items]="selectedItem"
+      (dataEvent)="removeItem($event)"
+    ></app-mat-chip>
+  </div>
+  @defer {
+    <div class="research-data-box">
+      @for (image of displayResourceList; track $index) {
+        <div
+          class="research-data-list"
+        >
+          <div class="research-data-img">
+            <a
+              [href]="common.convertLinkURL(image?.url) | safeUrl"
+              target="_blank"
+            >
+              <img
+                height="100%"
+                appImageError
+                imageName="{{ image.resource_language_images?.[0]?.url }}"
+                [path]="path"
+                (error)="directive.errorHandle($event)"
+                alt="image"
+                loading="lazy"
+              />
+            </a>
+          </div>
+          <div class="research-data">
+            <a
+              [href]="common.convertLinkURL(image?.url) | safeUrl"
+              target="_blank"
+            >
+              @if (
+                image?.resources_type?.resources_types_languages?.length ?? 0 > 0
+              ) {
+                @if (image.resources_type?.colour === common.constantsData.RESOURCE_TYPE_COLOR) {
+                  <a
+                    class="btn article-tag btn-yellow"
+                    [ngStyle]="{ background: image.resources_type?.colour }"
+                  >
+                    {{
+                      image.resources_type?.resources_types_languages?.[0]?.name
+                    }}
+                  </a>
+                } @else {
+                  <a
+                    class="btn article-tag"
+                    [ngStyle]="{ background: image.resources_type?.colour }"
+                    >{{
+                      image.resources_type?.resources_types_languages?.[0]?.name
+                    }}</a
+                  >
+                }
+              }
+              <div class="research-data-title">{{ image?.title }}</div>
+              <p>{{ image?.creator_name }}</p>
+              <span>{{ image?.year }}</span>
+            </a>
+            @if (image?.resources_type?.id === common.constantsData.RESOURCE_TYPE_LIBRE_ID) {
+              <p class="pages-box">
+                {{ image?.pages }}
+                {{ "ALL_RESOURCES.SECTION_2_PAGES" | translate }}
+              </p>
+            }
+          </div>
+        </div>
+      }
+      @if (isLoading) {
+        <mat-progress-spinner
+          color="primary"
+          mode="indeterminate"
+          diameter="50"
+          class="spinnerLoader"
+        ></mat-progress-spinner>
+      }
+      <div class="w-full">
+        @if (displayResourceList.length === 0 && !isLoading) {
+          <div class="text-center mt-5">
+            <img
+              class="no-data-light"
+              [src]="common.localStaticLinks.NO_DATA"
+              alt=""
+            />
+            <img
+              class="no-data-dark"
+              [src]="common.localStaticLinks.NO_DATA_DARK"
+              alt=""
+            />
+          </div>
+        }
+      </div>
+    </div>
+  }
+  <div class="show-more-wrapper">
+    @if (totalCount > displayResourceList.length) {
+      <button
+        class="btn gradient-orange-red"
+        mat-flat-button
+        color="primary"
+        (click)="viewMore()"
+      >
+        {{ "COMMON.SEE_MORE" | translate }}
+      </button>
+    }
+    @if (totalCount >= 6) {
+      <div
+        aria-hidden="true"
+        color="primary"
+        class="btn bg-black"
+        (click)="common.scrollTop()"
+      >
+        <mat-icon>arrow_upward</mat-icon>
+      </div>
+    }
+  </div>
+</div>
+
+<ng-template #filters>
+  <div class="custom-filter-box">
+    <div class="custom-filter-box-list research-search-custom-filter-box">
+      <app-custom-filter
+        [type]="common.constantsData.RESOURCE_FILTER_TYPE.RESOURCES"
+        selectPlaceholder="{{
+          'ALL_RESOURCES.SECTION_2_FLITER_TYPOLOGY' | translate
+        }}"
+        [isLoading]="dropDownLoader"
+        [isLoadOnSearch]="false"
+        [isLocalSearch]="true"
+        [allItems]="resourceType"
+        [selectedItems]="selectedResourceType"
+        (selectedItemsChange)="receiveDataFromChild($event)"
+      ></app-custom-filter>
+      <app-custom-filter
+        [type]="common.constantsData.RESOURCE_FILTER_TYPE.FORMATS"
+        selectPlaceholder="{{
+          'ALL_RESOURCES.SECTION_2_FLITER_THEMATIC' | translate
+        }}"
+        [isLoading]="dropDownLoader"
+        [isLoadOnSearch]="false"
+        [isLocalSearch]="true"
+        [allItems]="formats"
+        [selectedItems]="selectedFormats"
+        (selectedItemsChange)="receiveDataFromChild($event)"
+      ></app-custom-filter>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,66 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+::ng-deep header {
+  .dropdown-font-wrapper {
+    @include flex-center;
+    height: 38px;
+    gap: 10px;
+
+    .dropdown {
+      .mat-mdc-select-min-line {
+        color: $light-grey;
+      }
+
+      .mdc-line-ripple {
+        &::after,
+        &::before {
+          display: none;
+        }
+      }
+
+      .mat-mdc-text-field-wrapper {
+        max-width: 150px;
+        height: 45px;
+        background: transparent;
+        margin-top: 10px;
+        .mat-mdc-select-value {
+          text-align: end;
+          margin-right: 5px;
+        }
+        .mdc-floating-label {
+          color: $light-grey;
+          font-size: var(--base-font-14);
+        }
+      }
+
+      .mat-mdc-select {
+        font-size: var(--base-font-16);
+        color: $light-grey;
+        font-weight: $weight-400;
+        background: transparent;
+        border: none;
+        outline: none;
+
+        .mat-mdc-select-arrow-wrapper {
+          SVG {
+            fill: $white;
+          }
+        }
+
+        option {
+          background: $white;
+          color: $dark-blue;
+        }
+      }
+    }
+
+    .mat-mdc-select-arrow-wrapper {
+      svg {
+        path {
+          fill: $white;
+        }
+      }
+    }
+  }
+}

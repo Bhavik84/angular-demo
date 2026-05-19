@@ -1,0 +1,71 @@
+<div class="project-main-wrapper mt-10">
+  <div class="container">
+    <div class="page-top-box">
+      <div
+        class="title-main-section"
+        [innerHTML]="
+          'PHOTOGRAPHERS_LIST.SECTION_1_TITLE_HTML' | translate | sanitizeHtml
+        "
+      ></div>
+      <div
+        class="project-description-wrapper"
+        [innerHTML]="
+          'PHOTOGRAPHERS_LIST.SECTION_1_CONTENT_HTML' | translate | sanitizeHtml
+        "
+      ></div>
+    </div>
+    <div>
+      <div class="selection-chip-list">
+        @for (item of selectionAlphabetList; track $index) {
+          <div
+            class="option-chip active"
+            [ngClass]="{ active: item.value === selectedAlphabet }"
+            (click)="selectedAlphabet = item.value"
+            aria-hidden="true"
+          >
+            {{ item.title }}
+          </div>
+        }
+      </div>
+      @defer {
+        <div class="authors-listing">
+          @if (isloading) {
+            <div class="loader-section">
+              <mat-progress-spinner
+                color="primary"
+                mode="indeterminate"
+                diameter="50"
+                class="spinnerLoader"
+              ></mat-progress-spinner>
+            </div>
+          } @else {
+            @for (author of authorsData[selectedAlphabet]; track $index) {
+              <div
+                class="author-info"
+                (click)="getAuthorDetails(author.slug)"
+                (keydown.enter)="getAuthorDetails(author.slug)"
+                (keydown.space)="getAuthorDetails(author.slug)"
+                tabindex="0"
+              >
+                  {{ checkAuthorName(author) }}
+              </div>
+            } @empty {
+              <div class="text-center mt-5 no-data-section">
+                <img
+                  class="no-data-light"
+                  [src]="common.localStaticLinks.NO_DATA"
+                  alt=""
+                />
+                <img
+                  class="no-data-dark"
+                  [src]="common.localStaticLinks.NO_DATA_DARK"
+                  alt=""
+                />
+              </div>
+            }
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

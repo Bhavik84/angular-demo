@@ -1,0 +1,100 @@
+<div class="custom-filter-field">
+  <mat-form-field>
+    <mat-select
+      (closed)="clearSearch(); closeButton()"
+      panelClass="my-select-panel-class panel_extra_space"
+      (openedChange)="openedChange($event)"
+      placeholder="{{ selectPlaceholder }}"
+      [formControl]="selectFormControl"
+      multiple
+      appMatSelectScrollBottom
+      [compareWith]="compareFn"
+    >
+      <mat-select-trigger>
+        {{
+          selectFormControl.value &&
+          selectFormControl.value.length > 0 &&
+          selectFormControl.value[0].name
+            ? selectFormControl.value[0].name.slice(0, 20)
+            : ""
+        }}
+        {{
+          selectFormControl.value && selectFormControl.value.length > 0
+            ? selectFormControl.value[0].surnames
+            : ""
+        }}
+        @if (selectFormControl.value && selectFormControl.value.length > 1) {
+          <span class="additional-selection">
+            (+{{ selectFormControl.value.length - 1 }}
+            {{
+              (selectFormControl.value.length === 2 ? "OTHER" : "OTHERS")
+                | translate
+            }})
+          </span>
+        }
+      </mat-select-trigger>
+      <div class="select-container">
+        <mat-optgroup>
+          <mat-form-field style="width: 100%">
+            <input
+              #search
+              placeholder="{{ 'CUSTOM_FILTER.SEARCH_PLACEHOLDER' | translate }}"
+              aria-label="Search"
+              matInput
+              (keydown)="$event.stopPropagation()"
+              [formControl]="searchTextboxControl"
+            />
+            @if (searchTextboxControl.value) {
+              <button
+                [disableRipple]="true"
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="clearSearch()"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            }
+          </mat-form-field>
+        </mat-optgroup>
+        @if (allItems.length > 0) {
+          @for (option of (isLocalSearch ? (allItems | searchFilterData: searchTextboxControl.value : (type == 'decade' ? common.constantsData.SORT_BY.DESC : common.constantsData.SORT_BY.ASC)) : allItems); track $index) {
+            <mat-option
+              (onSelectionChange)="selectionChange($event, option)"
+              [value]="option"
+            >
+              <div class="option-section">
+                <span>{{ option.name }}</span>
+                @if (option.count && option.count > 0) {
+                  <span class="count-section">({{ option.count }})</span>
+                }
+              </div>
+            </mat-option>
+          }
+        } @else if (allItems.length === 0 && !isLoading && !isLocalSearch) {
+          <div class="no_result_cls">
+            {{ "CUSTOM_FILTER.LABLE_1" | translate }}
+          </div>
+        }
+        @if (
+          isLocalSearch &&
+          (allItems | searchFilterData: searchTextboxControl.value).length ===
+            0 &&
+          !isLoading
+        ) {
+          <div class="no_result_cls">
+            {{ "CUSTOM_FILTER.LABLE_1" | translate }}
+          </div>
+        }
+        @if (isLoading) {
+          <mat-progress-spinner
+            color="primary"
+            mode="indeterminate"
+            diameter="35"
+            class="spinnerLoader"
+          ></mat-progress-spinner>
+        }
+      </div>
+    </mat-select>
+  </mat-form-field>
+</div>

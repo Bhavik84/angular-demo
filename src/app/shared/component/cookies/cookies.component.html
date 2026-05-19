@@ -1,0 +1,356 @@
+<div class="preferences_modal_main">
+  <div class="modal_header">
+    <div class="modal_header_titel">
+      {{ "COOKIES.COOKIE_DIALOG_SECTION_1_TITLE" | translate }}
+    </div>
+    <div class="modal_header_close" mat-dialog-close>
+      <mat-icon [svgIcon]="icons.CLOSE_BTN"></mat-icon>
+    </div>
+  </div>
+  <div class="modal_body">
+    <div
+      class="modal_body_top"
+      [innerHTML]="
+        'COOKIES.COOKIE_DIALOG_SECTION_1_CONTENT_HTML'
+          | translate
+          | sanitizeHtml
+      "
+    ></div>
+    <div class="accordion-main who-we-are-accordion accordion_main_box">
+      <mat-accordion>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div>
+                <div class="accodian_titel">
+                  <div>
+                    {{
+                      "COOKIES.COOKIE_DIALOG_SECTION_2_PANNEL_1_TITLE"
+                        | translate
+                    }}
+                  </div>
+                  <span class="active_span">
+                    {{ "COOKIES.COOKIE_DIALOG_SECTION_1_LABLE" | translate }}
+                  </span>
+                </div>
+                <div class="accodian_titel_sub">
+                  {{
+                    "COOKIES.COOKIE_DIALOG_SECTION_2_PANNEL_1_CONTENT_HTML"
+                      | translate
+                  }}
+                </div>
+              </div>
+
+              <mat-icon>expand_more</mat-icon>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="accordion-data">
+            <div class="no_cookies_box">
+              <!-- {{"COOKIES.COOKIE_DIALOG_NO_COOKIE" | translate }} -->
+              <div class="cookie-list">
+                <div class="cookie-row">
+                  <div class="cookie-label">
+                    {{ "COOKIES.COOKIE" | translate }}
+                  </div>
+                  <div class="cookie-value">
+                    {{ "COOKIES.LABLE_1_TITLE" | translate }}
+                  </div>
+                </div>
+                <div class="cookie-row">
+                  <div class="cookie-label">
+                    {{ "COOKIES.DURATION" | translate }}
+                  </div>
+                  <div class="cookie-value">
+                    {{ "COOKIES.LABLE_1_DURATION" | translate }}
+                  </div>
+                </div>
+                <div class="cookie-row">
+                  <div class="cookie-label">
+                    {{ "COOKIES.DESCRIPTION" | translate }}
+                  </div>
+                  <div class="cookie-value">
+                    {{ "COOKIES.LABLE_1_DESCRIPTION" | translate }}
+                  </div>
+                </div>
+                <hr />
+                <div class="cookie-row">
+                  <div class="cookie-label">
+                    {{ "COOKIES.COOKIE" | translate }}
+                  </div>
+                  <div class="cookie-value">
+                    {{ "COOKIES.LABLE_2_TITLE" | translate }}
+                  </div>
+                </div>
+                <div class="cookie-row">
+                  <div class="cookie-label">
+                    {{ "COOKIES.DURATION" | translate }}
+                  </div>
+                  <div class="cookie-value">
+                    {{ "COOKIES.LABLE_1_DURATION" | translate }}
+                  </div>
+                </div>
+                <div class="cookie-row">
+                  <div class="cookie-label">
+                    {{ "COOKIES.DESCRIPTION" | translate }}
+                  </div>
+                  <div class="cookie-value">
+                    {{ "COOKIES.LABLE_2_DESCRIPTION" | translate }}
+                  </div>
+                </div>
+                <hr />
+                <div class="cookie-row">
+                  <div class="cookie-label">
+                    {{ "COOKIES.COOKIE" | translate }}
+                  </div>
+                  <div class="cookie-value">
+                    {{ "COOKIES.LABLE_3_TITLE" | translate }}
+                  </div>
+                </div>
+                <div class="cookie-row">
+                  <div class="cookie-label">
+                    {{ "COOKIES.DURATION" | translate }}
+                  </div>
+                  <div class="cookie-value">
+                    {{ "COOKIES.LABLE_1_DURATION" | translate }}
+                  </div>
+                </div>
+                <div class="cookie-row">
+                  <div class="cookie-label">
+                    {{ "COOKIES.DESCRIPTION" | translate }}
+                  </div>
+                  <div class="cookie-value">
+                    {{ "COOKIES.LABLE_3_DESCRIPTION" | translate }}
+                  </div>
+                </div>
+                <hr />
+                <div class="cookie-row">
+                  <div class="cookie-label">
+                    {{ "COOKIES.COOKIE" | translate }}
+                  </div>
+                  <div class="cookie-value">
+                    {{ "COOKIES.LABLE_4_TITLE" | translate }}
+                  </div>
+                </div>
+                <div class="cookie-row">
+                  <div class="cookie-label">
+                    {{ "COOKIES.DURATION" | translate }}
+                  </div>
+                  <div class="cookie-value">
+                    {{ "COOKIES.LABLE_1_DURATION" | translate }}
+                  </div>
+                </div>
+                <div class="cookie-row">
+                  <div class="cookie-label">
+                    {{ "COOKIES.DESCRIPTION" | translate }}
+                  </div>
+                  <div class="cookie-value">
+                    {{ "COOKIES.LABLE_4_DESCRIPTION" | translate }}
+                  </div>
+                </div>
+                <hr />
+                <div class="cookie-row">
+                  <div class="cookie-label">
+                    {{ "COOKIES.COOKIE" | translate }}
+                  </div>
+                  <div class="cookie-value">
+                    {{ "COOKIES.LABLE_5_TITLE" | translate }}
+                  </div>
+                </div>
+                <div class="cookie-row">
+                  <div class="cookie-label">
+                    {{ "COOKIES.DURATION" | translate }}
+                  </div>
+                  <div class="cookie-value">
+                    {{ "COOKIES.LABLE_1_DURATION" | translate }}
+                  </div>
+                </div>
+                <div class="cookie-row">
+                  <div class="cookie-label">
+                    {{ "COOKIES.DESCRIPTION" | translate }}
+                  </div>
+                  <div class="cookie-value">
+                    {{ "COOKIES.LABLE_5_DESCRIPTION" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <!-- <mat-accordion>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div>
+                <div class="accodian_titel">
+                  {{
+                    "COOKIES.COOKIE_DIALOG_SECTION_2_PANNEL_2_TITLE" | translate
+                  }}
+                  <label>
+                    <input type="checkbox"
+                    [checked]="prefs.multimedia"
+                    (click)="$event.stopPropagation()"
+                    (change)="onToggle('multimedia', $event.target.checked)" />
+                      Accept
+                  </label>
+                </div>
+                <div class="accodian_titel_sub">
+                  {{
+                    "COOKIES.COOKIE_DIALOG_SECTION_2_PANNEL_2_CONTENT_HTML"
+                      | translate
+                  }}
+                </div>
+              </div>
+
+              <mat-icon>expand_more</mat-icon>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="accordion-data">
+            <div class="no_cookies_box">
+              {{ "COOKIES.COOKIE_DIALOG_NO_COOKIE" | translate }}
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion> -->
+
+      <mat-accordion>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div>
+                <div class="accodian_titel">
+                  {{
+                    "COOKIES.COOKIE_DIALOG_SECTION_2_PANNEL_3_TITLE" | translate
+                  }}
+                <label>
+                <input type="checkbox"
+                  class="pointer"
+                  [checked]="prefs.analytics"
+                  (click)="$event.stopPropagation()"
+                  (change)="onToggle('analytics', $event.target.checked)" />
+                    {{ "COOKIES.ACCEPT_LABLE" | translate }}
+                </label>
+                </div>
+                <div class="accodian_titel_sub">
+                  {{
+                    "COOKIES.COOKIE_DIALOG_SECTION_2_PANNEL_3_CONTENT_HTML"
+                      | translate
+                  }}
+                </div>
+              </div>
+
+              <mat-icon>expand_more</mat-icon>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="accordion-data">
+            <div class="no_cookies_box">
+              <!-- {{ "COOKIES.COOKIE_DIALOG_NO_COOKIE" | translate }} -->
+              <div class="cookie-list">
+                <div class="cookie-row">
+                  <div class="cookie-label">
+                    {{ "COOKIES.ANALYTICS_COOKIE_LABLE_1" | translate }}
+                  </div>
+                  <div class="cookie-value">
+                    {{ "COOKIES.ANALYTICS_COOKIE_LABLE_1_DESCRIPTION" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <!-- <mat-accordion>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div>
+                <div class="accodian_titel">
+                  {{
+                    "COOKIES.COOKIE_DIALOG_SECTION_2_PANNEL_4_TITLE" | translate
+                  }}
+                </div>
+                <div class="accodian_titel_sub">
+                  {{
+                    "COOKIES.COOKIE_DIALOG_SECTION_2_PANNEL_4_CONTENT_HTML"
+                      | translate
+                  }}
+                </div>
+              </div>
+
+              <mat-icon>expand_more</mat-icon>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="accordion-data">
+            <div class="no_cookies_box">
+              {{ "COOKIES.COOKIE_DIALOG_NO_COOKIE" | translate }}
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion> -->
+
+      <!-- <mat-accordion>
+        <mat-expansion-panel
+          (opened)="panelOpenState = true"
+          (closed)="panelOpenState = false"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div>
+                <div class="accodian_titel">
+                  {{
+                    "COOKIES.COOKIE_DIALOG_SECTION_2_PANNEL_5_TITLE" | translate
+                  }}
+                </div>
+                <div class="accodian_titel_sub">
+                  {{
+                    "COOKIES.COOKIE_DIALOG_SECTION_2_PANNEL_5_CONTENT_HTML"
+                      | translate
+                  }}
+                </div>
+              </div>
+
+              <mat-icon>expand_more</mat-icon>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="accordion-data">
+            <div class="no_cookies_box">
+              {{ "COOKIES.COOKIE_DIALOG_NO_COOKIE" | translate }}
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion> -->
+    </div>
+  </div>
+  <div class="modal_footer">
+    <div class="btn_box">
+      <div class="btn_box_group">
+        <button class="cookeis_btn" (click)="rejectAll()">
+          {{ "COOKIES.COOKIE_DIALOG_SECTION_3_BUTTON_1" | translate }}
+        </button>
+        <button class="cookeis_btn" (click)="savePreferences()">
+          {{ "COOKIES.COOKIE_DIALOG_SECTION_3_BUTTON_2" | translate }}
+        </button>
+        <button
+          class="cookeis_btn gradient-green-blue accept_btn"
+          (click)="acceptAll()"
+        >
+          {{ "COOKIES.COOKIE_DIALOG_SECTION_3_BUTTON_3" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,353 @@
+@if (randomBlogData) {
+  <div class="project-main-wrapper blog-main mt-0">
+    <div class="container">
+      <div class="title-main-section">
+        {{ "BLOGS.SECTION_1_TITLE" | translate }}
+      </div>
+      <div class="blog-top">
+        <div class="blog-top-left">
+          @if (randomBlogData) {
+            <img
+              [ngClass]="{
+                'image-zoom-cursor':
+                  randomBlogData.article_language_images &&
+                  randomBlogData.article_language_images.length > 0 &&
+                  randomBlogData.article_language_images[0].url
+              }"
+              path="{{ environment.ARTICLES }}"
+              appImageError
+              imageName="{{
+                randomBlogData.article_language_images &&
+                  randomBlogData.article_language_images.length > 0 &&
+                  randomBlogData.article_language_images[0].url
+              }}"
+              (click)="
+                randomBlogData.article_language_images &&
+                randomBlogData.article_language_images.length > 0 &&
+                randomBlogData.article_language_images[0].url
+                  ? openDynamicImage(
+                      randomBlogData.articles_author.name
+                        ? randomBlogData.articles_author.name +
+                            (randomBlogData.articles_author.surnames
+                              ? ' ' + randomBlogData.articles_author.surnames
+                              : '')
+                        : undefined
+                    )
+                  : ''
+              "
+              (error)="directive.errorHandle($event)"
+              alt="image"
+              aria-hidden="true"
+            />
+          } @else {
+            <img
+              appImageError
+              [path]="commonService.environment.ARTICLES"
+              imageName=""
+              (error)="directive.errorHandle($event)"
+              alt="alt"
+              loading="lazy"
+            />
+          }
+        </div>
+        <div class="blog-top-right">
+          @if (
+            randomBlogData &&
+            randomBlogData.articles_languages &&
+            randomBlogData.articles_languages.length > 0
+          ) {
+            <div class="blog-top-title">
+              {{
+                randomBlogData.articles_languages &&
+                  randomBlogData.articles_languages.length > 0 &&
+                  randomBlogData.articles_languages[0].title
+              }}
+            </div>
+            <div class="blog-summary-content">
+              @if (
+                randomBlogData.articles_languages[0].summary &&
+                randomBlogData.articles_languages[0].summary.length > 0
+              ) {
+                <p class="editor_content"
+                  [innerHTML]="
+                    randomBlogData.articles_languages[0].summary | sanitizeHtml
+                  "
+                ></p>
+              } @else if (
+                randomBlogData.articles_languages[0].content &&
+                randomBlogData.articles_languages[0].content.length > 0
+              ) {
+                <p class="editor_content"
+                  [innerHTML]="
+                    randomBlogData.articles_languages[0].content | sanitizeHtml
+                  "
+                ></p>
+              }
+            </div>
+          }
+          <button
+            class="btn gradient-red-yellow"
+            mat-flat-button
+            color="primary"
+            (click)="doOpenArticleDetail(randomBlogData)"
+          >
+            {{ "BLOGS.SECTION_1_BUTTON" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+@defer {
+  <div class="pt-4">
+    <div class="container">
+      <div
+        class="custom-search-box gradient-red-yellow-input mobile-view-filter"
+      >
+        <app-custom-search
+          placeHolder="BLOGS.SECTION_2_SEARCH_PLACEHOLDER"
+          [showRecords]="false"
+          [totalCountData]="
+            ('COMMON.BEFORE_SEARCH_RESULT' | translate) +
+            ' ' +
+            totalCount +
+            ' ' +
+            ('COMMON.AFTER_SEARCH_RESULT' | translate)
+          "
+          [initialSearch]="searchResult"
+          (searchResults)="handleSearch($event)"
+        >
+        </app-custom-search>
+        <div class="show-more-wrapper mobile-wrapper-filter">
+          <button class="btn gradient-orange-red" (click)="openDialog(filters)">
+            {{ "BLOGS.SECTION_2_FILTERS" | translate }}
+            <span>
+              <mat-icon>chevron_right</mat-icon>
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="custom-filter-box web-wrapper-filter">
+        <div class="custom-filter-box-list">
+          <app-custom-filter
+            [type]="commonService.constantsData.BLOG_FILTER_TYPE.AUTHORS"
+            [isLoading]="dropDownLoader"
+            [isLoadOnSearch]="false"
+            [isLocalSearch]="true"
+            [selectPlaceholder]="'BLOGS.SECTION_2_FILTER_AUTHOR' | translate"
+            [allItems]="authors"
+            [selectedItems]="selectedAuthor"
+            (selectedItemsChange)="receiveDataFromChild($event)"
+          ></app-custom-filter>
+
+          @if (hasTags) {
+            <app-custom-filter
+              [type]="commonService.constantsData.BLOG_FILTER_TYPE.TAGS"
+              [isLoading]="dropDownLoader"
+              [isLoadOnSearch]="false"
+              [isLocalSearch]="true"
+              [selectPlaceholder]="'BLOGS.SECTION_2_FILTER_LABELS' | translate"
+              [allItems]="tags"
+              [selectedItems]="selectedtags"
+              (selectedItemsChange)="receiveDataFromChild($event)"
+            ></app-custom-filter>
+          }
+
+          @if (hasCategories) {
+            <app-custom-filter
+              [type]="commonService.constantsData.BLOG_FILTER_TYPE.CATEGORIES"
+              [isLoading]="dropDownLoader"
+              [isLoadOnSearch]="false"
+              [isLocalSearch]="true"
+              [selectPlaceholder]="
+                'BLOGS.SECTION_2_FILTER_CATEGORIES' | translate
+              "
+              [allItems]="categories"
+              [selectedItems]="selectedCategories"
+              (selectedItemsChange)="receiveDataFromChild($event)"
+            ></app-custom-filter>
+          }
+        </div>
+      </div>
+      <div>
+        <app-mat-chip
+          class="filter-mat-chips"
+          [items]="selectedItem"
+          (dataEvent)="removeItem($event)"
+        ></app-mat-chip>
+      </div>
+      <div class="calendar-search-right">
+        <div class="research-data-box custom-scrollbar">
+          @for (image of blogData; track $index) {
+            <div
+              class="research-data-list"
+              [ngClass]="{ 'fixed-height': !expandedIds.has(image.id) }"
+            >
+              <div
+                class="research-data-img"
+                aria-hidden="true"
+                (click)="showBlogDetail(image)"
+                [id]="image.slug"
+              >
+                <img
+                  [path]="commonService.environment.ARTICLES"
+                  appImageError
+                  imageName="{{
+                    image.article_language_images &&
+                      image.article_language_images.length > 0 &&
+                      image.article_language_images[0].url
+                  }}"
+                  (error)="directive.errorHandle($event)"
+                  alt="image"
+                  loading="lazy"
+                />
+              </div>
+              <mat-card class="research-data">
+                <mat-card-header>
+                  <mat-card-title-group (click)="showBlogDetail(image)">
+                    <mat-card-title>
+                      {{
+                        (image.articles_author.name
+                          ? image.articles_author.name
+                          : "") +
+                          (image.articles_author.surnames
+                            ? " " + image.articles_author.surnames
+                            : "") | titlecase
+                      }}
+                    </mat-card-title>
+                    @if (image.date) {
+                      <mat-card-subtitle
+                        [innerText]="commonService.formatDateTo(image.date)"
+                      >
+                      </mat-card-subtitle>
+                    }
+                  </mat-card-title-group>
+                </mat-card-header>
+                <mat-card-content class="m-0">
+                  <mat-card-title class="mb-1 blog-title" (click)="showBlogDetail(image)">
+                    {{
+                      image.articles_languages &&
+                      image.articles_languages.length > 0 &&
+                      image.articles_languages[0].title &&
+                      image.articles_languages[0].title.length > 0
+                        ? (image.articles_languages[0].title | uppercase)
+                        : ""
+                    }}
+                  </mat-card-title>
+                  <p
+                    [id]="image.id"
+                    aria-hidden="true"
+                    (click)="toggleExapand(image.id)"
+                    [ngClass]="{ 'clamped-text': !expandedIds.has(image.id) }"
+                    innerHTML="{{
+                      image.articles_languages &&
+                      image.articles_languages.length > 0
+                        ? image.articles_languages[0].summary &&
+                          image.articles_languages[0].summary.length > 0
+                          ? image.articles_languages[0].summary
+                          : image.articles_languages[0].content &&
+                              image.articles_languages[0].content.length > 0
+                            ? image.articles_languages[0].content
+                            : ''
+                        : ''
+                    }}"
+                    class="card-data clamped-text editor_content"
+                  ></p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          }
+        </div>
+        @if (isLoading) {
+          <mat-progress-spinner
+            color="primary"
+            mode="indeterminate"
+            diameter="50"
+            class="spinnerLoader mt-5"
+          ></mat-progress-spinner>
+        }
+      </div>
+      <div class="show-more-wrapper">
+        @if (totalCount > blogData.length) {
+          <button
+            class="btn gradient-red-yellow"
+            (click)="showMore()"
+            mat-flat-button
+            color="primary"
+          >
+            {{ "COMMON.SEE_MORE" | translate }}
+          </button>
+        }
+        @if (totalCount >= 6) {
+          <div
+            aria-hidden="true"
+            color="primary"
+            class="btn bg-black"
+            (click)="scrollTop()"
+          >
+            <mat-icon>arrow_upward</mat-icon>
+          </div>
+        }
+      </div>
+
+      @if (
+        !isLoading && blogData && blogData.length === 0 && !articlesLoading
+      ) {
+        <div class="text-center mt-5">
+          <img
+            class="no-data-light"
+            [src]="commonService.localStaticLinks.NO_DATA"
+            alt=""
+          />
+          <img
+            class="no-data-dark"
+            [src]="commonService.localStaticLinks.NO_DATA_DARK"
+            alt=""
+          />
+        </div>
+      }
+    </div>
+  </div>
+}
+
+<ng-template #filters>
+  <div class="custom-filter-box">
+    <div class="custom-filter-box-list">
+      <app-custom-filter
+        [type]="commonService.constantsData.BLOG_FILTER_TYPE.AUTHORS"
+        [isLoading]="dropDownLoader"
+        [isLoadOnSearch]="false"
+        [isLocalSearch]="true"
+        [selectPlaceholder]="'BLOGS.SECTION_2_FILTER_AUTHOR' | translate"
+        [allItems]="authors"
+        [selectedItems]="selectedAuthor"
+        (selectedItemsChange)="receiveDataFromChild($event)"
+      ></app-custom-filter>
+    </div>
+    @if (hasTags) {
+      <app-custom-filter
+        [type]="commonService.constantsData.BLOG_FILTER_TYPE.TAGS"
+        [isLoading]="dropDownLoader"
+        [isLoadOnSearch]="false"
+        [isLocalSearch]="true"
+        [selectPlaceholder]="'BLOGS.SECTION_2_FILTER_LABELS' | translate"
+        [allItems]="tags"
+        [selectedItems]="selectedtags"
+        (selectedItemsChange)="receiveDataFromChild($event)"
+      ></app-custom-filter>
+    }
+
+    @if (hasCategories) {
+      <app-custom-filter
+        [type]="commonService.constantsData.BLOG_FILTER_TYPE.CATEGORIES"
+        [isLoading]="dropDownLoader"
+        [isLoadOnSearch]="false"
+        [isLocalSearch]="true"
+        [selectPlaceholder]="'BLOGS.SECTION_2_FILTER_CATEGORIES' | translate"
+        [allItems]="categories"
+        [selectedItems]="selectedCategories"
+        (selectedItemsChange)="receiveDataFromChild($event)"
+      ></app-custom-filter>
+    }
+  </div>
+</ng-template>

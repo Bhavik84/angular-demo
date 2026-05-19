@@ -1,0 +1,61 @@
+<h1 class="sr-only">{{ pageTitle | translate }}</h1>
+@if (!loading) {
+  <div class="">
+    <div>
+      <app-header [showmenu]="!showsplashScreen"></app-header>
+    </div>
+    @if (showsplashScreen) {
+      <div>
+        <app-splash-screen
+          (splasHideEvent)="splasHideEvent($event)"
+        ></app-splash-screen>
+      </div>
+    } @else {
+      <div>
+        <div class="app-container">
+          <div class="main-content">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+          @if (isCookie) {
+            <button
+              class="cookie_open_button gradient-green-blue"
+              (click)="openCookiePopup()"
+            >
+              <mat-icon [svgIcon]="icons.COOKIE_BTN"> </mat-icon>
+            </button>
+          }
+          @if (!isCookie && showCookie) {
+            <div class="cookeis_modal_main">
+              <div class="title_box">
+                {{ "COOKIES.SECTION_1_TITLE" | translate }}
+              </div>
+              <div
+                class="title_box_info"
+                [innerHTML]="
+                  'COOKIES.SECTION_1_CONTENT_HTML' | translate | sanitizeHtml
+                "
+              ></div>
+              <div class="btn_box">
+                <div class="btn_box_group">
+                  <button class="cookeis_btn" (click)="openCookiePopup()">
+                    {{ "COOKIES.SECTION_1_BUTTON_1" | translate }}
+                  </button>
+                  <button class="cookeis_btn" (click)="rejectAll()">
+                    {{ "COOKIES.SECTION_1_BUTTON_2" | translate }}
+                  </button>
+                </div>
+                <button
+                  class="cookeis_btn gradient-green-blue accept_btn"
+                  (click)="acceptAll()"
+                >
+                  {{ "COOKIES.SECTION_1_BUTTON_3" | translate }}
+                </button>
+              </div>
+            </div>
+          }
+        <app-footer />
+      </div>
+    }
+  </div>
+}

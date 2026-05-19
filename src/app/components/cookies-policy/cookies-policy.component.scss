@@ -1,0 +1,40 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+table {
+  width: 100%;
+  text-align: left;
+  border: 1px solid $dark-blue;
+  border-collapse: collapse;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  tr {
+    td,
+    th {
+      border: 1px solid $dark-blue;
+      padding: 15px;
+      word-break: normal;
+    }
+  }
+}
+ul {
+  list-style: disc;
+  margin: 0 0 0 14px;
+  li {
+    margin-bottom: 5px;
+  }
+}
+a {
+  color: $dark-blue;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+.table-responsive {
+  width: 100%;
+  overflow: auto;
+}
+::ng-deep .link-black a {
+  color: #11212d;
+  text-decoration: underline;
+}

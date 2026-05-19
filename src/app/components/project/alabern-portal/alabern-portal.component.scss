@@ -1,0 +1,145 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+.portal-wrapper {
+  .flex-wrapper {
+    @include flex-center-between;
+    max-width: 100%;
+
+    @media (max-width: 1200px) {
+      flex-wrap: wrap;
+    }
+
+    div {
+      max-width: 100%;
+      width: 100%;
+
+      @media (max-width: 1200px) {
+        max-width: 100%;
+      }
+    }
+
+    .scrolbar-ltr {
+      position: absolute;
+      right: 0px;
+      width: 50%;
+      direction: rtl;
+
+      @media (max-width: 991px) {
+        width: 100%;
+        position: relative;
+      }
+
+      .masory-flex-wrapper {
+        max-height: 470px;
+        overflow-y: auto;
+      }
+    }
+  }
+
+  h3 {
+    font-size: var(--base-font-45);
+    line-height: normal;
+    color: $black;
+    font-weight: $weight-700;
+    margin-bottom: 20px;
+
+    @media (max-width: 767px) {
+      font-size: var(--base-font-36);
+    }
+  }
+
+  .portal-data {
+    padding-top: 50px;
+
+    @media (max-width: 767px) {
+      padding-top: 30px;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    ol {
+      padding-left: 25px;
+    }
+
+    .btn-wrapper {
+      justify-content: start;
+
+      .submit-btn {
+        background: rgb(245, 209, 14);
+        background: linear-gradient(
+          90deg,
+          rgba(245, 209, 14, 1) 16%,
+          rgba(46, 150, 167, 1) 79%
+        );
+        padding: 7px 20px;
+      }
+    }
+  }
+
+  .portal-data.last-data {
+    padding-bottom: 100px;
+
+    @media (max-width: 767px) {
+      padding-bottom: 30px;
+    }
+  }
+
+  .flex-wrapper-portal {
+    @include flex-start-between;
+    gap: 50px;
+
+    @media (max-width: 767px) {
+      gap: 20px;
+      flex-direction: column;
+    }
+  }
+}
+
+::ng-deep .masory-flex-wrapper {
+  ngx-masonry {
+    margin-left: 20px;
+  }
+}
+
+.who-we-are-top-images {
+  display: flex;
+  width: 100%;
+  margin: 0 auto 50px;
+  overflow: auto;
+  gap: 5px;
+  padding-bottom: 15px;
+
+  @media (max-width: 991px) {
+    margin-bottom: 30px;
+  }
+
+  img {
+    height: 200px;
+    width: auto;
+  }
+}
+
+.left-btn {
+  translate: 2rem;
+}
+.right-btn {
+  translate: -2rem;
+}
+.sub-title {
+   font-size: var(--base-font-30);
+  line-height: normal;
+  color: $black;
+  font-weight: normal;
+  font-family: "Barlow Condensed", sans-serif;
+  margin-bottom: 20px;
+  word-break: break-word;
+  letter-spacing: -1px;
+
+  @media (max-width: 767px) {
+    font-size: var(--base-font-20);
+    letter-spacing: -1px;
+  }
+}

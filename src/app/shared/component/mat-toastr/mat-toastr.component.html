@@ -1,0 +1,13 @@
+<div class="custom-snackbar">
+  <div class="custom-snackbar-icon">
+    <mat-icon>{{ data.icon }}</mat-icon>
+  </div>
+  <div class="custom-snackbar-message">
+    {{ data.message }}
+  </div>
+  <div class="custom-snackbar-close">
+    <button mat-icon-button (click)="sbRef.dismiss()">
+      <mat-icon>{{ "MAT_TOASTER.LABLE_1" | translate }}</mat-icon>
+    </button>
+  </div>
+</div>

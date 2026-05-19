@@ -1,0 +1,17 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+.title-main-section {
+  margin-bottom: 40px;
+  @media (max-width: 767px) {
+    margin-bottom: 20px;
+  }
+}
+
+.photography-plan-btn {
+  margin-top: 50px;
+
+  @media (max-width: 767px) {
+    margin-top: 20px;
+  }
+}

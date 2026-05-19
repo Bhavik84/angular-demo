@@ -1,0 +1,28 @@
+<div class="welcome-page zoom-in">
+  <div class="welcome-page-data fade-in">
+    <div
+      class="welcome-title title-light text-uppercase"
+      [innerHTML]="
+        'SPLASH_SCREEN.SECTION_1_LABLE_1_HTML' | translate | sanitizeHtml
+      "
+    ></div>
+    <div
+      class="welcome-title title-bold"
+      [innerHTML]="
+        'SPLASH_SCREEN.SECTION_1_LABLE_2_HTML' | translate | sanitizeHtml
+      "
+    ></div>
+    <div class="welcome-page-btn">
+      <a
+        class="btn gradient-blue-green"
+        aria-hidden="true"
+        (click)="hideSplash()"
+      >
+        {{ "SPLASH_SCREEN.SECTION_1_BUTTON" | translate }}
+        <span>
+          <mat-icon>chevron_right</mat-icon>
+        </span>
+      </a>
+    </div>
+  </div>
+</div>

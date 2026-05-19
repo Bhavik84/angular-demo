@@ -1,0 +1,19 @@
+{
+  "STATIC_LINKS": {
+    "ALABERN": "http://alabern.sctestingsite.com/",
+    "COOKIES_FIREFOX": "http://support.mozilla.org/es/products/firefox/cookies",
+    "CHROME_COOKIES": "http://support.google.com/chrome/bin/answer.py?hl=es&answer=95647",
+    "INTERNET_EXPLORER_COOKIES": "http://windows.microsoft.com/es-es/windows7/how-to-manage-cookies-in-internet-explorer-9",
+    "SAFARI_COOKIES": "http://support.apple.com/kb/ph5042",
+    "OPERA_COOKIES": "http://www.opera.com/help/tutorials/security/privacy/",
+    "ART_MUSEUM": "https://museunacional.cat",
+    "NAMASTECH": "https://namastech.com",
+    "PHOTOGRAPHY_PLAN": "https://cultura.gencat.cat/ca/departament/plans-i-programes/ambit-sectorial/pla-nacional-fotografia/",
+    "ACCESSIBILITY_LINK": "https://www.fotografiacatalunya.cat",
+    "ART_OF_ARCHITECTURE": "http://aatesaurus.cultura.gencat.cat/index.php?task=fetchTerm&arg=19768",
+    "INSTAGRAM_PAGE_LINK": "https://www.instagram.com/fotografia_a_catalunya/",
+    "FACEBOOK_PAGE_LINK": "https://www.facebook.com/fotografiacatalunya",
+    "TWITTER_PAGE_LINK": "https://twitter.com/fotografia_cat",
+    "VIRTUAL_EXHIBITION_URL": "https://virtualexhibition.alabern.namastech.com"
+  }
+}

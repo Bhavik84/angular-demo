@@ -1,0 +1,10 @@
+@for (item of items; track $index) {
+  <ng-container>
+    <mat-chip-row (removed)="remove(item)">
+      {{ item.name }}
+      <button matChipRemove [attr.aria-label]="'remove ' + item.name">
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </mat-chip-row>
+</ng-container>
+}

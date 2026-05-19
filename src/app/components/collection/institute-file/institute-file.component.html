@@ -1,0 +1,349 @@
+<div class="project-main-wrapper mt-10">
+  <div class="container">
+    <div class="photo-details-top">
+      <div class="photo-details-top-left image-height">
+        @if (photoDetails) {
+          <div class="p-relative photo-div">
+            <img
+              [ngClass]="{
+                'image-zoom-cursor':
+                  photoDetails.institutions_images &&
+                  photoDetails.institutions_images.length > 0 &&
+                  photoDetails.institutions_images[0].url
+              }"
+              appImageError
+              fetchpriority="high"
+              height="500"
+              width="500"
+              height="100%"
+              [path]="commonService.environment.INSTITUTIONS"
+              tabindex="0"
+              imageName="{{
+                photoDetails.institutions_images[0] &&
+                  photoDetails.institutions_images[0].url
+              }}"
+              (click)="
+                photoDetails.institutions_images &&
+                photoDetails.institutions_images.length > 0 &&
+                photoDetails.institutions_images[0].url
+                  ? openDynamicImage(photoDetails.name)
+                  : ''
+              "
+              (keydown.enter)="
+                photoDetails.institutions_images &&
+                photoDetails.institutions_images.length > 0 &&
+                photoDetails.institutions_images[0].url
+                  ? openDynamicImage(photoDetails.name)
+                  : ''
+              "
+              (error)="directive.errorHandle($event)"
+              alt="alt"
+            />
+          </div>
+          <div class="d-flex chips-main">
+            @if (photoDetails) {
+              @for (item of photoDetails.institutions_tags; track $index) {
+                @if (item.tag) {
+                  <div class="chips">{{ item.tag.tags_languages[0].name }}</div>
+                }
+              }
+            }
+          </div>
+        }
+      </div>
+      <div class="photo-details-top-right link-black">
+        <div class="photo-title">
+          {{ photoDetails?.name }}
+          <div class="photo-details-text">
+            @if (photoDetails?.address) {
+              <div class="institute-data">
+                <mat-icon
+                  [svgIcon]="commonService.icons.LOCATION"
+                  style="margin: 0 4px 0 -4px"
+                ></mat-icon>
+                <span>{{ photoDetails?.address }}</span>
+              </div>
+            }
+            @if (photoDetails?.telephone) {
+              <div class="institute-data">
+                <mat-icon
+                  [svgIcon]="commonService.icons.PHONE_NUMBER"
+                ></mat-icon>
+                <span class="cursor-pointer">{{
+                  photoDetails?.telephone ? photoDetails?.telephone : ""
+                }}</span>
+              </div>
+            }
+            @if (photoDetails?.url) {
+              <div class="institute-data institute-data-web">
+                <mat-icon
+                  class="cursor-pointer"
+                  (click)="redirectToLink(photoDetails?.url)"
+                  [svgIcon]="commonService.icons.WEB"
+                ></mat-icon>
+                <span class="cursor-pointer">
+                  <a
+                    class="filter-option-link"
+                    [href]="commonService.convertLinkURL(photoDetails?.url)"
+                    target="_blank"
+                    >{{
+                      "INSTITUTION_DETAIL.SECTION_1_WEB_ICON" | translate
+                    }}</a
+                  >
+                </span>
+              </div>
+            }
+          </div>
+         @if (photoDetails && photoDetails.acronym && photoDetails.acronym.length > 0) {
+                <div class="bottom-title mt-2">
+                  {{ photoDetails.acronym }}
+                </div>
+              }
+        </div>
+        <div class="information-box mb-0 desktop-hide">
+          <div class="download-link">
+            <a
+              (click)="downloadPdf()"
+              (keydown.enter)="downloadPdf()"
+              (keydown.space)="downloadPdf()"
+              tabindex="0"
+            >
+              <mat-icon [svgIcon]="commonService.icons.DOWNLOAD"></mat-icon>
+              <div class="download-link-text">
+                {{ "INSTITUTION_DETAIL.SECTION_2_LABLE" | translate }}
+              </div>
+            </a>
+          </div>
+          <div class="share-link">
+            <a>
+              <mat-icon
+                [svgIcon]="commonService.icons.SHARE"
+                matTooltip="{{
+                  'INSTITUTION_DETAIL.SECTION_2_SHARE_TOOLTIP' | translate
+                }}"
+                (click)="shareContent()"
+              ></mat-icon>
+            </a>
+            <a>
+              <mat-icon
+                [svgIcon]="commonService.icons.ATTATCHMENT"
+                matTooltip="{{
+                  'INSTITUTION_DETAIL.SECTION_2_COPY_TOOLTIP' | translate
+                }}"
+                (click)="commonService.copyUrlToClipboard()"
+              ></mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  @defer {
+    <div class="bg-gradient-blue-yellow mobile-hide">
+      <div class="container" #institutionDetailmansonryRef>
+        <div class="information-box mb-0">
+          <div
+            class="download-link"
+            (keydown.enter)="downloadPdf()"
+            (keydown.space)="downloadPdf()"
+            tabindex="0"
+          >
+            @if (isLoadingDownload) {
+              <mat-progress-spinner
+                color="primary"
+                mode="indeterminate"
+                diameter="50"
+                class="spinnerLoader"
+              ></mat-progress-spinner>
+            } @else if (!isLoadingDownload) {
+              <a
+                (click)="downloadPdf()"
+                (keydown.enter)="downloadPdf()"
+                (keydown.space)="downloadPdf()"
+                tabindex="0"
+              >
+                <mat-icon [svgIcon]="commonService.icons.DOWNLOAD"></mat-icon>
+                <div class="download-link-text">
+                  {{ "INSTITUTION_DETAIL.SECTION_2_LABLE" | translate }}
+                </div>
+              </a>
+            }
+          </div>
+          <div class="share-link">
+            <a>
+              <mat-icon
+                [svgIcon]="commonService.icons.SHARE"
+                matTooltip="{{
+                  'INSTITUTION_DETAIL.SECTION_2_SHARE_TOOLTIP' | translate
+                }}"
+                (click)="shareContent()"
+              ></mat-icon>
+            </a>
+            <a>
+              <mat-icon
+                [svgIcon]="commonService.icons.ATTATCHMENT"
+                matTooltip="{{
+                  'INSTITUTION_DETAIL.SECTION_2_COPY_TOOLTIP' | translate
+                }}"
+                (click)="commonService.copyUrlToClipboard()"
+              ></mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+  @defer {
+    <mat-tab-group
+      (selectedTabChange)="tabchange($event)"
+      [(selectedIndex)]="tab"
+    >
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="svg-icon-test">
+            <mat-icon [svgIcon]="commonService.icons.CAMERA"></mat-icon>
+          </div>
+          <div class="mobile-hide">
+            {{ "INSTITUTION_DETAIL.SECTION_3_TAB_1" | translate }}
+          </div>
+        </ng-template>
+        <div class="container">
+          <div class="tab-data-main">
+            <div class="title-main-section">
+              {{ photoDetails?.name ? photoDetails?.name : "" }}
+            </div>
+            @if (
+              photoDetails &&
+              photoDetails.institutions_languages &&
+              photoDetails.institutions_languages.length > 0 &&
+              photoDetails.institutions_languages[0].about
+            ) {
+              <p class="editor_content"
+                [innerHTML]="
+                  photoDetails.institutions_languages[0].about | sanitizeHtml
+                "
+              ></p>
+            }
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="svg-icon-test">
+            <mat-icon [svgIcon]="commonService.icons.GALLERY"></mat-icon>
+          </div>
+          <div class="mobile-hide">
+            {{ "INSTITUTION_DETAIL.SECTION_3_TAB_2" | translate }}
+          </div>
+        </ng-template>
+        <div class="container">
+          <div class="tab-data-main">
+            <div class="tab-search-box">
+              <app-custom-search
+                class="white-input"
+                [totalCountData]="
+                  ('COMMON.BEFORE_SEARCH_RESULT' | translate) +
+                  ' ' +
+                  totalCount +
+                  ' ' +
+                  ('COMMON.AFTER_SEARCH_RESULT' | translate)
+                "
+                [initialSearch]="searchResult"
+                [isReadOnly]="isLoading"
+                placeHolder="INSTITUTION_DETAIL.SECTION_3_TAB_2_SEARCH_PLACEHOLDER"
+                (searchResults)="handleSearch($event)"
+              ></app-custom-search>
+              <div class="tab-right-icons">
+                <a
+                  [ngClass]="
+                    this.view === commonService.constantsData.VIEWS.GRID
+                      ? 'active'
+                      : ''
+                  "
+                >
+                  <mat-icon
+                    (click)="viewChange(commonService.constantsData.VIEWS.GRID)"
+                    [svgIcon]="commonService.icons.SORTICON"
+                  ></mat-icon>
+                </a>
+                <a
+                  [ngClass]="
+                    this.view === commonService.constantsData.VIEWS.LIST
+                      ? 'active'
+                      : ''
+                  "
+                >
+                  <mat-icon
+                    (click)="viewChange(commonService.constantsData.VIEWS.LIST)"
+                    [svgIcon]="commonService.icons.SORT"
+                  ></mat-icon>
+                </a>
+                @if (imageList.length > 0) {
+                  <a>
+                    <img
+                      (click)="slideShow()"
+                      aria-hidden="true"
+                      alt=""
+                      [src]="commonService.localStaticLinks.SLIDER_ICON"
+                      class="slider-icon"
+                    />
+                  </a>
+                }
+              </div>
+            </div>
+            @if (tab === 1) {
+              <div class="mt-5">
+                <app-custom-masonry-layout
+                  [isLoading]="isLoading"
+                  [view]="view"
+                  [showDate]="true"
+                  [showDescription]="true"
+                  [showAuthor]="true"
+                  (showDetailEvent)="redirection($event)"
+                  [path]="commonService.environment.WORKS"
+                  [allImageItem]="imageList"
+                  (loadedMasonary)="loadedMasonaryData($event)"
+                />
+                @if (isLoading === true) {
+                  <mat-progress-spinner
+                    color="primary"
+                    mode="indeterminate"
+                    diameter="50"
+                    class="spinnerLoader"
+                  ></mat-progress-spinner>
+                }
+                <div class="show-more-wrapper">
+                  @if (totalCount > imageList.length && !isLoading ) {
+                    @if (
+                      (isShowViewMore &&
+                        view === commonService.constantsData.VIEWS.GRID) ||
+                      (!isLoading &&
+                        view === commonService.constantsData.VIEWS.LIST)
+                    ) {
+                      <button
+                        class="btn gradient-blue-yellow"
+                        (click)="showMore()"
+                      >
+                        {{ "COMMON.SEE_MORE" | translate }}
+                      </button>
+                    }
+                  }
+                  @if (totalCount >= 24) {
+                    <div
+                      aria-hidden="true"
+                      color="primary"
+                      class="btn bg-black"
+                      (click)="scrollTop()"
+                    >
+                      <mat-icon>arrow_upward</mat-icon>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  }
+</div>

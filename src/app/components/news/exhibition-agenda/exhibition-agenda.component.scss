@@ -1,0 +1,91 @@
+@use "mixins" as *;
+@use "variables.scss" as *;
+
+.photo-details-top {
+  .photo-div {
+    text-align: center;
+    width: fit-content;
+    margin: auto;
+  }
+  .photo-details-top-right {
+    width: 60%;
+    .photo-title {
+      color: $black;
+      font-size: var(--base-font-65);
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 700;
+      margin-bottom: 30px;
+      @media (max-width: 767px) {
+        font-size: var(--base-font-30);
+        margin-bottom: 20px;
+      }
+      span {
+        margin-top: 10px;
+        font-weight: normal;
+        display: block;
+        text-transform: none;
+        @media (max-width: 767px) {
+          font-size: var(--base-font-20);
+        }
+      }
+    }
+    .photo-data-date {
+      font-size: var(--base-font-24);
+      font-family: "glacial_indifferenceregular";
+      margin-bottom: 30px;
+      @media (max-width: 767px) {
+        font-size: var(--base-font-20);
+      }
+      span {
+        font-family: "glacial_indifferencebold";
+      }
+    }
+    .photo-data-text {
+      font-size: var(--base-font-20);
+      font-family: "glacial_indifferenceregular";
+      text-transform: uppercase;
+      @media (max-width: 767px) {
+        font-size: var(--base-font-18);
+      }
+      span {
+        font-family: "glacial_indifferencebold";
+        display: block;
+      }
+    }
+  }
+}
+.site-link-icon {
+  display: inline-block;
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.exhibition-sheet-agenda-main {
+  padding: 30px 0 0;
+  .exhibition-sheet-agenda-title {
+    font-family: "glacial_indifferencebold";
+    font-size: var(--base-font-14);
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+  }
+  .exhibition-sheet-agenda-data {
+    span {
+      font-family: "glacial_indifferencebold";
+      margin-top: 20px;
+      display: block;
+    }
+    .activity_title {
+      font-weight: 700;
+    }
+  }
+}
+.margin-left {
+  justify-content: end;
+  display: flex;
+}
+
+.fit_screen_icon {
+  font-size: 24px;
+}

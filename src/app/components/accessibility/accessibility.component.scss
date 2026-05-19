@@ -1,0 +1,16 @@
+::ng-deep.accessibility-data {
+  a {
+    text-decoration: underline !important;
+    color: #11212d;
+  }
+  ul {
+    list-style: disc;
+    margin: 0 0 20px 18px;
+    li {
+      margin-bottom: 3px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

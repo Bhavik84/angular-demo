@@ -1,0 +1,377 @@
+<div class="project-main-wrapper mt-10">
+  <div class="container">
+    <div class="page-top-box">
+      <div
+        class="title-main-section"
+        [innerHTML]="
+          'PHOTO_SEARCH_ENGINE.SECTION_1_TITLE_HTML' | translate | sanitizeHtml
+        "
+      ></div>
+      <div
+        class="project-description-wrapper"
+        [innerHTML]="
+          'PHOTO_SEARCH_ENGINE.SECTION_1_CONTENT_HTML'
+            | translate
+            | sanitizeHtml
+        "
+      ></div>
+    </div>
+    @defer {
+      <div class="custom-search-box mobile-view-filter">
+        <app-custom-search
+          [initialSearch]="searchResult"
+          [totalCountData]="
+            ('COMMON.BEFORE_SEARCH_RESULT' | translate) +
+            ' ' +
+            totalCount +
+            ' ' +
+            ('COMMON.AFTER_SEARCH_RESULT' | translate)
+          "
+          placeHolder="PHOTO_SEARCH_ENGINE.SECTION_2_SEARCH_PLACEHOLDER"
+          (searchResults)="handleSearch($event)"
+        ></app-custom-search>
+        <div class="show-more-wrapper mobile-wrapper-filter">
+          <button class="btn gradient-orange-red" (click)="openDialog(filters)">
+            {{ "PHOTO_SEARCH_ENGINE.SECTION_3_FILTERS" | translate }}
+            <span>
+              <mat-icon>chevron_right</mat-icon>
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="custom-filter-box web-wrapper-filter">
+        <div class="custom-filter-box-list">
+          <app-custom-filter
+            [type]="common.constantsData.WORK_FILTER_TYPE.AUTHORS"
+            [isLoadOnSearch]="false"
+            [isLoading]="dropDownLoader"
+            [isLocalSearch]="true"
+            selectPlaceholder="{{
+              'PHOTO_SEARCH_ENGINE.SECTION_3_FILTER_AUTHORS' | translate
+            }}"
+            [allItems]="authors"
+            [selectedItems]="selectedAuthors"
+            (selectedItemsChange)="receiveDataFromChild($event)"
+          ></app-custom-filter>
+          <app-custom-filter
+            [type]="common.constantsData.WORK_FILTER_TYPE.DECADE"
+            [isLoading]="dropDownLoader"
+            [isLoadOnSearch]="false"
+            [isLocalSearch]="true"
+            selectPlaceholder="{{
+              'PHOTO_SEARCH_ENGINE.SECTION_3_FLITER_DECADES' | translate
+            }}"
+            [allItems]="decades"
+            [selectedItems]="selectedDecades"
+            (selectedItemsChange)="receiveDataFromChild($event)"
+          ></app-custom-filter>
+          <div class="specific-date-list p-relative" [formGroup]="dateForm">
+            <mat-form-field>
+              <input
+                #dateInput
+                formControlName="date"
+                placeholder="{{
+                  'PHOTO_SEARCH_ENGINE.SECTION_3_FILTER_DATES' | translate
+                }}"
+                matInput
+                [disabled]="true"
+                (input)="searchDate(dateInput.value)"
+              />
+            </mat-form-field>
+          </div>
+          <app-custom-filter
+            [isLoading]="dropDownLoader"
+            [type]="common.constantsData.WORK_FILTER_TYPE.TECHNIQUES"
+            [isLoadOnSearch]="false"
+            [isLocalSearch]="true"
+            selectPlaceholder="{{
+              'PHOTO_SEARCH_ENGINE.SECTION_3_FLITER_TECHNIQUES' | translate
+            }}"
+            [allItems]="techniques"
+            [selectedItems]="selectedTechnique"
+            (selectedItemsChange)="receiveDataFromChild($event)"
+          ></app-custom-filter>
+          <app-custom-filter
+            [isLoading]="dropDownLoader"
+            [type]="common.constantsData.WORK_FILTER_TYPE.INSTITUTION"
+            [isLoadOnSearch]="false"
+            [isLocalSearch]="true"
+            selectPlaceholder="{{
+              'PHOTO_SEARCH_ENGINE.SECTION_3_FLITER_INSTITUTION' | translate
+            }}"
+            [allItems]="institutions"
+            [selectedItems]="selectedInstitutions"
+            (selectedItemsChange)="receiveDataFromChild($event)"
+          ></app-custom-filter>
+          <app-custom-filter
+            [isLoading]="dropDownLoader"
+            [type]="common.constantsData.WORK_FILTER_TYPE.RIGHTS"
+            [isLoadOnSearch]="false"
+            [isLocalSearch]="true"
+            selectPlaceholder="{{
+              'PHOTO_SEARCH_ENGINE.SECTION_3_FLITER_RIGHTS' | translate
+            }}"
+            [allItems]="rights"
+            [selectedItems]="selectedRights"
+            (selectedItemsChange)="receiveDataFromChild($event)"
+          ></app-custom-filter>
+
+          <app-custom-filter
+            [isLoading]="dropDownLoader"
+            [type]="common.constantsData.WORK_FILTER_TYPE.TYPE_1_TAG"
+            [isLoadOnSearch]="false"
+            [isLocalSearch]="true"
+            selectPlaceholder="{{
+              'PHOTO_SEARCH_ENGINE.SECTION_3_FLITER_MOVEMENT_ETIQUETES'
+                | translate
+            }}"
+            [allItems]="type1TagsData"
+            [selectedItems]="type1SelectedTags"
+            (selectedItemsChange)="receiveDataFromChild($event)"
+          ></app-custom-filter>
+
+          <app-custom-filter
+            [isLoading]="dropDownLoader"
+            [type]="common.constantsData.WORK_FILTER_TYPE.TYPE_2_TAG"
+            [isLoadOnSearch]="false"
+            [isLocalSearch]="true"
+            selectPlaceholder="{{
+              'PHOTO_SEARCH_ENGINE.SECTION_3_FLITER_GENDER_ETIQUETES'
+                | translate
+            }}"
+            [allItems]="type2TagsData"
+            [selectedItems]="type2SelectedTags"
+            (selectedItemsChange)="receiveDataFromChild($event)"
+          ></app-custom-filter>
+
+          <app-custom-filter
+            [isLoading]="dropDownLoader"
+            [type]="common.constantsData.WORK_FILTER_TYPE.TYPE_3_TAG"
+            [isLoadOnSearch]="false"
+            [isLocalSearch]="true"
+            selectPlaceholder="{{
+              'PHOTO_SEARCH_ENGINE.SECTION_3_FLITER_THEMATIC_ETIQUETES'
+                | translate
+            }}"
+            [allItems]="type3TagsData"
+            [selectedItems]="type3SelectedTags"
+            (selectedItemsChange)="receiveDataFromChild($event)"
+          ></app-custom-filter>
+        </div>
+        <div
+          class="custom-filter-box-list custom-filter-box-list-right dark-custom-filter-box-list"
+        >
+          <app-order-selection
+            (selectionChange)="changeOrder($event)"
+            [activeType]="sortBy"
+          ></app-order-selection>
+          <a [ngClass]="this.view === constants.VIEWS.GRID ? 'active' : ''">
+            <mat-icon
+              (click)="viewChange(constants.VIEWS.GRID)"
+              [svgIcon]="icons.SORTICON"
+            ></mat-icon>
+          </a>
+          <a [ngClass]="this.view === constants.VIEWS.LIST ? 'active' : ''">
+            <mat-icon
+              (click)="viewChange(constants.VIEWS.LIST)"
+              [svgIcon]="icons.SORT"
+            ></mat-icon>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <app-mat-chip
+          class="filter-mat-chips"
+          [items]="selectedItem"
+          (dataEvent)="removeItem($event)"
+        ></app-mat-chip>
+      </div>
+      <div>
+        <app-custom-masonry-layout
+          [isLoading]="isLoading"
+          [view]="view"
+          [path]="path"
+          [allImageItem]="imageList"
+          [showDescription]="true"
+          [showDate]="true"
+          [showBornDeathDate]="false"
+          [showAuthor]="true"
+          (showDetailEvent)="redirectToDetailPage($event)"
+          (loadedMasonary)="loadedMasonaryData($event)"
+        >
+        </app-custom-masonry-layout>
+
+        @if (isLoading) {
+          <mat-progress-spinner
+            color="primary"
+            mode="indeterminate"
+            diameter="50"
+            class="spinnerLoader"
+          ></mat-progress-spinner>
+        }
+        <div class="show-more-wrapper">
+          @if (totalCount > imageList.length && !isLoading) {
+            <button
+              mat-flat-button
+              color="primary"
+              class="btn gradient-orange-red"
+              (click)="showMore()"
+            >
+              {{ "COMMON.SEE_MORE" | translate }}
+            </button>
+          }
+          @if (totalCount >= 24) {
+            <div
+              aria-hidden="true"
+              color="primary"
+              class="btn bg-black"
+              (click)="scrollTop()"
+            >
+              <mat-icon>arrow_upward</mat-icon>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>
+<ng-template #filters>
+  <div class="custom-filter-box">
+    <div class="custom-filter-box-list">
+      <app-custom-filter
+        [type]="common.constantsData.WORK_FILTER_TYPE.AUTHORS"
+        [isLoadOnSearch]="false"
+        [isLoading]="dropDownLoader"
+        [isLocalSearch]="true"
+        selectPlaceholder="{{
+          'PHOTO_SEARCH_ENGINE.SECTION_3_FILTER_AUTHORS' | translate
+        }}"
+        [allItems]="authors"
+        [selectedItems]="selectedAuthors"
+        (selectedItemsChange)="receiveDataFromChild($event)"
+      ></app-custom-filter>
+      <app-custom-filter
+        [type]="common.constantsData.WORK_FILTER_TYPE.DECADE"
+        [isLoading]="dropDownLoader"
+        [isLoadOnSearch]="false"
+        [isLocalSearch]="true"
+        selectPlaceholder="{{
+          'PHOTO_SEARCH_ENGINE.SECTION_3_FLITER_DECADES' | translate
+        }}"
+        [allItems]="decades"
+        [selectedItems]="selectedDecades"
+        (selectedItemsChange)="receiveDataFromChild($event)"
+      ></app-custom-filter>
+      <div class="specific-date-list p-relative" [formGroup]="dateForm">
+        <mat-form-field>
+          <input
+            #dateInput
+            formControlName="date"
+            placeholder="{{
+              'PHOTO_SEARCH_ENGINE.SECTION_3_FILTER_DATES' | translate
+            }}"
+            matInput
+            [disabled]="true"
+            (input)="searchDate(dateInput.value)"
+          />
+        </mat-form-field>
+      </div>
+      <app-custom-filter
+        [isLoading]="dropDownLoader"
+        [type]="common.constantsData.WORK_FILTER_TYPE.TECHNIQUES"
+        [isLoadOnSearch]="false"
+        [isLocalSearch]="true"
+        selectPlaceholder="{{
+          'PHOTO_SEARCH_ENGINE.SECTION_3_FLITER_TECHNIQUES' | translate
+        }}"
+        [allItems]="techniques"
+        [selectedItems]="selectedTechnique"
+        (selectedItemsChange)="receiveDataFromChild($event)"
+      ></app-custom-filter>
+      <app-custom-filter
+        [isLoading]="dropDownLoader"
+        [type]="common.constantsData.WORK_FILTER_TYPE.INSTITUTION"
+        [isLoadOnSearch]="false"
+        [isLocalSearch]="true"
+        selectPlaceholder="{{
+          'PHOTO_SEARCH_ENGINE.SECTION_3_FLITER_INSTITUTION' | translate
+        }}"
+        [allItems]="institutions"
+        [selectedItems]="selectedInstitutions"
+        (selectedItemsChange)="receiveDataFromChild($event)"
+      ></app-custom-filter>
+      <app-custom-filter
+        [isLoading]="dropDownLoader"
+        [type]="common.constantsData.WORK_FILTER_TYPE.RIGHTS"
+        [isLoadOnSearch]="false"
+        [isLocalSearch]="true"
+        selectPlaceholder="{{
+          'PHOTO_SEARCH_ENGINE.SECTION_3_FLITER_RIGHTS' | translate
+        }}"
+        [allItems]="rights"
+        [selectedItems]="selectedRights"
+        (selectedItemsChange)="receiveDataFromChild($event)"
+      ></app-custom-filter>
+
+      <app-custom-filter
+        [isLoading]="dropDownLoader"
+        [type]="common.constantsData.WORK_FILTER_TYPE.TYPE_1_TAG"
+        [isLoadOnSearch]="false"
+        [isLocalSearch]="true"
+        selectPlaceholder="{{
+          'PHOTO_SEARCH_ENGINE.SECTION_3_FLITER_MOVEMENT_ETIQUETES' | translate
+        }}"
+        [allItems]="type1TagsData"
+        [selectedItems]="type1SelectedTags"
+        (selectedItemsChange)="receiveDataFromChild($event)"
+      ></app-custom-filter>
+
+      <app-custom-filter
+        [isLoading]="dropDownLoader"
+        [type]="common.constantsData.WORK_FILTER_TYPE.TYPE_2_TAG"
+        [isLoadOnSearch]="false"
+        [isLocalSearch]="true"
+        selectPlaceholder="{{
+          'PHOTO_SEARCH_ENGINE.SECTION_3_FLITER_GENDER_ETIQUETES' | translate
+        }}"
+        [allItems]="type2TagsData"
+        [selectedItems]="type2SelectedTags"
+        (selectedItemsChange)="receiveDataFromChild($event)"
+      ></app-custom-filter>
+
+      <app-custom-filter
+        [isLoading]="dropDownLoader"
+        [type]="common.constantsData.WORK_FILTER_TYPE.TYPE_3_TAG"
+        [isLoadOnSearch]="false"
+        [isLocalSearch]="true"
+        selectPlaceholder="{{
+          'PHOTO_SEARCH_ENGINE.SECTION_3_FLITER_THEMATIC_ETIQUETES' | translate
+        }}"
+        [allItems]="type3TagsData"
+        [selectedItems]="type3SelectedTags"
+        (selectedItemsChange)="receiveDataFromChild($event)"
+      ></app-custom-filter>
+    </div>
+    <div class="custom-filter-box-list">
+      <app-order-selection
+        (selectionChange)="changeOrder($event)"
+        [activeType]="sortBy"
+      ></app-order-selection>
+      <div class="list-view-icon">
+        <a [ngClass]="this.view === constants.VIEWS.GRID ? 'active' : ''">
+          <mat-icon
+            [svgIcon]="icons.SORTICON"
+            (click)="viewChange(constants.VIEWS.GRID)"
+          ></mat-icon>
+        </a>
+        <a [ngClass]="this.view === constants.VIEWS.LIST ? 'active' : ''">
+          <mat-icon
+            [svgIcon]="icons.SORT"
+            (click)="viewChange(constants.VIEWS.LIST)"
+          ></mat-icon>
+        </a>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,247 @@
+<div class="project-main-wrapper research-top-box pt-10 mt-0 mb-0">
+  <div class="container">
+    <div class="title-main-section">
+      {{ "CALENDAR_SEARCH.SECTION_1_TITLE" | translate }}
+    </div>
+    <div
+      class="project-description-wrapper"
+      [innerHTML]="
+        'CALENDAR_SEARCH.SECTION_1_CONTENT_HTML' | translate | sanitizeHtml
+      "
+    ></div>
+  </div>
+</div>
+  <div class="container" #tabScrollContainer>
+    <div class="portal-data flex-wrapper-portal">
+      <div class="row">
+        <div class="w-100">
+              <div class="calendar-search-main">
+                <div class="calendar-search-left">
+                  <mat-calendar
+                    #calendar
+                    ngSkipHydration
+                    (selectedChange)="onSelectedChange($event)"
+                    [selected]="selectedDateRange"
+                    [startAt]="startDate"
+                    (monthSelected)="handlePreviousAndNextMonth()"
+                  >
+                  </mat-calendar>
+                  <div class="calendar-search-accordion">
+                    <mat-accordion>
+                      @if (selectedDateRange && (selectedDateRange.start || selectedDateRange.end)) {
+                        <div class="mt-1 show-more-wrapper reset-button">
+                          <button (click)="resetFilters()">{{ "CALENDAR_SEARCH.CLEAR_SELECTION_BTN" | translate }}</button>
+                        </div>
+                      }
+                      <app-custom-filter
+                        class="mt-1 block-display"
+                        [allItems]="types"
+                        [type]="common.constantsData.CALENDAR_FILTER_TYPE.TYPE"
+                        [isLoadOnSearch]="false"
+                        [isLocalSearch]="true"
+                        [selectedItems]="selectedType"
+                        selectPlaceholder="{{
+                          'CALENDAR_SEARCH.SECTION_2_FILTER_TYPE' | translate
+                        }}"
+                        [isLoading]="dropDownLoader"
+                        (selectedItemsChange)="receiveDataFromChild($event)"
+                      ></app-custom-filter>
+                      <app-custom-filter
+                        class="mt-1 block-display"
+                        [allItems]="segment"
+                        [type]="
+                          common.constantsData.CALENDAR_FILTER_TYPE.SEGMENT
+                        "
+                        [isLoadOnSearch]="false"
+                        [isLocalSearch]="true"
+                        [selectedItems]="selectedSegement"
+                        selectPlaceholder="{{
+                          'CALENDAR_SEARCH.SECTION_2_FILTER_SEGMENT' | translate
+                        }}"
+                        [isLoading]="dropDownLoader"
+                        (selectedItemsChange)="receiveDataFromChild($event)"
+                      ></app-custom-filter>
+                    </mat-accordion>
+                  </div>
+                </div>
+                <div class="calendar-search-right">
+                  <div
+                    class="research-data-box centerclass custom-scrollbar"
+                    #scrollRefTab1
+                  >
+                    @for (event of activityList; track $index) {
+                      <div
+                        class="research-data-list"
+                        [id]="event.slug"
+                        tabindex="0"
+                      >
+                        <div class="research-data-img">
+                          <img
+                            appImageError
+                            [path]="common.environment.ACTIVITIES"
+                            imageName="{{
+                              event &&
+                                event.activities_language_images &&
+                                event.activities_language_images.length > 0 &&
+                                event.activities_language_images[0].url
+                            }}"
+                            width="300"
+                            height=""
+                            alt=""
+                            (error)="directive.errorHandle($event)"
+                          />
+                        </div>
+                        <mat-card class="research-data">
+                          <mat-card-header>
+                            <mat-card-title-group>
+                              @if (
+                                event.activities_type &&
+                                event.activities_type
+                                  .activities_types_languages &&
+                                event.activities_type.activities_types_languages
+                                  .length > 0 &&
+                                event.activities_type
+                                  .activities_types_languages[0].name
+                              ) {
+                                <mat-card-subtitle>
+                                  {{
+                                    event.activities_type
+                                      .activities_types_languages[0].name
+                                  }}
+                                </mat-card-subtitle>
+                              }
+                              @if (
+                                event.activities_languages &&
+                                event.activities_languages.length > 0 &&
+                                event.activities_languages[0].name
+                              ) {
+                                <mat-card-title>
+                                  @if (
+                                    event.activities_languages &&
+                                    event.activities_languages.length > 0 &&
+                                    event.activities_languages[0].name
+                                  ) {
+                                    @if (event?.url && event.url.length > 0) {
+                                      <a
+                                        [href]="common.convertLinkURL(event.url)"
+                                        target="_blank"
+                                        class="title-url"
+                                        rel="noopener noreferrer"
+                                        (click)="$event.stopPropagation()"
+                                      >
+                                        {{ event.activities_languages[0].name }}
+                                      </a>
+                                    }@else {
+                                      {{ event.activities_languages[0].name }}
+                                    }
+                                  }
+                                </mat-card-title>
+                              }
+                            </mat-card-title-group>
+                          </mat-card-header>
+
+                          <mat-card-content class="m-0">
+                            <div class="activity_details">
+                              <div class="activity_detail_group">
+                                @if(event?.organizer && event.organizer.length > 0) {
+                                  <div class="activity_detail_item">
+                                    <span class="label">{{ "CALENDAR_SEARCH.ORGANIZER_LABLE" | translate | titlecase }}:</span>
+                                    <span class="value">{{ event?.organizer && event.organizer.length > 0 ? event.organizer : "" }}</span>
+                                  </div>
+                                }
+                                @if(event.address && event.address.length > 0){
+                                  <div class="activity_detail_item">
+                                    <span class="label">{{"CALENDAR_SEARCH.WHERE_LABLE" | translate | titlecase}}:</span>
+                                    <span class="value">{{ event.address && event.address.length > 0 ? event.address : "" }}</span>
+                                  </div>
+                                }
+                                @if((event.activities_languages && event.activities_languages.length > 0 && event.activities_languages[0].when) || event.initial_date || event.final_date) {
+                                  <div class="activity_detail_item">
+                                    <span class="label">{{"CALENDAR_SEARCH.WHEN_LABLE" | translate | titlecase }}:</span>
+                                    <span class="value">
+                                      @if (event.activities_languages && event.activities_languages.length > 0 && event.activities_languages[0].when) {
+                                        {{ event.activities_languages[0].when }}
+                                      } @else {
+                                        @if (event.initial_date && event.final_date && event.initial_date === event.final_date) {
+                                          {{common.formatDateTo(event.initial_date,true)}}
+                                        } @else {
+                                          @if (event.initial_date) {
+                                            {{"CALENDAR_SEARCH.FROM_LABEL" | translate | titlecase}}
+                                            {{ common.formatDateTo(event.initial_date,true) }}
+                                          }
+                                          @if (event.final_date && event.initial_date !== event.final_date) {
+                                            {{ "CALENDAR_SEARCH.TO_LABEL" | translate | titlecase }}
+                                            {{common.formatDateTo(event.final_date,true)}}
+                                          }
+                                        }
+                                      }</span>
+                                  </div>
+                                }
+                                @if(event.activities_segment && event.activities_segment.activities_segments_languages && event.activities_segment.activities_segments_languages[0].name.length > 0){
+                                  <div class="activity_detail_item">
+                                    <span class="label">{{"CALENDAR_SEARCH.PUBLIC_LABLE" | translate | titlecase }}:</span>
+                                    <span class="value">
+                                      @if (event.activities_segment && event.activities_segment.activities_segments_languages) {
+                                        {{ event.activities_segment.activities_segments_languages[0].name }}
+                                      }
+                                    </span>
+                                  </div>
+                                }
+                              </div>
+                            </div>
+                          <p
+                            [ngClass]="{ 'activity-clamped-text': !expandedIds.has(event.id) }"
+                            (click)="toggleExpand(event.id)"
+                            appExpandableCursor
+                            [isExpanded]="expandedIds.has(event.id)">
+                            {{ event.activities_languages[0].description }}
+                          </p>
+
+                          </mat-card-content>
+                        </mat-card>
+                      </div>
+                    }
+                    @if (isLoading) {
+                      <mat-progress-spinner
+                        color="primary"
+                        mode="indeterminate"
+                        diameter="50"
+                        class="spinnerLoader"
+                      ></mat-progress-spinner>
+                    }
+                    @if (activityList.length === 0 && !isLoading) {
+                      <div class="text-center mt-5">
+                        <img
+                          class="no-data-light"
+                          [src]="common.localStaticLinks.NO_DATA"
+                          alt=""
+                        />
+                        <img
+                          class="no-data-dark"
+                          [src]="common.localStaticLinks.NO_DATA_DARK"
+                          alt=""
+                        />
+                      </div>
+                    }
+
+                    @if (
+                      activityTotalCount > activityList.length && !isLoading
+                    ) {
+                      <div class="show-more-wrapper">
+                        <button
+                          class="btn gradient-red-yellow"
+                          (click)="showMoreActivity()"
+                          mat-flat-button
+                          color="primary"
+                        >
+                          {{ "COMMON.VIEW_MORE" | translate }}
+                        </button>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,24 @@
+<div class="project-main-wrapper mt-10">
+  <div class="container">
+    <div
+      class="title-main-section"
+      [innerHTML]="
+        'PHOTOGRAPHY_PLAN.SECTION_1_TITLE_HTML' | translate | sanitizeHtml
+      "
+    ></div>
+    <div
+      [innerHTML]="
+        'PHOTOGRAPHY_PLAN.SECTION_1_CONTENT_HTML' | translate | sanitizeHtml
+      "
+    ></div>
+    <div class="photography-plan-btn">
+      <a
+        target="_blank"
+        class="btn gradient-blue-green"
+        [href]="common.staticLinks.PHOTOGRAPHY_PLAN"
+      >
+        {{ "PHOTOGRAPHY_PLAN.SECTION_1_BUTTON" | translate }}
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<div class="project-main-wrapper mt-10">
+  <div class="container">
+    <div class="page-top-box">
+      <div
+        class="title-main-section"
+        [innerHTML]="
+          'BEHIND_THE_CAMERA.SECTION_1_TITLE_HTML' | translate | sanitizeHtml
+        "
+      ></div>
+      <div
+        class="project-description-wrapper"
+        [innerHTML]="
+          'BEHIND_THE_CAMERA.SECTION_1_CONTENT_HTML' | translate | sanitizeHtml
+        "
+      ></div>
+    </div>
+    <div class="custom-search-box mobile-view-filter">
+      <app-custom-search
+        [totalCountData]="
+          ('COMMON.BEFORE_SEARCH_RESULT' | translate) +
+          ' ' +
+          totalCount +
+          ' ' +
+          ('COMMON.AFTER_SEARCH_RESULT' | translate)
+        "
+        placeHolder="BEHIND_THE_CAMERA.SECTION_2_SEARCH_PLACEHOLDER"
+        [initialSearch]="searchResult"
+        (searchResults)="search($event)"
+      ></app-custom-search>
+    </div>
+    @defer {
+      <app-custom-masonry-layout
+        (showDetailEvent)="redirectToDetailPage($event)"
+        [isLoading]="isLoading"
+        [path]="commonService.environment.ARTICLES"
+        view="grid"
+        [allImageItem]="imageList"
+        [showDescription]="false"
+        [showDate]="false"
+      />
+      @if (isLoading) {
+        <mat-progress-spinner
+          color="primary"
+          mode="indeterminate"
+          diameter="50"
+          class="spinnerLoader"
+        ></mat-progress-spinner>
+      }
+      <div class="show-more-wrapper">
+        @if (totalCount > imageList.length && !isLoading) {
+          <button
+            mat-flat-button
+            color="primary"
+            class="btn gradient-orange-red"
+            (click)="showMore()"
+          >
+            {{ "COMMON.SEE_MORE" | translate }}
+          </button>
+        }
+        @if (totalCount >= 24) {
+          <div
+            aria-hidden="true"
+            color="primary"
+            class="btn bg-black"
+            (click)="scrollTop()"
+          >
+            <mat-icon>arrow_upward</mat-icon>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

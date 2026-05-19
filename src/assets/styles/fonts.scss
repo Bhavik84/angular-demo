@@ -1,0 +1,88 @@
+@font-face {
+  font-family: "glacial_indifferencebold";
+  src:
+    url("../../assets/fonts/glacialindifference-bold-webfont.woff2")
+      format("woff2"),
+    url("../../assets/fonts/glacialindifference-bold-webfont.woff")
+      format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "glacial_indifferenceregular";
+  src:
+    url("../../assets/fonts/glacialindifference-regular-webfont.woff2")
+      format("woff2"),
+    url("../../assets/fonts/glacialindifference-regular-webfont.woff")
+      format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "catchy_magerregular";
+  src:
+    url("../../assets/fonts/catchymager-normal-webfont.woff2") format("woff2"),
+    url("../../assets/fonts/catchymager-normal-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "CocoGothic-Light_trial";
+  font-style: normal;
+  font-weight: normal;
+  src:
+    local("CocoGothic-Light_trial"),
+    url("../../assets/fonts/CocoGothic-Light_trial.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Coco Gothic";
+  src:
+    url("../fonts/CocoGothic.woff2") format("woff2"),
+    url("../fonts/CocoGothic.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "coco_gothicbold";
+  src:
+    url("../fonts/coco-gothic.bold-webfont.woff2") format("woff2"),
+    url("../fonts/coco-gothic.bold-webfont.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Catchy";
+  src:
+    url("../../assets/fonts/catchymager-normal-webfont.woff2") format("woff2"),
+    url("../../assets/fonts/catchymager-normal-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "CocoGothic";
+  src:
+    local("CocoGothic-Light_trial"),
+    url("../../assets/fonts/CocoGothic-Light_trial.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GlacialIndifference";
+  src:
+    url("../../assets/fonts/glacialindifference-regular-webfont.woff2")
+      format("woff2"),
+    url("../../assets/fonts/glacialindifference-regular-webfont.woff")
+      format("woff");
+  font-weight: normal;
+  font-style: normal;
+}

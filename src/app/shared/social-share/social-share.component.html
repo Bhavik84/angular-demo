@@ -1,0 +1,47 @@
+<p class="title-section">{{ "COMMON.SHARE_LABEL" | translate }}</p>
+
+<div class="button-section">
+  <a
+    (click)="shareData('Facebook')"
+    (keydown.enter)="shareData('Facebook')"
+    (keydown.space)="shareData('Facebook')"
+    tabindex="0"
+  >
+    <mat-icon [svgIcon]="icons.FACEBOOK_SHARE"></mat-icon>
+  </a>
+  <a
+    (click)="shareData('Whatsapp')"
+    (keydown.enter)="shareData('Whatsapp')"
+    (keydown.space)="shareData('Whatsapp')"
+    tabindex="0"
+  >
+    <mat-icon [svgIcon]="icons.WHATSAPP_SHARE"></mat-icon>
+  </a>
+  <a
+    (click)="shareData('Twitter')"
+    (keydown.enter)="shareData('Twitter')"
+    (keydown.space)="shareData('Twitter')"
+    tabindex="0"
+  >
+    <mat-icon [svgIcon]="icons.TWITTER_SHARE"></mat-icon>
+  </a>
+  <!-- <a (click)="shareData('Instgram')">
+    <mat-icon [svgIcon]="icons.INSTGRAM_SHARE"></mat-icon>
+  </a> -->
+  <a
+    (click)="shareData('Email')"
+    (keydown.enter)="shareData('Email')"
+    (keydown.space)="shareData('Email')"
+    tabindex="0"
+  >
+    <mat-icon [svgIcon]="icons.EMAIL_SHARE"></mat-icon>
+  </a>
+</div>
+<button
+  class="btn gradient-red-yellow cancel-button"
+  mat-flat-button
+  color="primary"
+  mat-dialog-close
+>
+  {{ "COMMON.CLOSE_LABEL" | translate }}
+</button>

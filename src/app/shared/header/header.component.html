@@ -1,0 +1,410 @@
+<header>
+  <div class="header-wrapper">
+    @if (showmenu) {
+      <div class="top-header">
+        {{ "HEADER.LABLE" | translate }}
+      </div>
+    }
+    <nav>
+      <div class="container-fluid pl-0">
+        <div class="header-menu">
+          <div class="logo-wrapper">
+            <a [routerLink]="['/']">
+              <img [src]="commonService.localStaticLinks.TOP_LOGO_SVG" alt="logo" />
+            </a>
+          </div>
+
+          <ul
+            class="main-menu"
+            [ngClass]="showVerticleMenu ? 'showVerticleMenu' : ''"
+          >
+            <li
+              class="mobile-logo"
+              routerLinkActive="active"
+              aria-hidden="true"
+              (click)="showVerticleMenu = false"
+            >
+              <a [routerLink]="['/']" (click)="setActive('')">
+                <img
+                  [src]="commonService.localStaticLinks.TOP_LOGO_SVG"
+                  alt="logo"
+                />
+              </a>
+            </li>
+            @if (showmenu) {
+              <li>
+                <a
+                  [routerLink]="[commonService.getRoute('PROJECT')]"
+                  [ngClass]="{ active: isActiveProjectMenu() }"
+                  (click)="setActive('project')"
+                >
+                  {{ "HEADER.MENU_1" | translate }}
+                </a>
+                <div class="sub-menu">
+                  <div class="sub-menu-flex">
+                    <div class="title-wrapper-submenu">
+                      {{ "HEADER.MENU_1" | translate }}
+                    </div>
+                    <div class="menu-inner">
+                      <ul>
+                        <li>
+                          <a
+                            [routerLink]="[commonService.getRoute('PROJECT')]"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            routerLinkActive="active"
+                            (click)="showVerticleMenu = false"
+                            >{{ "HEADER.MENU_1_SUBMENU_1" | translate }}</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            [routerLink]="[
+                              commonService.getRoute('NEW_ACQUISITIONS')
+                            ]"
+                            routerLinkActive="active"
+                            (click)="setActive(commonService.constantsData.PAGE_KEYS.NEW_ACQUISITIONS)"
+                            >{{ "HEADER.MENU_1_SUBMENU_2" | translate }}</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            [routerLink]="[
+                              commonService.getRoute('PHOTOGRAPHY_PLAN')
+                            ]"
+                            routerLinkActive="active"
+                            (click)="showVerticleMenu = false"
+                            >{{ "HEADER.MENU_1_SUBMENU_3" | translate }}</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <a
+                  [routerLink]="[commonService.getRoute('PHOTO_SEARCHER')]"
+                  [ngClass]="{ active: isActiveCollectionMenu() }"
+                  (click)="
+                    setActive(commonService.constantsData.PAGE_KEYS.COLLECTIONS)
+                  "
+                  >{{ "HEADER.MENU_2" | translate }}</a
+                >
+                <div class="sub-menu">
+                  <div class="sub-menu-flex">
+                    <div class="title-wrapper-submenu">
+                      {{ "HEADER.MENU_2" | translate }}
+                    </div>
+                    <div class="menu-inner">
+                      <ul>
+                        <li>
+                          <a
+                            [routerLink]="[
+                              commonService.getRoute('PHOTO_SEARCHER')
+                            ]"
+                            routerLinkActive="active"
+                            (click)="
+                              setActive(
+                                commonService.constantsData.PAGE_KEYS
+                                  .PHOTO_SEARCHER
+                              )
+                            "
+                            >{{ "HEADER.MENU_2_SUBMENU_1" | translate }}</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            [routerLink]="[
+                              commonService.getRoute('PHOTOGRAPHER_SEARCHER')
+                            ]"
+                            routerLinkActive="active"
+                            (click)="
+                              setActive(
+                                commonService.constantsData.PAGE_KEYS
+                                  .PHOTOGRAPHER
+                              )
+                            "
+                            >{{ "HEADER.MENU_2_SUBMENU_2" | translate }}</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            [routerLink]="[
+                              commonService.getRoute('BACKGROUND_SEARCHER')
+                            ]"
+                            routerLinkActive="active"
+                            (click)="
+                              setActive(
+                                commonService.constantsData.PAGE_KEYS.FUNDS
+                              )
+                            "
+                            >{{ "HEADER.MENU_2_SUBMENU_3" | translate }}</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            [routerLink]="[
+                              commonService.getRoute('INSTITUTION_SEARCHER')
+                            ]"
+                            routerLinkActive="active"
+                            (click)="
+                              setActive(
+                                commonService.constantsData.PAGE_KEYS
+                                  .INSTITUTION
+                              )
+                            "
+                            >{{ "HEADER.MENU_2_SUBMENU_4" | translate }}</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <a
+                  [routerLink]="[commonService.getRoute('RESEARCH')]"
+                  [ngClass]="{ active: isActiveResearchMenu() }"
+                  (click)="setActive(commonService.constantsData.PAGE_KEYS.RESEARCH)"
+                  >{{ "HEADER.MENU_3" | translate }}</a
+                >
+                <div class="sub-menu">
+                  <div class="sub-menu-flex">
+                    <div class="title-wrapper-submenu">
+                      {{ "HEADER.MENU_3" | translate }}
+                    </div>
+                    <div class="menu-inner">
+                      <ul>
+                        <li>
+                          <a
+                            [routerLink]="[commonService.getRoute('RESEARCH')]"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            routerLinkActive="active"
+                            (click)="setActive(commonService.constantsData.PAGE_KEYS.RESEARCH)"
+                            >{{ "HEADER.MENU_3_SUBMENU_1" | translate }}</a
+                          >
+                        </li>
+
+                        <li>
+                          <a
+                            [routerLink]="[commonService.getRoute('GLOSSARI')]"
+                            routerLinkActive="active"
+                            (click)="
+                              setActive(
+                                commonService.constantsData.PAGE_KEYS.GLOSSARY
+                              )
+                            "
+                            >{{ "HEADER.MENU_3_SUBMENU_2" | translate }}</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <a
+                  [routerLink]="[
+                    commonService.getRoute('CALENDAR_SEARCH_ENGINE')
+                  ]"
+                  [ngClass]="{ active: isActiveNewsMenu() }"
+                  (click)="
+                    setActive(commonService.constantsData.PAGE_KEYS.NEWS)
+                  "
+                  >{{ "HEADER.MENU_4" | translate }}</a
+                >
+                <div class="sub-menu">
+                  <div class="sub-menu-flex">
+                    <div class="title-wrapper-submenu">
+                      {{ "HEADER.MENU_4" | translate }}
+                    </div>
+                    <div class="menu-inner">
+                      <ul>
+                        <li>
+                          <a
+                            [routerLink]="[
+                              commonService.getRoute('CALENDAR_SEARCH_ENGINE')
+                            ]"
+                            routerLinkActive="active"
+                            (click)="
+                              setActive(
+                                commonService.constantsData.PAGE_KEYS.AGENDA
+                              )
+                            "
+                            >{{ "HEADER.MENU_4_SUBMENU_1" | translate }}</a
+                          >
+                        </li>
+                        <li>
+                          <a
+                            [routerLink]="[commonService.getRoute('BLOG')]"
+                            routerLinkActive="active"
+                            (click)="
+                              setActive(
+                                commonService.constantsData.PAGE_KEYS.BLOG
+                              )
+                            "
+                            >{{ "HEADER.MENU_4_SUBMENU_2" | translate }}</a
+                          >
+                        </li>
+                        @if(!environment.production){
+                          <li>
+                            <a
+                              [routerLink]="[
+                                commonService.getRoute('BEHIND_THE_CAMERA')
+                              ]"
+                              routerLinkActive="active"
+                              (click)="
+                                setActive(
+                                  commonService.constantsData.PAGE_KEYS
+                                    .BEHIND_THE_CAMERA
+                                )
+                              "
+                              >{{ "HEADER.MENU_4_SUBMENU_3" | translate }}</a
+                            >
+                          </li>
+                        }
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </li>
+                <li>
+                  <a
+                    [routerLink]="[commonService.getRoute('VIRTUAL_EXHIBITION')]"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    routerLinkActive="active"
+                    (click)="setActive('virtual-exhibition')"
+                    >{{ "HEADER.MENU_5" | translate }}
+                  </a>
+                </li>
+            }
+            <li class="social-language-box">
+              <div class="right-nav">
+                <div class="dropdown-font-wrapper">
+                  <div class="language-icon"></div>
+                  <div class="dropdown">
+                    <mat-form-field>
+                      <mat-select
+                        matNativeControl
+                        [(value)]="selectLanguage"
+                        (selectionChange)="onLanguageChange()"
+                        panelClass="custom-language-dropdown header-mobile-language-dropdown"
+                      >
+                        @if (langArray && langArray.length > 0) {
+                          @for (item of langArray; track $index) {
+                            <mat-option [value]="item.id_language">{{
+                              item.name
+                            }}</mat-option>
+                          }
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="font-wrapper-icon-link">
+                    <mat-icon [svgIcon]="icons.FONT_SIZE"></mat-icon>
+                    <div class="font-wrapper-list">
+                      <a
+                        class="normal-font"
+                        aria-hidden="true"
+                        [ngClass]="increment === 0 ? 'selectedFont' : ''"
+                        (click)="changeFontSize(0)"
+                        >A</a
+                      >
+                      <a
+                        class="big-font"
+                        aria-hidden="true"
+                        [ngClass]="
+                          increment === incrementFont ? 'selectedFont' : ''
+                        "
+                        (click)="changeFontSize(incrementFont)"
+                        >A</a
+                      >
+                    </div>
+                  </div>
+                  <div class="font-wrapper-icon-link">
+                    <button
+                      mat-icon-button
+                      aria-label="Dark Light Mode selector"
+                      (click)="toggleMode2()"
+                      class="theme-button dark_btn"
+                    >
+                      <mat-icon [svgIcon]="icons.DARK_MODE"> </mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <div class="social-wrapper"></div>
+              </div>
+            </li>
+          </ul>
+
+          <div class="right-nav">
+            <div class="dropdown-font-wrapper">
+              <div class="language-icon"></div>
+              <div class="dropdown">
+                <mat-form-field>
+                  <mat-select
+                    #languageSelect
+                    matNativeControl
+                    [(value)]="selectLanguage"
+                    (selectionChange)="onLanguageChange()"
+                    panelClass="custom-language-dropdown"
+                  >
+                    @if (langArray && langArray.length > 0) {
+                      @for (item of langArray; track $index) {
+                        <mat-option [value]="item.id_language">{{
+                          item.name
+                        }}</mat-option>
+                      }
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="font-wrapper-icon-link">
+                <mat-icon [svgIcon]="icons.FONT_SIZE"></mat-icon>
+                <div class="font-wrapper-list">
+                  <a
+                    class="normal-font"
+                    aria-hidden="true"
+                    [ngClass]="increment === 0 ? 'selectedFont' : ''"
+                    (click)="changeFontSize(0)"
+                    >A</a
+                  >
+                  <a
+                    class="big-font"
+                    aria-hidden="true"
+                    [ngClass]="
+                      increment === incrementFont ? 'selectedFont' : ''
+                    "
+                    (click)="changeFontSize(incrementFont)"
+                    >A</a
+                  >
+                </div>
+              </div>
+              <div class="font-wrapper-icon-link">
+                <button
+                  mat-icon-button
+                  aria-label="Dark Light Mode selector"
+                  (click)="toggleMode2()"
+                  class="theme-button dark_btn"
+                >
+                  <mat-icon [svgIcon]="icons.DARK_MODE"> </mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="social-wrapper"></div>
+          </div>
+          <div
+            class="hamburger"
+            [ngClass]="showVerticleMenu ? 'animate-burger' : ''"
+            (click)="showVerticleMenu = !showVerticleMenu"
+            aria-hidden="true"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>

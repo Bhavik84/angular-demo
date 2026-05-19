@@ -1,0 +1,219 @@
+@use "mixins" as *;
+@use "variables.scss" as *;
+
+.photo-details-top {
+  .photo-div {
+    text-align: center;
+    width: fit-content;
+    margin: auto;
+  }
+  .photo-data {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    .photo-data-box {
+      width: 50%;
+      .photo-data-border {
+        border-left: 1px solid $black;
+        padding-left: 20px;
+      }
+      .photo-data-list {
+        &:last-child {
+          .photo-data-list-title {
+            margin-bottom: 0;
+          }
+        }
+        .photo-data-list-title {
+          font-size: var(--base-font-14);
+          font-family: "glacial_indifferencebold";
+          line-height: 24px;
+          margin-bottom: 30px;
+          letter-spacing: 2px;
+          span {
+            font-size: var(--base-font-14);
+            font-family: "glacial_indifferenceregular";
+            display: block;
+            letter-spacing: 0px;
+          }
+        }
+      }
+    }
+  }
+  .photo-details-top-right {
+    .photo-title {
+      color: $black;
+      font-size: var(--base-font-65);
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 700;
+      margin-bottom: 30px;
+      line-height: 65px;
+      text-transform: initial;
+      @media (max-width: 767px) {
+        font-size: var(--base-font-30);
+        line-height: 35px;
+        margin-bottom: 20px;
+      }
+    }
+  }
+}
+.title-main-section {
+  font-size: var(--base-font-45) !important;
+  font-weight: 500 !important;
+}
+
+.filter-section {
+  padding: 32px 0px;
+
+  @media (max-width: 991px) {
+    padding: 20px 0px;
+  }
+
+  .filter-flex-wrapper {
+    margin: 0 auto;
+    width: 100%;
+    gap: 100px;
+    display: flex;
+
+    @media (max-width: 767px) {
+      flex-direction: column;
+    }
+
+    .filter-left-wrapper {
+      @include flex-center-center;
+      gap: 10px;
+      background-color: $white;
+      padding: 0px 39px;
+      border-radius: 50px;
+      min-height: 50px;
+      width: 22%;
+      @media (max-width: 767px) {
+        width: 100%;
+      }
+
+      label {
+        line-height: 15px;
+        color: $dark-blue;
+        font-weight: $weight-700;
+        font-size: var(--base-font-16);
+        white-space: nowrap;
+      }
+
+      span {
+        a {
+          @include flex-center-center;
+        }
+
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+
+    .filter-right-wrapper {
+      width: 80%;
+      position: relative;
+
+      ::-ms-input-placeholder {
+        color: $black;
+        opacity: 1;
+      }
+
+      ::placeholder {
+        color: $black;
+        opacity: 1;
+      }
+
+      input {
+        font-size: var(--base-font-16);
+        padding: 0px 50px 0 25px;
+        background-color: $white;
+        border-radius: 50px;
+        min-height: 50px;
+        width: 100%;
+        border: none;
+      }
+
+      .search-icon {
+        position: absolute;
+        bottom: 10px;
+        right: 20px;
+
+        svg {
+          width: 25px;
+          height: 25px;
+        }
+      }
+    }
+  }
+}
+.filter-option-link {
+  color: $dark-bg-light-grey !important;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.margin-left {
+  justify-content: end;
+  display: flex;
+}
+
+.show-more-wrapper {
+  .btn {
+    mat-icon {
+      font-size: 24px;
+    }
+  }
+}
+
+.photo-details-text {
+  font-size: var(--base-font-14);
+  line-height: initial;
+  margin-top: 25px;
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    span {
+      width: calc(100% - 40px);
+    }
+  }
+}
+.bottom-title {
+  font-size: var(--base-font-14);
+  line-height: initial;
+}
+
+.fit_screen_icon {
+  font-size: 24px;
+}
+.chips {
+  background-color: white;
+  border-radius: 32px;
+  margin: 7px;
+  padding: 4px 15px;
+}
+.d-flex {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+img.slider-icon {
+  width: 25px;
+  height: 25px;
+}
+.image-height img {
+  max-height: 400px;
+  object-fit: cover;
+}
+.institute-data {
+  font-size: var(--base-font-24);
+  font-weight: 400;
+  @media screen and (max-width: 576px) {
+    font-size: var(--base-font-18);
+  }
+  .mat-icon {
+    height: 30px;
+  }
+}

@@ -1,0 +1,22 @@
+@use "mixins" as *;
+@use "variables.scss" as *;
+
+.close-button {
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: red;
+}
+
+::ng-deep .custom-search-input {
+  input {
+    background: $gradient-orange-red !important;
+  }
+}
+
+:ng-deep body.dark-mode .gradient-orange-red {
+  color: #11212d !important;
+}

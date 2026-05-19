@@ -1,0 +1,248 @@
+<div class="project-main-wrapper mt-10">
+  <div class="container">
+    <div class="page-top-box">
+      <div
+        class="title-main-section"
+        [innerHTML]="
+          'PHOTOGRAPHER_SEARCH_ENGINE.SECTION_1_TITLE_HTML'
+            | translate
+            | sanitizeHtml
+        "
+      ></div>
+      <div
+        class="project-description-wrapper"
+        [innerHTML]="
+          'PHOTOGRAPHER_SEARCH_ENGINE.SECTION_1_CONTENT_HTML'
+            | translate
+            | sanitizeHtml
+        "
+      ></div>
+    </div>
+
+    <div class="custom-search-box mobile-view-filter">
+      <app-custom-search
+        [totalCountData]="
+          ('COMMON.BEFORE_SEARCH_RESULT' | translate) +
+          ' ' +
+          totalCount +
+          ' ' +
+          ('COMMON.AFTER_SEARCH_RESULT' | translate)
+        "
+        placeHolder="PHOTOGRAPHER_SEARCH_ENGINE.SECTION_2_SEARCH_PLACEHOLDER"
+        [initialSearch]="searchResult"
+        (searchResults)="handleSearch($event)"
+        [showRecords]="false"
+      ></app-custom-search>
+      <div class="show-more-wrapper mobile-wrapper-filter">
+        <button class="btn gradient-orange-red" (click)="openDialog(template)">
+          {{ "PHOTOGRAPHER_SEARCH_ENGINE.SECTION_2_FILTERS" | translate }}
+          <span>
+            <mat-icon>chevron_right</mat-icon>
+          </span>
+        </button>
+      </div>
+    </div>
+    @defer {
+      <div class="custom-filter-box web-wrapper-filter">
+        <div class="custom-filter-box-list">
+          <!-- Decade -->
+          <app-custom-filter
+            [allItems]="decadeList"
+            [type]="common.constantsData.AUTHOR_FILTER_TYPE.DECADE"
+            [isLoadOnSearch]="false"
+            [isLocalSearch]="true"
+            selectPlaceholder="{{
+              'PHOTOGRAPHER_SEARCH_ENGINE.SECTION_2_FILTERS_DECADES' | translate
+            }}"
+            [isLoading]="dropDownLoader"
+            [selectedItems]="decadeSelected"
+            (selectedItemsChange)="receiveDataFromChild($event)"
+          ></app-custom-filter>
+
+          <app-custom-filter
+            [allItems]="type1Tags"
+            [type]="common.constantsData.AUTHOR_FILTER_TYPE.TYPE_1_TAG"
+            [isLoadOnSearch]="false"
+            [isLocalSearch]="true"
+            selectPlaceholder="{{
+              'PHOTOGRAPHER_SEARCH_ENGINE.SECTION_2_FLITERS_MOVEMENT_ETIQUETES'
+                | translate
+            }}"
+            [isLoading]="dropDownLoader"
+            [selectedItems]="type1SelectedTags"
+            (selectedItemsChange)="receiveDataFromChild($event)"
+          ></app-custom-filter>
+
+          <div class="checkbox-filter">
+            <mat-checkbox
+              [checked]="isLivingAuthor"
+              (change)="updateLivingAuthors($event.checked)"
+            >
+              {{
+                "PHOTOGRAPHER_SEARCH_ENGINE.SECTION_2_CHECKBOX_1" | translate
+              }}
+            </mat-checkbox>
+          </div>
+          <div class="checkbox-filter">
+            <mat-checkbox
+              [checked]="isWomenPhotographer"
+              (change)="updateWomenAuthors($event.checked)"
+            >
+              {{
+                "PHOTOGRAPHER_SEARCH_ENGINE.SECTION_2_CHECKBOX_2" | translate
+              }}
+            </mat-checkbox>
+          </div>
+        </div>
+        <div
+          class="custom-filter-box-list custom-filter-box-list-right dark-custom-filter-box-list"
+        >
+          <app-order-selection
+            (selectionChange)="changeOrder($event)"
+            [activeType]="sortBy"
+          ></app-order-selection>
+          <a
+            [ngClass]="view === common.constantsData.VIEWS.GRID ? 'active' : ''"
+          >
+            <mat-icon
+              (click)="viewChange(common.constantsData.VIEWS.GRID)"
+              [svgIcon]="common.icons.SORTICON"
+            ></mat-icon>
+          </a>
+          <a
+            [ngClass]="view === common.constantsData.VIEWS.LIST ? 'active' : ''"
+          >
+            <mat-icon
+              (click)="viewChange(common.constantsData.VIEWS.LIST)"
+              [svgIcon]="common.icons.SORT"
+            ></mat-icon>
+          </a>
+        </div>
+      </div>
+      <div class="photographers-mat-chip">
+        <app-mat-chip
+          class="filter-mat-chips"
+          [items]="selectedItem"
+          (dataEvent)="removeItem($event)"
+        ></app-mat-chip>
+      </div>
+      <div>
+        <div>
+          <app-custom-masonry-layout
+            [isLoading]="isLoading"
+            [view]="view"
+            [allImageItem]="imageList"
+            [showDescription]="false"
+            [showBornDeathDate]="true"
+            [showDate]="false"
+            [path]="common.environment.AUTHORS"
+            (showDetailEvent)="redirectToDetailPage($event)"
+            (loadedMasonary)="loadedMasonaryData($event)"
+          />
+          @if (isLoading) {
+            <mat-progress-spinner
+              color="primary"
+              mode="indeterminate"
+              diameter="50"
+              class="spinnerLoader"
+            ></mat-progress-spinner>
+          }
+
+          <div class="show-more-wrapper">
+            @if (totalCount > imageList.length && !isLoading) {
+              <button
+                mat-flat-button
+                color="primary"
+                class="btn gradient-green-blue"
+                (click)="showMore()"
+              >
+                {{ "COMMON.SEE_MORE" | translate }}
+              </button>
+            }
+            @if (totalCount >= 24) {
+              <div
+                aria-hidden="true"
+                color="primary"
+                class="btn bg-black"
+                (click)="scrollTop()"
+              >
+                <mat-icon>arrow_upward</mat-icon>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<ng-template #template>
+  <div class="custom-filter-box">
+    <div class="custom-filter-box-list">
+      <!-- Decade -->
+      <app-custom-filter
+        [allItems]="decadeList"
+        [type]="common.constantsData.AUTHOR_FILTER_TYPE.DECADE"
+        [isLoadOnSearch]="false"
+        [isLocalSearch]="true"
+        selectPlaceholder="{{
+          'PHOTOGRAPHER_SEARCH_ENGINE.SECTION_2_FILTERS_DECADES' | translate
+        }}"
+        [isLoading]="dropDownLoader"
+        [selectedItems]="decadeSelected"
+        (selectedItemsChange)="receiveDataFromChild($event)"
+      ></app-custom-filter>
+
+      <app-custom-filter
+        [allItems]="type1Tags"
+        [type]="common.constantsData.AUTHOR_FILTER_TYPE.TYPE_1_TAG"
+        [isLoadOnSearch]="false"
+        [isLocalSearch]="true"
+        selectPlaceholder="{{
+          'PHOTOGRAPHER_SEARCH_ENGINE.SECTION_2_FLITERS_MOVEMENT_ETIQUETES'
+            | translate
+        }}"
+        [isLoading]="dropDownLoader"
+        [selectedItems]="type1SelectedTags"
+        (selectedItemsChange)="receiveDataFromChild($event)"
+      ></app-custom-filter>
+
+      <div class="checkbox-filter">
+        <mat-checkbox
+          [checked]="isLivingAuthor"
+          (change)="updateLivingAuthors($event.checked)"
+        >
+          {{ "PHOTOGRAPHER_SEARCH_ENGINE.SECTION_2_CHECKBOX_1" | translate }}
+        </mat-checkbox>
+      </div>
+      <div class="checkbox-filter">
+        <mat-checkbox
+          [checked]="isWomenPhotographer"
+          (change)="updateWomenAuthors($event.checked)"
+        >
+          {{ "PHOTOGRAPHER_SEARCH_ENGINE.SECTION_2_CHECKBOX_2" | translate }}
+        </mat-checkbox>
+      </div>
+    </div>
+    <div class="custom-filter-box-list">
+      <app-order-selection
+        (selectionChange)="changeOrder($event)"
+        [activeType]="sortBy"
+      ></app-order-selection>
+      <div class="list-view-icon">
+        <a [ngClass]="view === common.constantsData.VIEWS.GRID ? 'active' : ''">
+          <mat-icon
+            [svgIcon]="common.icons.SORTICON"
+            (click)="viewChange(common.constantsData.VIEWS.GRID)"
+          ></mat-icon>
+        </a>
+        <a [ngClass]="view === common.constantsData.VIEWS.LIST ? 'active' : ''">
+          <mat-icon
+            [svgIcon]="common.icons.SORT"
+            (click)="viewChange(common.constantsData.VIEWS.LIST)"
+          ></mat-icon>
+        </a>
+      </div>
+    </div>
+  </div>
+</ng-template>

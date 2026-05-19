@@ -1,0 +1,119 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+.mdc-button.btn {
+  font-size: var(--base-font-18);
+  padding: 7px 15px;
+  border-radius: 50px;
+  color: $white;
+  width: fit-content;
+  background: $gradient-red-orange;
+  transition: all 0.5s linear;
+  cursor: pointer;
+  border: 0;
+  font-family: "glacial_indifferenceregular" !important;
+  height: auto;
+  letter-spacing: initial;
+  @media screen and (max-width: 767px) {
+    padding: 5px 15px;
+  }
+  .mdc-button__label {
+    @include flex-center;
+    gap: 40px;
+  }
+
+  svg {
+    width: 12px;
+    height: 22px;
+    fill: $white;
+  }
+
+  span {
+    display: flex;
+  }
+
+  &:hover {
+    background: $gradient-orange-red;
+  }
+}
+.btn {
+  @include flex-center;
+  padding: 7px 15px;
+  border-radius: 50px;
+  color: $white;
+  width: fit-content;
+  background: $gradient-red-orange;
+  transition: all 0.5s linear;
+  gap: 40px;
+  cursor: pointer;
+  border: 0;
+
+  svg {
+    width: 12px;
+    height: 22px;
+    fill: $white;
+  }
+
+  span {
+    display: flex;
+  }
+
+  &:hover {
+    background: $gradient-orange-red;
+  }
+}
+
+.gradient-orange-green {
+  background: $gradient-orange-green !important;
+
+  &:hover {
+    background: $gradient-green-orange !important;
+  }
+}
+
+.gradient-green-blue {
+  background: $gradient-green-blue;
+
+  &:hover {
+    background: $gradient-blue-green;
+  }
+}
+
+.gradient-blue-green {
+  background: $gradient-blue-green !important;
+
+  &:hover {
+    background: $gradient-green-blue !important;
+  }
+}
+
+.gradient-green-blue {
+  background: $gradient-green-blue !important;
+
+  &:hover {
+    background: $gradient-blue-green !important;
+  }
+}
+
+.gradient-blue-yellow {
+  background: $gradient-blue-yellow !important;
+
+  &:hover {
+    background: $gradient-yellow-blue !important;
+  }
+}
+
+.gradient-yellow-blue {
+  background: $gradient-yellow-blue !important;
+
+  &:hover {
+    background: $gradient-blue-yellow !important;
+  }
+}
+.gradient-red-yellow {
+  background: $gradient-red-yellow !important;
+
+  &:hover {
+    background: $gradient-yellow-red !important;
+  }
+}

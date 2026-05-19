@@ -1,0 +1,84 @@
+<div class="photography-plan-wrapper">
+  <div class="container">
+    <div class="title-main-section">
+      {{ "COOKIE_POLICY.SECTION_1_TITLE" | translate }}
+    </div>
+    <div
+      class="photography-decription-wrapper link-black"
+      [innerHTML]="
+        'COOKIE_POLICY.SECTION_1_CONTENT_HTML' | translate | sanitizeHtml
+      "
+    ></div>
+    <div class="table-responsive">
+      <table>
+        <tr>
+          <th>{{ "COOKIE_POLICY.TABLE_HEADING_1" | translate }}</th>
+          <th>{{ "COOKIE_POLICY.TABLE_HEADING_2" | translate }}</th>
+          <th>{{ "COOKIE_POLICY.TABLE_HEADING_3" | translate }}</th>
+          <th>{{ "COOKIE_POLICY.TABLE_HEADING_4" | translate }}</th>
+        </tr>
+        <tr>
+          <td>{{ "COOKIE_POLICY.TABLE_ROW1_COL1" | translate }}</td>
+          <td>{{ "COOKIE_POLICY.TABLE_ROW1_COL2" | translate }}</td>
+          <td>{{ "COOKIE_POLICY.TABLE_ROW1_COL3" | translate }}</td>
+          <td>{{ "COOKIE_POLICY.TABLE_ROW1_COL4" | translate }}</td>
+        </tr>
+        <tr>
+          <td>{{ "COOKIE_POLICY.TABLE_ROW2_COL1" | translate }}</td>
+          <td>{{ "COOKIE_POLICY.TABLE_ROW2_COL2" | translate }}</td>
+          <td>{{ "COOKIE_POLICY.TABLE_ROW2_COL3" | translate }}</td>
+          <td>{{ "COOKIE_POLICY.TABLE_ROW2_COL4" | translate }}</td>
+        </tr>
+        <tr>
+          <td>{{ "COOKIE_POLICY.TABLE_ROW3_COL1" | translate }}</td>
+          <td>{{ "COOKIE_POLICY.TABLE_ROW3_COL2" | translate }}</td>
+          <td>{{ "COOKIE_POLICY.TABLE_ROW3_COL3" | translate }}</td>
+          <td>{{ "COOKIE_POLICY.TABLE_ROW3_COL4" | translate }}</td>
+        </tr>
+        <tr>
+          <td>{{ "COOKIE_POLICY.TABLE_ROW4_COL1" | translate }}</td>
+          <td>{{ "COOKIE_POLICY.TABLE_ROW4_COL2" | translate }}</td>
+          <td>{{ "COOKIE_POLICY.TABLE_ROW4_COL3" | translate }}</td>
+          <td>{{ "COOKIE_POLICY.TABLE_ROW4_COL4" | translate }}</td>
+        </tr>
+      </table>
+    </div>
+    <div
+      [innerHTML]="
+        'COOKIE_POLICY.SECTION_3_CONTENT_HTML' | translate | sanitizeHtml
+      "
+    ></div>
+    <ul class="link-black">
+      <li>
+        {{ "COOKIE_POLICY.SECTION_3_LABLE_FIREFOX" | translate }}:
+        <a [href]="common.staticLinks.COOKIES_FIREFOX"
+          >http://support.mozilla.org/es/products/firefox/cookies</a
+        >
+      </li>
+      <li>
+        {{ "COOKIE_POLICY.SECTION_3_LABLE_CHROME" | translate }}:
+        <a [href]="common.staticLinks.CHROME_COOKIES"
+          >http://support.google.com/chrome/bin/answer.py?hl=es&answer=95647</a
+        >
+      </li>
+      <li>
+        {{ "COOKIE_POLICY.SECTION_3_LABLE_INTERNET_EXPLORER" | translate }}:
+        <a [href]="common.staticLinks.INTERNET_EXPLORER_COOKIES"
+          >http://windows.microsoft.com/es-es/windows7/how-to-manage-cookies-in-internet-explorer-9</a
+        >
+      </li>
+      <li>
+        {{ "COOKIE_POLICY.SECTION_3_LABLE_SAFARI" | translate }} :
+        <a [href]="common.staticLinks.SAFARI_COOKIES"
+          >http://support.apple.com/kb/ph5042</a
+        >
+      </li>
+      <li>
+        {{ "COOKIE_POLICY.SECTION_3_LABLE_OPERA" | translate }}:
+        <a [href]="common.staticLinks.OPERA_COOKIES"
+          >http://www.opera.com/help/tutorials/security/privacy/</a
+        >
+      </li>
+    </ul>
+  </div>
+</div>

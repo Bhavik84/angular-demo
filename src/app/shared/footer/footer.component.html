@@ -1,0 +1,125 @@
+<footer>
+  <div class="container">
+    <div class="footer-flex-wrapper">
+      <div class="footer-flex-wrapper-box">
+        <div class="logo-wrapper-footer">
+          <img
+            [src]="common.localStaticLinks.FOOTER_LOGO_2"
+            alt="footer logo"
+          />
+        </div>
+        <div class="logo-center">
+          <img
+            [src]="common.localStaticLinks.FOOTER_LOGO_1"
+            alt="footer logo"
+          />
+        </div>
+        <div class="footer-content">
+          <ul class="new-footer-menu">
+            <li>
+              <a
+                [routerLink]="[common.getRoute('WHO_WE_ARE')]"
+                routerLinkActive="active"
+                (click)="scrollToTop()"
+                class="text-uppercase"
+              >
+                {{ "FOOTER.PAGE_1" | translate  }}
+              </a>
+            </li>
+            <li>
+              <a
+                [routerLink]="[common.getRoute('ACCESSIBILITY')]"
+                routerLinkActive="active"
+                (click)="scrollToTop()"
+                 class="text-uppercase"
+                >{{ "FOOTER.PAGE_2" | translate }}</a
+              >
+            </li>
+            <li>
+              <a
+                [routerLink]="[common.getRoute('LEGAL_NOTICE')]"
+                routerLinkActive="active"
+                (click)="scrollToTop()"
+                 class="text-uppercase"
+              >
+                {{ "FOOTER.PAGE_3" | translate }}
+              </a>
+            </li>
+            <li>
+              <a
+                [routerLink]="[common.getRoute('COOKIES_POLIICY')]"
+                routerLinkActive="active"
+                (click)="scrollToTop()"
+                 class="text-uppercase"
+              >
+                {{ "FOOTER.PAGE_4" | translate }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="new-footer-right">
+        <div class="new-footer-right-list">
+          <div>
+            <p class="addres-icon">
+              <!-- <mat-icon [svgIcon]="icons.MAIL"></mat-icon> -->
+              <span
+                class="color-white"
+                [innerHTML]="'FOOTER.PORTAL_TEXT' | translate | sanitizeHtml"
+              ></span>
+            </p>
+            <p class="addres-icon">
+              <mat-icon [svgIcon]="icons.MAIL"></mat-icon>
+              <span
+                class="color-white"
+                [innerHTML]="'FOOTER.MAIL_HTML' | translate | sanitizeHtml"
+              ></span>
+            </p>
+          </div>
+          <div class="social-media-border"></div>
+          <div class="social-wrapper-footer">
+            <ul>
+              <li>
+                <a
+                  [href]="common.staticLinks.TWITTER_PAGE_LINK"
+                  target="_blank"
+                >
+                  <mat-icon [svgIcon]="icons.TWITTER"></mat-icon>
+                  {{ "FOOTER.LABLE_2" | translate }}
+                </a>
+              </li>
+              <li>
+                <a
+                  [href]="common.staticLinks.FACEBOOK_PAGE_LINK"
+                  target="_blank"
+                >
+                  <mat-icon [svgIcon]="icons.FACEBOOK"></mat-icon>
+                  {{ "FOOTER.LABLE_3" | translate }}
+                </a>
+              </li>
+              <li class="instagram">
+                <a
+                  [href]="common.staticLinks.INSTAGRAM_PAGE_LINK"
+                  target="_blank"
+                >
+                  <mat-icon [svgIcon]="icons.INSTAGRAM"></mat-icon>
+                  {{ "FOOTER.LABLE_4" | translate }}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-border"></div>
+    <div class="copy-right-box color-white">
+      <div
+        [innerHTML]="'FOOTER.BOTTOM_LABLE_1_HTML' | translate | sanitizeHtml"
+      ></div>
+      <div
+        class="made_with"
+        [innerHTML]="'FOOTER.BOTTOM_LABLE_2_HTML' | translate | sanitizeHtml"
+      ></div>
+    </div>
+  </div>
+</footer>

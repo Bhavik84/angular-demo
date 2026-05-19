@@ -1,0 +1,504 @@
+<div class="project-main-wrapper mt-10">
+  <div class="container">
+    <div class="photo-details-top">
+      <div class="photo-details-top-left">
+        @if (photoDetails) {
+          <div class="p-relative photo-div">
+            <picture>
+              <source [srcset]="getSrcSet()" [sizes]="getSizes()" />
+              <img
+                [src]="getImageUrl(commonService.constantsData.IMAGE_SIZES.BOX)"
+                fetchpriority="high"
+                [attr.width]="photoDetails.imagesData[0].width_list"
+                [attr.height]="photoDetails.imagesData[0].height_list"
+                alt="Image"
+                [ngClass]="{
+                  'image-zoom-cursor':
+                    photoDetails.imagesData &&
+                    photoDetails.imagesData.length > 0 &&
+                    photoDetails.imagesData[0].filename
+                }"
+                (error)="onImageError($event)"
+                (click)="
+                  photoDetails.imagesData &&
+                  photoDetails.imagesData.length > 0 &&
+                  photoDetails.imagesData[0].filename
+                    ? openDynamicImage(photoDetails.name || undefined)
+                    : ''
+                "
+                (keydown.enter)="
+                  photoDetails.imagesData &&
+                  photoDetails.imagesData.length > 0 &&
+                  photoDetails.imagesData[0].filename
+                    ? openDynamicImage(photoDetails.name || undefined)
+                    : ''
+                "
+                tabindex="0"
+              />
+            </picture>
+          </div>
+          <div class="d-flex chips-main">
+            @if (photoDetails) {
+              @for (item of photoDetails.works_tags; track $index) {
+                @if (item.tag) {
+                  <div
+                    class="chips"
+                    (click)="
+                      redirectPhotoListing(
+                        item,
+                        commonService.constantsData.WORK_DETAIL_FILTER_TYPES.TAG
+                      )
+                    "
+                    (keydown.enter)="
+                      redirectPhotoListing(
+                        item,
+                        commonService.constantsData.WORK_DETAIL_FILTER_TYPES.TAG
+                      )
+                    "
+                    (keydown.space)="
+                      redirectPhotoListing(
+                        item,
+                        commonService.constantsData.WORK_DETAIL_FILTER_TYPES.TAG
+                      )
+                    "
+                    tabindex="0"
+                  >
+                    {{ item.tag.tags_languages[0].name }}
+                  </div>
+                }
+              }
+            }
+          </div>
+        }
+      </div>
+      <div class="photo-details-top-right">
+        <div class="photo-title work-title-section link-black">
+          @if (
+            photoDetails &&
+            photoDetails.imagesData &&
+            photoDetails.imagesData.length > 0 &&
+            photoDetails.imagesData[0].languagesData &&
+            photoDetails.imagesData[0].languagesData.length > 0
+          ) {
+            {{
+              photoDetails.imagesData[0].languagesData[0].title
+                ? photoDetails.imagesData[0].languagesData[0].title
+                : ""
+            }}
+          }
+          <div class="author-name-block">
+            {{ commonService.checkAuthorName(photoDetails?.author) }}
+            <a
+              class="author-link link-black"
+              [routerLink]="[
+                '/' +
+                  commonService.getRoute('PHOTOGRAPHER_SEARCHER') +
+                  '/' +
+                  photoDetails?.author?.slug
+              ]"
+            >
+              <mat-icon [svgIcon]="icons.AUTHOR_LINK"></mat-icon>
+            </a>
+          </div>
+
+          <span>{{ (photoDetails?.name ? photoDetails?.name : "" ) }}</span>
+        </div>
+
+        <div class="photo-data">
+          <div class="photo-data-box">
+            <div class="photo-data-border">
+              <div class="photo-data-list">
+                @if (photoDetails?.name) {
+                  <div class="photo-data-list-title">
+                      {{ "PHOTO_DETAIL.SECTION_1_LABLE_TITLE" | translate }}
+                    <span>
+                      {{ (photoDetails?.name ? photoDetails?.name : "") }}
+                    </span>
+                  </div>
+                }
+              </div>
+              <div class="photo-data-list">
+                @if (photoDetails && photoDetails.date) {
+                  <div class="photo-data-list-title">
+                    {{ "PHOTO_DETAIL.SECTION_1_LABLE_DATE" | translate }}
+                    <span>
+                      {{ commonService.checkWorkDate(photoDetails.date) }}
+                    </span>
+                  </div>
+                }
+              </div>
+              @if (photoDetails?.date_copy) {
+                <div class="photo-data-list">
+                  <div class="photo-data-list-title">
+                    {{ "PHOTO_DETAIL.SECTION_1_LABLE_COPY_DATE" | translate }}
+                    <span>
+                      {{ photoDetails?.date_copy }}
+                    </span>
+                  </div>
+                </div>
+              }
+              <div class="photo-data-list">
+                @if (
+                  photoDetails &&
+                  (checkTechniqueData(photoDetails.works_techniques) ||
+                    (photoDetails.languageData &&
+                      photoDetails.languageData.length > 0 &&
+                      photoDetails.languageData[0].technique))
+                ) {
+                  <div class="photo-data-list-title link-black">
+                    {{ "PHOTO_DETAIL.SECTION_1_LABLE_TECHNIQUE" | translate }}
+                    @if (
+                      photoDetails.works_techniques &&
+                      photoDetails.works_techniques.length > 0
+                    ) {
+                      @for (
+                        item of photoDetails.works_techniques;
+                        track $index
+                      ) {
+                        @if (
+                          item.worksTechniques &&
+                          item.worksTechniques.works_techniques_languages &&
+                          item.worksTechniques.works_techniques_languages
+                            .length > 0 &&
+                          item.worksTechniques.works_techniques_languages[0]
+                            .name &&
+                          $index < 2
+                        ) {
+                          <a
+                            class="filter-option-link"
+                            (click)="
+                              redirectPhotoListing(
+                                item,
+                                commonService.constantsData
+                                  .WORK_DETAIL_FILTER_TYPES.TECHINIQUE
+                              )
+                            "
+                            (keydown.enter)="
+                              redirectPhotoListing(
+                                item,
+                                commonService.constantsData
+                                  .WORK_DETAIL_FILTER_TYPES.TECHINIQUE
+                              )
+                            "
+                            (keydown.space)="
+                              redirectPhotoListing(
+                                item,
+                                commonService.constantsData
+                                  .WORK_DETAIL_FILTER_TYPES.TECHINIQUE
+                              )
+                            "
+                            tabindex="0"
+                          >
+                            {{
+                              item.worksTechniques.works_techniques_languages[0]
+                                .name
+                            }}</a
+                          >
+                        }
+                      }
+                    }
+
+                    @if (
+                      photoDetails.languageData &&
+                      photoDetails.languageData.length > 0 &&
+                      photoDetails.languageData[0].technique
+                    ) {
+                      <span>
+                        {{ photoDetails.languageData[0].technique }}
+                      </span>
+                    }
+                  </div>
+                }
+              </div>
+              <div class="photo-data-list">
+                @if (photoDetails?.dimensions) {
+                  <div class="photo-data-list-title">
+                    {{ "PHOTO_DETAIL.SECTION_1_LABLE_DIMENSIONS" | translate }}
+                    <span>{{
+                      photoDetails?.dimensions ? photoDetails?.dimensions : ""
+                    }}</span>
+                  </div>
+                }
+              </div>
+              @if (
+                photoDetails &&
+                photoDetails.languageData &&
+                photoDetails.languageData.length > 0 &&
+                photoDetails.languageData[0].summary &&
+                photoDetails.languageData[0].summary.length > 0
+              ) {
+                <div class="photo-data-list">
+                  <div class="photo-data-list-title">
+                    {{
+                      "PHOTO_DETAIL.SECTION_1_LABLE_BIBLIOGRAPHY" | translate
+                    }}
+                    <span>{{
+                      photoDetails.languageData[0].summary || ""
+                    }}</span>
+                  </div>
+                </div>
+              }
+
+              <div class="photo-data-list">
+                @if (
+                  photoDetails?.collection?.collections_languages?.length &&
+                  photoDetails?.collection?.collections_languages?.[0]
+                    ?.title_short
+                ) {
+                  <div class="photo-data-list-title link-black">
+                    {{ "PHOTO_DETAIL.SECTION_1_LABLE_COLLECTION" | translate }}
+                    <a
+                      class="filter-option-link"
+                      (click)="
+                        redirectionToFund(photoDetails?.collection?.slug)
+                      "
+                      (keydown.enter)="
+                        redirectionToFund(photoDetails?.collection?.slug)
+                      "
+                      (keydown.space)="
+                        redirectionToFund(photoDetails?.collection?.slug)
+                      "
+                      tabindex="0"
+                    >
+                      {{
+                        photoDetails?.collection?.collections_languages?.[0]
+                          ?.title_short ?? ""
+                      }}</a
+                    >
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="photo-data-box">
+            <div class="photo-data-border">
+              <div class="photo-data-list">
+                @if (photoDetails?.inventory_number) {
+                  <div class="photo-data-list-title">
+                    {{
+                      "PHOTO_DETAIL.SECTION_1_LABLE_INVENTORY_NUMBER"
+                        | translate
+                    }}
+                    <span>{{
+                      photoDetails?.inventory_number
+                        ? photoDetails?.inventory_number
+                        : ""
+                    }}</span>
+                  </div>
+                }
+              </div>
+              <div class="photo-data-list">
+                @if (photoDetails?.adquisition) {
+                  <div class="photo-data-list-title">
+                    {{
+                      "PHOTO_DETAIL.SECTION_1_LABLE_FORM_OF_ACQUISITION"
+                        | translate
+                    }}
+                    <span>{{
+                      photoDetails?.adquisition ? photoDetails?.adquisition : ""
+                    }}</span>
+                  </div>
+                }
+              </div>
+              <div class="photo-data-list">
+                @if (photoDetails?.actual_ubication) {
+                  <div class="photo-data-list-title">
+                    {{
+                      "PHOTO_DETAIL.SECTION_1_LABLE_CURRENT_LOCATION"
+                        | translate
+                    }}
+                    <span>{{
+                      photoDetails?.actual_ubication
+                        ? photoDetails?.actual_ubication
+                        : ""
+                    }}</span>
+                  </div>
+                }
+              </div>
+              <div class="photo-data-list">
+                @if (
+                  photoDetails &&
+                  (photoDetails.rights ||
+                    (photoDetails.works_right &&
+                      photoDetails.works_right.works_rights_languages &&
+                      photoDetails.works_right.works_rights_languages.length >
+                        0 &&
+                      photoDetails.works_right.works_rights_languages[0].name))
+                ) {
+                  <div class="photo-data-list-title link-black">
+                    {{ "PHOTO_DETAIL.SECTION_1_LABLE_RIGHTS" | translate }}
+                    @if (
+                      photoDetails.works_right &&
+                      photoDetails.works_right.works_rights_languages &&
+                      photoDetails.works_right.works_rights_languages.length >
+                        0 &&
+                      photoDetails.works_right.works_rights_languages[0].name
+                    ) {
+                      <a
+                        class="filter-option-link"
+                        (click)="
+                          redirectPhotoListing(
+                            photoDetails.works_right,
+                            commonService.constantsData.WORK_DETAIL_FILTER_TYPES
+                              .LICENSE
+                          )
+                        "
+                        (keydown.enter)="
+                          redirectPhotoListing(
+                            photoDetails.works_right,
+                            commonService.constantsData.WORK_DETAIL_FILTER_TYPES
+                              .LICENSE
+                          )
+                        "
+                        (keydown.space)="
+                          redirectPhotoListing(
+                            photoDetails.works_right,
+                            commonService.constantsData.WORK_DETAIL_FILTER_TYPES
+                              .LICENSE
+                          )
+                        "
+                        tabindex="0"
+                        >{{
+                          photoDetails.works_right.works_rights_languages[0]
+                            .name
+                        }}</a
+                      >
+                    }
+                    @if (photoDetails.rights) {
+                      <span>
+                        {{ photoDetails.rights }}
+                      </span>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="photo-btn">
+              @if (
+                photoDetails && photoDetails.imagesData && photoDetails.link
+              ) {
+                <a
+                  class="btn"
+                  target="_blank"
+                  [href]="commonService.convertLinkURL(photoDetails.link)"
+                >
+                  {{ "PHOTO_DETAIL.SECTION_1_BUTTON_1" | translate }}
+                </a>
+              }
+              <a class="btn" href="mailto:info@fotografiacatalunya.cat">
+                {{ "PHOTO_DETAIL.SECTION_1_BUTTON_2" | translate }}
+              </a>
+            </div>
+          </div>
+          <div class="information-box desktop-hide">
+            <div class="download-link">
+              <a
+                (click)="downloadPdf()"
+                (keydown.enter)="downloadPdf()"
+                (keydown.space)="downloadPdf()"
+                tabindex="0"
+              >
+                <mat-icon [svgIcon]="icons.DOWNLOAD"></mat-icon>
+                <div class="download-link-text">
+                  {{ "PHOTO_DETAIL.SECTION_2_LABLE" | translate }}
+                </div>
+              </a>
+            </div>
+            <div class="share-link">
+              <a>
+                <mat-icon
+                  [svgIcon]="icons.SHARE"
+                  (click)="shareContent()"
+                ></mat-icon>
+              </a>
+              <a>
+                <mat-icon
+                  [svgIcon]="icons.ATTATCHMENT"
+                  (click)="copyUrlToClipboard()"
+                ></mat-icon>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  @defer {
+    <div class="gradient-orange-red mobile-hide">
+      <div class="container">
+        <div class="information-box">
+          <div class="download-link">
+            @if (isLoading) {
+              <mat-progress-spinner
+                color="primary"
+                mode="indeterminate"
+                diameter="50"
+                class="spinnerLoader"
+              ></mat-progress-spinner>
+            } @else if (!isLoading) {
+              <a
+                (click)="downloadPdf()"
+                (keydown.enter)="downloadPdf()"
+                (keydown.space)="downloadPdf()"
+                tabindex="0"
+              >
+                <mat-icon [svgIcon]="icons.DOWNLOAD"></mat-icon>
+                <div class="download-link-text">
+                  {{ "PHOTO_DETAIL.SECTION_2_LABLE" | translate }}
+                </div>
+              </a>
+            }
+          </div>
+          <div class="share-link">
+            <a>
+              <mat-icon
+                [svgIcon]="icons.SHARE"
+                matTooltip="{{
+                  'PHOTO_DETAIL.SECTION_2_SHARE_TOOLTIP' | translate
+                }}"
+                (click)="shareContent()"
+              ></mat-icon>
+            </a>
+            <a>
+              <mat-icon
+                [svgIcon]="icons.ATTATCHMENT"
+                matTooltip="{{
+                  'PHOTO_DETAIL.SECTION_2_COPY_TOOLTIP' | translate
+                }}"
+                (click)="copyUrlToClipboard()"
+              ></mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+  @defer {
+    @if (photographerImage && photographerImage.length > 0) {
+      <div class="related-photos">
+        <div class="container">
+          <div
+            class="title-main-section"
+            [innerHTML]="
+              'PHOTO_DETAIL.SECTION_3_TAB_3_TITLE_HTML'
+                | translate
+                | sanitizeHtml
+            "
+          ></div>
+          <app-swiper-slider
+          [slides]="photographerImage"
+          [outerTitle]="true"
+          [outerDescription]="true"
+          [lazyLoad]="true"
+          [customClass]="'photographerItem'"
+          [defaultSize]="commonService.constantsData.IMAGE_SIZES.LIST"
+          (redirectEvent)="openDetail($event)"
+          >
+
+          </app-swiper-slider>
+        </div>
+      </div>
+    }
+  }
+</div>

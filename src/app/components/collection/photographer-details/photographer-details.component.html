@@ -1,0 +1,711 @@
+<div class="project-main-wrapper mt-10">
+  <div class="container">
+    <div class="photo-details-top">
+      <div class="photo-details-top-left" #photoDetailsLeft>
+        @if (photographerDetail) {
+          <div class="p-relative photo-div">
+            <img
+              [ngClass]="{
+                'image-zoom-cursor':
+                  photographerDetail.authors_images &&
+                  photographerDetail.authors_images.length > 0 &&
+                  photographerDetail.authors_images[0].url
+              }"
+              appImageError
+              [path]="commonService.environment.AUTHORS"
+              tabindex="0"
+              fetchpriority="high"
+              imageName="{{
+                photographerDetail.authors_images &&
+                  photographerDetail.authors_images.length > 0 &&
+                  photographerDetail.authors_images[0].url
+              }}"
+              (click)="
+                photographerDetail.authors_images &&
+                photographerDetail.authors_images.length > 0 &&
+                photographerDetail.authors_images[0].url
+                  ? openDynamicImage(photographerDetail)
+                  : ''
+              "
+              (keydown.enter)="
+                photographerDetail.authors_images &&
+                photographerDetail.authors_images.length > 0 &&
+                photographerDetail.authors_images[0].url
+                  ? openDynamicImage(photographerDetail)
+                  : ''
+              "
+              (error)="directive.errorHandle($event)"
+              alt="alt"
+            />
+          </div>
+          <div class="d-flex chips-main">
+            @for (item of photographerDetail.authors_tags; track $index) {
+              @if (item.tag) {
+                <div
+                  class="chips"
+                  (click)="redirectPgotographerListing(item)"
+                  (keydown.enter)="redirectPgotographerListing(item)"
+                  (keydown.space)="redirectPgotographerListing(item)"
+                  tabindex="0"
+                >
+                  {{ item.tag.tags_languages[0].name }}
+                </div>
+              }
+            }
+          </div>
+        }
+      </div>
+      <div class="photo-details-top-right" #photoDetailsRight>
+        <div class="title-section" #titleSection>
+          <div class="photo-title web-icon">
+            {{ commonService.checkAuthorName(photographerDetail) }}
+            @if (photographerDetail && photographerDetail.url) {
+              <a
+                [href]="commonService.convertLinkURL(photographerDetail.url)"
+                target="_blank"
+              >
+                <mat-icon
+                  [svgIcon]="icons.WEB"
+                  class="cursor-pointer"
+                ></mat-icon>
+              </a>
+            }
+          </div>
+          <div class="birth-date-section">
+            <span>
+              {{
+                photographerDetail?.born_place
+                  ? photographerDetail?.born_place + ","
+                  : ""
+              }}
+              {{
+                photographerDetail?.born_date
+                  ? commonService.extractYear(
+                      photographerDetail?.born_date || ""
+                    )
+                  : ""
+              }}
+              {{
+                (photographerDetail?.born_place ||
+                  photographerDetail?.born_date) &&
+                (photographerDetail?.death_place ||
+                  photographerDetail?.death_date)
+                  ? "- "
+                  : ""
+              }}
+              {{
+                photographerDetail?.death_place
+                  ? photographerDetail?.death_place + ","
+                  : ""
+              }}
+              {{
+                photographerDetail?.death_date
+                  ? commonService.extractYear(
+                      photographerDetail?.death_date || ""
+                    )
+                  : ""
+              }}</span
+            >
+
+            @if (
+              photographerDetail &&
+              photographerDetail.authors_languages &&
+              photographerDetail.authors_languages.length > 0 &&
+              (photographerDetail.authors_languages[0].exhibitions ||
+                photographerDetail.authors_languages[0].bibliography ||
+                photographerDetail.authors_languages[0].about)
+            ) {
+              <div class="toggle_box">
+                <span>{{
+                  "PHOTOGRAPHER_DETAIL.SECTION_1_TOGGLE_LEFT_LABEL" | translate
+                }}</span>
+                <div class="toggle-switch">
+                  <input
+                    class="check_box"
+                    type="checkbox"
+                    id="switch"
+                    [(ngModel)]="isShowExposicions"
+                  /><label for="switch">Toggle</label>
+                </div>
+
+                <span>{{
+                  "PHOTOGRAPHER_DETAIL.SECTION_1_TOGGLE_RIGHT_LABEL" | translate
+                }}</span>
+              </div>
+            }
+          </div>
+        </div>
+        <div class="desktop-about-content link-black">
+          <!-- if in exposicition section and else in biografy section -->
+          @if (
+            isShowExposicions &&
+            photographerDetail &&
+            photographerDetail.authors_languages &&
+            photographerDetail.authors_languages.length > 0 &&
+            (photographerDetail.authors_languages[0].exhibitions ||
+              photographerDetail.authors_languages[0].bibliography)
+          ) {
+            @if (
+              showExhibitionEllipsis &&
+              imageHeight > 0 &&
+              photographerDetail.authors_languages[0].exhibitions
+            ) {
+              <div
+                class="max-content"
+                [style.height.px]="
+                  photographerDetail.authors_languages[0].exhibitions &&
+                  photographerDetail.authors_languages[0].bibliography
+                    ? imageHeight / 2
+                    : imageHeight
+                "
+              >
+                <div class="editor_content"
+                  *nestedEllipsis="true; indicator: moreExhAnchor"
+                  [innerHTML]="
+                    photographerDetail.authors_languages[0].exhibitions
+                      | sanitizeHtml
+                  "
+                ></div>
+                <ng-template #moreExhAnchor>
+                  <a
+                    (click)="showExhibitionEllipsis = false"
+                    (keydown.enter)="showExhibitionEllipsis = false"
+                    (keydown.space)="showExhibitionEllipsis = false"
+                    tabindex="0"
+                  >
+                    {{ "COMMON.SEE_MORE" | translate }}
+                  </a>
+                </ng-template>
+              </div>
+            } @else if (
+              imageHeight > 0 &&
+              photographerDetail.authors_languages[0].exhibitions
+            ) {
+              <div class="editor_content">
+                <span
+                  [innerHTML]="
+                    photographerDetail.authors_languages[0].exhibitions
+                      | sanitizeHtml
+                  "
+                ></span>
+                <a
+                  (click)="showExhibitionEllipsis = true"
+                  (keydown.enter)="showExhibitionEllipsis = true"
+                  (keydown.space)="showExhibitionEllipsis = true"
+                  tabindex="0"
+                >
+                  {{ "COMMON.SEE_LESS" | translate }}
+                </a>
+              </div>
+            }
+            @if (
+              showBibliographyEllipsis &&
+              imageHeight > 0 &&
+              photographerDetail.authors_languages[0].bibliography
+            ) {
+              <div
+                class="max-content"
+                [ngClass]="{
+                  'botom-section':
+                    photographerDetail.authors_languages[0].exhibitions &&
+                    photographerDetail.authors_languages[0].bibliography
+                }"
+                [style.height.px]="
+                  photographerDetail.authors_languages[0].exhibitions &&
+                  photographerDetail.authors_languages[0].bibliography
+                    ? imageHeight / 2
+                    : imageHeight
+                "
+              >
+                <div class="editor_content"
+                  *nestedEllipsis="true; indicator: moreExhAnchor"
+                  [innerHTML]="
+                    photographerDetail.authors_languages[0].bibliography
+                      | sanitizeHtml
+                  "
+                ></div>
+                <ng-template #moreExhAnchor>
+                  <a
+                    (click)="showBibliographyEllipsis = false"
+                    (keydown.enter)="showBibliographyEllipsis = false"
+                    (keydown.space)="showBibliographyEllipsis = false"
+                    tabindex="0"
+                  >
+                    {{ "COMMON.SEE_MORE" | translate }}
+                  </a>
+                </ng-template>
+              </div>
+            } @else if (
+              imageHeight > 0 &&
+              photographerDetail.authors_languages[0].bibliography
+            ) {
+              <div class="botom-section">
+                <span class="editor_content"
+                  [innerHTML]="
+                    photographerDetail.authors_languages[0].bibliography
+                      | sanitizeHtml
+                  "
+                ></span>
+                <a
+                  (click)="showBibliographyEllipsis = true"
+                  (keydown.enter)="showBibliographyEllipsis = true"
+                  (keydown.space)="showBibliographyEllipsis = true"
+                  tabindex="0"
+                >
+                  {{ "COMMON.SEE_LESS" | translate }}
+                </a>
+              </div>
+            }
+          } @else if (
+            !isShowExposicions &&
+            photographerDetail &&
+            photographerDetail.authors_languages &&
+            photographerDetail.authors_languages.length > 0 &&
+            photographerDetail.authors_languages[0].about
+          ) {
+            <!-- Biografy section -->
+            @if (showAboutEllipsis && imageHeight > 0) {
+              <div class="max-content" [style.height.px]="imageHeight">
+                <div class="editor_content"
+                  *nestedEllipsis="true; indicator: moreBibAnchor"
+                  [innerHTML]="
+                    photographerDetail.authors_languages[0].about | sanitizeHtml
+                  "
+                ></div>
+                <ng-template #moreBibAnchor>
+                  <a
+                    (click)="showAboutEllipsis = false"
+                    (keydown.enter)="showAboutEllipsis = false"
+                    (keydown.space)="showAboutEllipsis = false"
+                    tabindex="0"
+                  >
+                    {{ "COMMON.SEE_MORE" | translate }}
+                  </a>
+                </ng-template>
+              </div>
+            } @else if (imageHeight > 0) {
+              <div>
+                <span class="editor_content"
+                  [innerHTML]="
+                    photographerDetail.authors_languages[0].about | sanitizeHtml
+                  "
+                >
+                </span>
+                <a
+                  (click)="showAboutEllipsis = true"
+                  (keydown.enter)="showAboutEllipsis = true"
+                  (keydown.space)="showAboutEllipsis = true"
+                  tabindex="0"
+                >
+                  {{ "COMMON.SEE_LESS" | translate }}
+                </a>
+              </div>
+            }
+          }
+        </div>
+        <div class="mobile-about-content link-black">
+          @if (
+            isShowExposicions &&
+            photographerDetail &&
+            photographerDetail.authors_languages &&
+            photographerDetail.authors_languages.length > 0 &&
+            (photographerDetail.authors_languages[0].exhibitions ||
+              photographerDetail.authors_languages[0].bibliography)
+          ) {
+            @if (
+              showExhibitionEllipsis &&
+              imageHeight > 0 &&
+              photographerDetail.authors_languages[0].exhibitions
+            ) {
+              <div
+                class="max-content"
+                [style.height.px]="
+                  photographerDetail.authors_languages[0].exhibitions &&
+                  photographerDetail.authors_languages[0].bibliography
+                    ? imageHeight / 2
+                    : imageHeight
+                "
+              >
+                <div class="editor_content"
+                  *nestedEllipsis="true; indicator: moreExhAnchor"
+                  [innerHTML]="
+                    photographerDetail.authors_languages[0].exhibitions
+                      | sanitizeHtml
+                  "
+                ></div>
+                <ng-template #moreExhAnchor>
+                  <a
+                    (click)="showExhibitionEllipsis = false"
+                    (keydown.enter)="showExhibitionEllipsis = false"
+                    (keydown.space)="showExhibitionEllipsis = false"
+                    tabindex="0"
+                  >
+                    {{ "COMMON.SEE_MORE" | translate }}
+                  </a>
+                </ng-template>
+              </div>
+            } @else if (
+              imageHeight > 0 &&
+              photographerDetail.authors_languages[0].exhibitions
+            ) {
+              <div>
+                <span class="editor_content"
+                  [innerHTML]="
+                    photographerDetail.authors_languages[0].exhibitions
+                      | sanitizeHtml
+                  "
+                ></span>
+                <a
+                  (click)="showExhibitionEllipsis = true"
+                  (keydown.enter)="showExhibitionEllipsis = true"
+                  (keydown.space)="showExhibitionEllipsis = true"
+                  tabindex="0"
+                >
+                  {{ "COMMON.SEE_LESS" | translate }}
+                </a>
+              </div>
+            }
+            @if (
+              showBibliographyEllipsis &&
+              imageHeight > 0 &&
+              photographerDetail.authors_languages[0].bibliography
+            ) {
+              <div
+                class="max-content"
+                [ngClass]="{
+                  'botom-section':
+                    photographerDetail.authors_languages[0].exhibitions &&
+                    photographerDetail.authors_languages[0].bibliography
+                }"
+                [style.height.px]="
+                  photographerDetail.authors_languages[0].exhibitions &&
+                  photographerDetail.authors_languages[0].bibliography
+                    ? imageHeight / 2
+                    : imageHeight
+                "
+              >
+                <div class="editor_content"
+                  *nestedEllipsis="true; indicator: moreExhAnchor"
+                  [innerHTML]="
+                    photographerDetail.authors_languages[0].bibliography
+                      | sanitizeHtml
+                  "
+                ></div>
+                <ng-template #moreExhAnchor>
+                  <a
+                    (click)="showBibliographyEllipsis = false"
+                    (keydown.enter)="showBibliographyEllipsis = false"
+                    (keydown.space)="showBibliographyEllipsis = false"
+                    tabindex="0"
+                  >
+                    {{ "COMMON.SEE_MORE" | translate }}
+                  </a>
+                </ng-template>
+              </div>
+            } @else if (
+              imageHeight > 0 &&
+              photographerDetail.authors_languages[0].bibliography
+            ) {
+              <div class="botom-section">
+                <span class="editor_content"
+                  [innerHTML]="
+                    photographerDetail.authors_languages[0].bibliography
+                      | sanitizeHtml
+                  "
+                ></span>
+                <a
+                  (click)="showBibliographyEllipsis = true"
+                  (keydown.enter)="showBibliographyEllipsis = true"
+                  (keydown.space)="showBibliographyEllipsis = true"
+                  tabindex="0"
+                >
+                  {{ "COMMON.SEE_LESS" | translate }}
+                </a>
+              </div>
+            }
+          } @else if (
+            !isShowExposicions &&
+            photographerDetail &&
+            photographerDetail.authors_languages &&
+            photographerDetail.authors_languages.length > 0 &&
+            photographerDetail.authors_languages[0].about
+          ) {
+            <!-- Biografy section -->
+            @if (showAboutEllipsis && imageHeight > 0) {
+              <div class="max-content" [style.height.px]="imageHeight">
+                <div class="editor_content"
+                  *nestedEllipsis="true; indicator: moreBibAnchor"
+                  [innerHTML]="
+                    photographerDetail.authors_languages[0].about | sanitizeHtml
+                  "
+                ></div>
+                <ng-template #moreBibAnchor>
+                  <a
+                    (click)="showAboutEllipsis = false"
+                    (keydown.enter)="showAboutEllipsis = false"
+                    (keydown.space)="showAboutEllipsis = false"
+                    tabindex="0"
+                  >
+                    {{ "COMMON.SEE_MORE" | translate }}
+                  </a>
+                </ng-template>
+              </div>
+            } @else if (imageHeight > 0) {
+              <div>
+                <span class="editor_content"
+                  [innerHTML]="
+                    photographerDetail.authors_languages[0].about | sanitizeHtml
+                  "
+                ></span>
+                <a
+                  (click)="showAboutEllipsis = true"
+                  (keydown.enter)="showAboutEllipsis = true"
+                  (keydown.space)="showAboutEllipsis = true"
+                  tabindex="0"
+                >
+                  {{ "COMMON.SEE_LESS" | translate }}
+                </a>
+              </div>
+            }
+          }
+          <div class="information-box mt-2 desktop-hide">
+            <div class="download-link">
+              <a
+                (click)="downloadPdf()"
+                (keydown.enter)="downloadPdf()"
+                (keydown.space)="downloadPdf()"
+                tabindex="0"
+              >
+                <mat-icon [svgIcon]="icons.DOWNLOAD"></mat-icon>
+                <div class="download-link-text">
+                  {{ "PHOTOGRAPHER_DETAIL.SECTION_2_LABLE" | translate }}
+                </div>
+              </a>
+            </div>
+            <div class="share-link">
+              <a>
+                <mat-icon
+                  [svgIcon]="icons.SHARE"
+                  matTooltip="{{
+                    'PHOTOGRAPHER_DETAIL.SECTION_2_SHARE_TOOLTIP' | translate
+                  }}"
+                  (click)="shareContent()"
+                ></mat-icon>
+              </a>
+              <a>
+                <mat-icon
+                  [svgIcon]="icons.ATTATCHMENT"
+                  matTooltip="{{
+                    'PHOTOGRAPHER_DETAIL.SECTION_2_COPY_TOOLTIP' | translate
+                  }}"
+                  (click)="copyUrlToClipboard()"
+                ></mat-icon>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-gradient-blue-green mobile-hide" #photographerDetailmasonryRef>
+    <div class="container">
+      <div class="information-box mb-0">
+        <div class="download-link">
+          @if (isLoadingDownload) {
+            <mat-progress-spinner
+              color="primary"
+              mode="indeterminate"
+              diameter="50"
+              class="spinnerLoader"
+            ></mat-progress-spinner>
+          } @else if (!isLoadingDownload) {
+            <a
+              (click)="downloadPdf()"
+              (keydown.enter)="downloadPdf()"
+              (keydown.space)="downloadPdf()"
+              tabindex="0"
+            >
+              <mat-icon [svgIcon]="icons.DOWNLOAD"></mat-icon>
+              <div class="download-link-text">
+                {{ "PHOTOGRAPHER_DETAIL.SECTION_2_LABLE" | translate }}
+              </div>
+            </a>
+          }
+        </div>
+        <div class="share-link">
+          <a>
+            <mat-icon
+              [svgIcon]="icons.SHARE"
+              matTooltip="{{
+                'PHOTOGRAPHER_DETAIL.SECTION_2_SHARE_TOOLTIP' | translate
+              }}"
+              (click)="shareContent()"
+            ></mat-icon>
+          </a>
+          <a>
+            <mat-icon
+              [svgIcon]="icons.ATTATCHMENT"
+              matTooltip="{{
+                'PHOTOGRAPHER_DETAIL.SECTION_2_COPY_TOOLTIP' | translate
+              }}"
+              (click)="copyUrlToClipboard()"
+            ></mat-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <mat-tab-group
+      [(selectedIndex)]="tab"
+      (selectedTabChange)="tabchange($event)"
+    >
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="svg-icon-test">
+            <mat-icon [svgIcon]="icons.WORK_OF_AUTHOR"></mat-icon>
+          </div>
+          <div class="mobile-hide">
+            {{ "PHOTOGRAPHER_DETAIL.SECTION_3_TAB_2" | translate }}
+          </div>
+        </ng-template>
+        <div class="container">
+          <div class="tab-data-main">
+            <div class="tab-search-box">
+              <app-custom-search
+                class="white-input"
+                [totalCountData]="
+                  ('COMMON.BEFORE_SEARCH_RESULT' | translate) +
+                  ' ' +
+                  totalCount +
+                  ' ' +
+                  ('COMMON.AFTER_SEARCH_RESULT' | translate)
+                "
+                [initialSearch]="searchResult"
+                [isReadOnly]="isLoading"
+                placeHolder="PHOTOGRAPHER_DETAIL.SECTION_3_TAB_2_SEARCH_PLACEHOLDER"
+                (searchResults)="handleSearch($event)"
+              ></app-custom-search>
+              <div class="tab-right-icons">
+                <a [ngClass]="view === constants.VIEWS.GRID ? 'active' : ''">
+                  <mat-icon
+                    (click)="viewChange(constants.VIEWS.GRID)"
+                    [svgIcon]="icons.SORTICON"
+                  ></mat-icon>
+                </a>
+                <a [ngClass]="view === constants.VIEWS.LIST ? 'active' : ''">
+                  <mat-icon
+                    (click)="viewChange(constants.VIEWS.LIST)"
+                    [svgIcon]="icons.SORT"
+                  ></mat-icon>
+                </a>
+                @if (imageList.length > 0) {
+                  <a>
+                    <img
+                      (click)="slideShow()"
+                      aria-hidden="true"
+                      alt=""
+                      [src]="commonService.localStaticLinks.SLIDER_ICON"
+                      class="slider-icon"
+                    />
+                  </a>
+                }
+              </div>
+            </div>
+            @defer {
+              @if (tab === 0) {
+                <div class="tab-masonry">
+                  <app-custom-masonry-layout
+                    [isLoading]="isLoading"
+                    [showDescription]="true"
+                    (showDetailEvent)="redirection($event)"
+                    [view]="view"
+                    [path]="path"
+                    [allImageItem]="imageList"
+                    [showDate]="true"
+                    [showAuthor]="true"
+                    (loadedMasonary)="loadedMasonaryData($event)"
+                  />
+                  <div class="show-more-wrapper">
+                    @if (totalCount > imageList.length && !isLoading) {
+                      @if ( (isShowViewMore && view === constants.VIEWS.GRID) || (!isLoading && view === constants.VIEWS.LIST) ) {
+                        <button
+                          class="gradient-blue-green"
+                          (click)="showMore()"
+                        >
+                          {{ "COMMON.SEE_MORE" | translate }}
+                        </button>
+                      }
+                    }
+                  </div>
+                  @if (totalCount >= 24) {
+                    <div class="arrow">
+                      <div
+                        aria-hidden="true"
+                        color="primary"
+                        class="btn btn-circle bg-black"
+                        (click)="scrollTop()"
+                      >
+                        <mat-icon>arrow_upward</mat-icon>
+                      </div>
+                    </div>
+                  }
+                </div>
+              }
+            }
+          </div>
+        </div>
+      </mat-tab>
+      @defer {
+        @if (showRelatedPhotographer) {
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <div>
+                <mat-icon [svgIcon]="icons.PEOPLE"></mat-icon>
+              </div>
+              <div class="mobile-hide">
+                {{ "PHOTOGRAPHER_DETAIL.SECTION_3_TAB_3" | translate }}
+              </div>
+            </ng-template>
+            <div class="tab-data-main">
+              <div class="fotographs-section fotographs-details">
+                <div class="container">
+                  <div class="title-flex-wrapper">
+                    <div
+                      class="title-main-section mb-0"
+                      [innerHTML]="
+                        'PHOTOGRAPHER_DETAIL.SECTION_3_TAB_3_TITLE_HTML'
+                          | translate
+                          | sanitizeHtml
+                      "
+                    ></div>
+                    <a
+                      class="btn gradient-blue-green"
+                      [routerLink]="[
+                        '/' + commonService.getRoute('PHOTOGRAPHER_LIST')
+                      ]"
+                    >
+                      {{
+                        "PHOTOGRAPHER_DETAIL.SECTION_3_TAB_3_BUTTON" | translate
+                      }}
+                      <span>
+                        <mat-icon>chevron_right</mat-icon>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+                <app-common-swiper-slider
+                  [lazyLoad]="true"
+                  [slides]="photographerImage"
+                  [customClass]="'photographerItem'"
+                  (redirectEvent)="redirectToDetailPage($event)"
+                >
+                </app-common-swiper-slider>
+              </div>
+            </div>
+          </mat-tab>
+        }
+      }
+    </mat-tab-group>
+  </div>
+</div>

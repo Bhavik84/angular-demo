@@ -1,0 +1,229 @@
+@use "mixins" as *;
+@use "variables" as *;
+@use "common" as *;
+
+.filter-section {
+  padding: 32px 0px;
+
+  @media (max-width: 991px) {
+    padding: 20px 0px;
+  }
+
+  .filter-flex-wrapper {
+    margin: 0 auto;
+    width: 100%;
+    gap: 100px;
+    display: flex;
+
+    @media (max-width: 767px) {
+      flex-direction: column;
+    }
+
+    .filter-left-wrapper {
+      @include flex-center-center;
+      gap: 10px;
+      background-color: $white;
+      padding: 0px 39px;
+      border-radius: 50px;
+      min-height: 50px;
+      @media (max-width: 767px) {
+        width: 100%;
+      }
+
+      label {
+        line-height: 15px;
+        color: $dark-blue;
+        font-weight: $weight-700;
+        font-size: var(--base-font-16);
+        white-space: nowrap;
+      }
+
+      span {
+        a {
+          @include flex-center-center;
+        }
+
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+
+    .filter-right-wrapper {
+      width: 100%;
+      position: relative;
+
+      ::-ms-input-placeholder {
+        color: $black;
+        opacity: 1;
+      }
+
+      ::placeholder {
+        color: $black;
+        opacity: 1;
+      }
+
+      input {
+        background: linear-gradient(90deg, $red, $orange);
+        font-size: var(--base-font-16);
+        padding: 0px 50px 0 25px;
+        background-color: $white;
+        border-radius: 50px;
+        min-height: 50px;
+        width: 100%;
+        border: none;
+      }
+
+      .search-icon {
+        position: absolute;
+        bottom: 10px;
+        right: 20px;
+
+        svg {
+          width: 25px;
+          height: 25px;
+        }
+      }
+    }
+  }
+}
+
+.actualitat-box-wrapper {
+  width: 100%;
+  max-width: 25%;
+
+  @media (max-width: 1024px) {
+    max-width: 50%;
+  }
+
+  @media (max-width: 767px) {
+    margin-bottom: 30px;
+  }
+
+  .aculite-title {
+    line-height: 16px;
+    color: $white;
+    background: $gradient-red-orange;
+    padding: 15px 10px;
+    text-align: center;
+    font-family: "glacial_indifferencebold" !important;
+    margin-bottom: 0;
+    letter-spacing: 5px;
+  }
+
+  img {
+    width: 100%;
+    display: block;
+
+    @media (max-width: 767px) {
+      margin-top: 20px;
+    }
+  }
+
+  .image-wrapper {
+    padding: 30px;
+    border-right: 0px solid $white;
+
+    @media (max-width: 767px) {
+      border: none;
+      padding: 0;
+    }
+  }
+
+  .image-data-content-wrapper {
+    text-align: center;
+    background: $white;
+    padding: 10px 8px;
+
+    p {
+      margin: 0;
+      color: $dark-blue;
+    }
+  }
+
+  .image-description-wrapper {
+    margin-top: 25px;
+
+    p {
+      text-align: center;
+      margin: 0;
+    }
+  }
+
+  .aculite-title-font {
+    font-family: "glacial_indifferencebold" !important;
+    text-align: center;
+    margin-bottom: 5px;
+    color: $dark-blue;
+  }
+}
+
+.image-card-wrapper {
+  flex: 0 0 calc(50% - 10px);
+  margin-bottom: 20px;
+}
+
+.image-card {
+  display: flex;
+  flex-direction: row;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  gap: 20%;
+}
+
+.image-wrapper-small img {
+  width: 20%;
+  height: auto;
+}
+
+.image-wrapper-big {
+  &:hover {
+    .image-data-content-wrapper {
+      background: $dark-blue;
+      color: $white;
+      .aculite-title-font {
+        color: $white;
+      }
+      p {
+        color: $white;
+      }
+    }
+  }
+  .behind-the-camera-list-img {
+    @include flex-center-center;
+    flex-direction: column;
+    background: $gradient-red-yellow;
+    height: 250px;
+    color: $white;
+    font-size: var(--base-font-24);
+    text-align: center;
+    @media (max-width: 767px) {
+      height: 200px;
+      font-size: var(--base-font-18);
+      line-height: normal !important;
+    }
+    span {
+      display: block;
+      font-family: "Aleo", serif;
+      font-size: var(--base-font-45);
+      font-weight: 700;
+      line-height: initial;
+      letter-spacing: 2px;
+      @media (max-width: 767px) {
+        font-size: var(--base-font-30);
+        line-height: normal !important;
+      }
+    }
+  }
+}
+
+.mobile-view-filter {
+  app-custom-search {
+    @media (max-width: 991px) {
+      width: 100%;
+    }
+  }
+}

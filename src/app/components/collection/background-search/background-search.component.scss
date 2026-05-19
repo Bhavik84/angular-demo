@@ -1,0 +1,16 @@
+@use "mixins" as *;
+@use "variables.scss" as *;
+
+@media (max-width: 991px) {
+  .mobile-view-filter {
+    app-custom-search {
+      width: 100%;
+    }
+  }
+}
+
+::ng-deep .custom-search-input {
+  input {
+    background: $gradient-orange-green !important;
+  }
+}

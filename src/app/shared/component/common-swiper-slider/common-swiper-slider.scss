@@ -1,0 +1,419 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25px;
+  .custom-swiper{
+    width: 100%;
+    height: auto;
+  }
+}
+
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: background-image 0.3s ease;
+  z-index: 8;
+  display: flex;            /* keeps icon centered */
+  align-items: center;
+  justify-content: center
+}
+
+.prev {
+  left: 8px;
+  background-image: url("../../../../assets/images/right-arrow.png");
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.prev:hover {
+  background-image: url("../../../../assets/images/right-arrow-hover.png");
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.next {
+  right: 8px;
+  background-image: url("../../../../assets/images/right-arrow.png");
+  transform: translateY(-50%);
+}
+
+.next:hover {
+  background-image: url("../../../../assets/images/right-arrow-hover.png");
+  transform: translateY(-50%);
+}
+
+.custom-carousel-container {
+  position: relative;
+
+  .img-div {
+    overflow: hidden;
+    img {
+      display: block;
+      line-height: 0;
+      height: calc(100vh - 205px);
+      min-height: 500px;
+      object-fit: cover;
+      object-position: center;
+      width: 100%;
+      transition: transform 0.6s ease-in-out;
+      &:hover {
+        transform: scale(1.1);
+      }
+
+      @media (max-width: 767px) {
+        height: 300px !important;
+      }
+    }
+  }
+
+  .small-image-wrapper {
+    width: 100%;
+    display: block;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    max-width: 484px;
+
+    @media (max-width: 991px) {
+      width: 80%;
+    }
+
+    @media (max-width: 767px) {
+      max-width: fit-content;
+      bottom: 10px;
+    }
+    @media (max-width: 576px) {
+      width: calc(100% - 20px);
+      right: 10px;
+      max-width: initial;
+    }
+  }
+
+  .flex-wrapper {
+    background: #322e26d6;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    gap: 20px;
+    max-width: 484px;
+    @include flex-center-start;
+
+    .left-img-wrapper {
+      img {
+        height: 143px;
+        width: 206px;
+        object-fit: cover;
+
+        @media (max-width: 767px) {
+          max-width: 150px;
+          height: 100px;
+        }
+
+        @media (max-width: 575px) {
+          max-width: 120px;
+          height: 80px;
+        }
+      }
+    }
+
+    .right-text-wrapper {
+      max-width: 245px;
+      color: $white;
+
+      .thumbnai-title-box {
+        line-height: normal;
+        font-family: "glacial_indifferencebold";
+        font-size: var(--base-font-18);
+        // text-transform: uppercase;
+        letter-spacing: 0.6px;
+
+        @media (max-width: 575px) {
+          font-size: var(--base-font-14);
+          line-height: 18px;
+        }
+      }
+
+      .thumbnai-title-small {
+        font-family: "glacial_indifferenceregular";
+        margin-top: 6px;
+        font-size: var(--base-font-16);
+        line-height: normal;
+
+        @media (max-width: 575px) {
+          font-size: var(--base-font-14);
+        }
+
+        span {
+          // text-transform: uppercase;
+          display: block;
+        }
+      }
+    }
+
+    @media (max-width: 1024px) {
+      max-width: 627px;
+    }
+
+    @media (max-width: 767px) {
+      gap: 15px;
+    }
+  }
+}
+
+.photographerItem {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform: scale(0.94);
+    &:hover {
+    .related-photos-data-box {
+      background-color: $dark-blue;
+      color: $white;
+    }
+  }
+
+  &.swiper-slide-active {
+    transform: scale(1.0) !important;
+    opacity: 1 !important;
+    z-index: 10 !important;
+    margin-top: -40px !important;
+    img {
+      height: 650px !important;
+      @media (max-width: 1366px) {
+        height: 500px !important;
+      }
+    }
+
+    .title-carousel-box {
+      font-size: var(--base-font-20);
+      color: $black;
+      font-family: "glacial_indifferencebold";
+      // text-transform: uppercase;
+      padding: 14px 20px;
+      background: $white;
+      position: absolute;
+      z-index: 2;
+      bottom: 15px;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      width: 80%;
+      // letter-spacing: $letter-spacing;
+      @media screen and (max-width: 767px) {
+        font-size: var(--base-font-18);
+        padding: 8px 16px;
+      }
+      > div {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+      }
+    }
+    &:hover {
+      .title-carousel-box {
+        background-color: $dark-blue;
+        color: $white;
+      }
+    }
+  }
+  .title-carousel-box {
+    div {
+      display: none;
+    }
+  }
+}
+
+.photographerItem {
+  // padding: 0 3px;
+  // width: 295px !important;
+  // margin: 0px 6px;
+
+  img {
+    height: auto !important;
+  }
+  .related-photos-data-box {
+    background-color: $white;
+    padding: 12px;
+    text-align: center;
+    .related-photos-title {
+      font-family: "glacial_indifferencebold";
+      font-size: var(--base-font-16);
+      margin-bottom: 5px;
+      line-height: normal;
+    }
+    .related-photos-data {
+      font-size: var(--base-font-16);
+      line-height: normal;
+      font-family: "glacial_indifferenceregular";
+    }
+  }
+}
+
+.nav-btn {
+  @media (max-width: 767px) {
+    display: none !important;
+  }
+}
+
+.photographerDetailItem {
+  @media (max-width: 500px) {
+    width: 370px !important;
+    padding: 0px 6px;
+  }
+  @media (min-width: 501px) and (max-width: 767px) {
+  width: 500px !important;
+  padding: 0px 6px;
+}
+}
+.photographerItem {
+  @media (max-width: 500px) {
+    width: 370px !important;
+    padding: 0px 6px;
+  }
+  @media (min-width: 501px) and (max-width: 767px) {
+  width: 500px !important;
+  padding: 0px 6px;
+}
+}
+
+
+.photographerDetailItem {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform: scale(0.96);
+    &:hover {
+    .related-photos-data-box {
+      background-color: $dark-blue;
+      color: $white;
+    }
+  }
+  &.swiper-slide-active {
+    // transition: all 0.4s ease-in-out;
+    margin-top: -15px!important;
+    margin-bottom: 0 !important;
+    opacity: 1 !important;
+    z-index: 10 !important;
+    // transform: scale(1.0) !important;
+
+  .img-div img {
+    height: 500px !important;
+
+    @media (max-width: 1366px) {
+      height: 500px !important;
+    }
+
+    @media (max-width: 767px) {
+      height: 300px !important;
+    }
+  }
+    .title-carousel-box {
+      font-size: var(--base-font-20);
+      color: $black;
+      font-family: "glacial_indifferencebold";
+      padding: 14px 20px;
+      background: $white;
+      position: absolute;
+      z-index: 2;
+      bottom: 15px;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      width: 80%;
+      @media screen and (max-width: 767px) {
+        font-size: var(--base-font-18);
+        padding: 8px 16px;
+      }
+      > div {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+      }
+    }
+
+    &:hover {
+      .title-carousel-box {
+        background-color: $dark-blue;
+        color: $white;
+      }
+    }
+  }
+  .title-carousel-box {
+    div {
+      display: none;
+    }
+  }
+}
+
+.custom-carousel-container {
+  &.photographerDetailItem {
+    position: relative;
+    cursor: pointer;
+
+    .img-div {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 500px !important;
+        object-fit: cover;
+        transition: all 0.4s ease-in-out;
+
+        // @media (max-width: 1366px) {
+        //   height: 400px !important;
+        // }
+
+        // @media (max-width: 767px) {
+        //   height: 180px !important;
+        // }
+      }
+    }
+  }
+}
+
+.photographerDetailItem {
+  // padding: 0 3px;
+  // width: 295px !important;
+  // margin: 0px 6px;
+
+  img {
+    height: auto !important;
+  }
+
+  .related-photos-data-box {
+    background-color: $white;
+    padding: 12px;
+    text-align: center;
+    .related-photos-title {
+      font-family: "glacial_indifferencebold";
+      font-size: var(--base-font-16);
+      margin-bottom: 5px;
+      line-height: normal;
+    }
+    .related-photos-data {
+      font-size: var(--base-font-16);
+      line-height: normal;
+      font-family: "glacial_indifferenceregular";
+    }
+  }
+}

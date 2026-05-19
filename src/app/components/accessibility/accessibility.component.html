@@ -1,0 +1,15 @@
+<div class="project-main-wrapper mt-10">
+  <div class="container">
+    <div class="title-main-section">
+      {{ "ACCESSIBILITY.SECTION_1_TITLE" | translate }}
+    </div>
+    <div class="portal-data data-one link-black">
+      <div
+        class="accessibility-data"
+        [innerHTML]="
+          'ACCESSIBILITY.SECTION_1_CONTENT_HTML' | translate | sanitizeHtml
+        "
+      ></div>
+    </div>
+  </div>
+</div>

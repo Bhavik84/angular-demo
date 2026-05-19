@@ -1,0 +1,125 @@
+<div class="carousel-wrapper">
+  @if(slides?.length){
+    <button class="nav-btn prev"></button>
+  }
+
+  <swiper-container
+    #swiperContainer
+    class="custom-swiper"
+    init="false"
+  >
+  @for(slide of slides; track $index){
+    <swiper-slide
+      class="custom-carousel-container"
+      [ngClass]="customClass"
+      (click)="onSlideClick($index)"
+    >
+    <div
+      aria-hidden="true"
+    >
+      <div class="img-div">
+        <picture>
+          <source
+            [srcset]="getSrcSet(slide.image)"
+            [sizes]="getSizes(slide.image)"
+          />
+          <img
+            [src]="getImageUrl(slide.image, defaultSize)"
+            [attr.width]="getImageDimensions(slide.image, defaultSize).width"
+            [attr.height]="getImageDimensions(slide.image, defaultSize).height"
+            alt="Test Image"
+            [attr.loading]="lazyLoad === false ? null : 'lazy'"
+            (error)="onImageError($event)"
+          />
+        </picture>
+      </div>
+
+      @if (showThumbnail) {
+        <a (click)="detailRedirect(slide)" class="small-image-wrapper">
+          <div class="flex-wrapper">
+            <div class="left-img-wrapper">
+              <picture>
+                <source
+                  [srcset]="getSrcSet(slide.image)"
+                  [sizes]="getSizes(slide.image)"
+                />
+                <img
+                  [src]="
+                    getImageUrl(
+                      slide.image,
+                      common.constantsData.IMAGE_SIZES.LIST
+                    )
+                  "
+                  [attr.width]="
+                    getImageDimensions(
+                      slide.image,
+                      common.constantsData.IMAGE_SIZES.LIST
+                    ).width
+                  "
+                  [attr.height]="
+                    getImageDimensions(
+                      slide.image,
+                      common.constantsData.IMAGE_SIZES.LIST
+                    ).height
+                  "
+                  alt="Test Image"
+                  [attr.loading]="lazyLoad === false ? null : 'lazy'"
+                  (error)="onImageError($event)"
+                />
+              </picture>
+            </div>
+            <div class="right-text-wrapper">
+              <div class="thumbnai-title-box ellipsis-3">
+                {{ slide?.title }}
+              </div>
+              <div class="thumbnai-title-small">
+                <span class="ellipsis-3">{{ slide?.description }}</span>
+                <i>{{ slide?.date }}</i>
+              </div>
+            </div>
+          </div>
+        </a>
+      }
+      @if (slickConfig.showTitle) {
+        <div class="title-carousel-box" (click)="detailRedirect(slide.slug)">
+          <div>{{ slide.title }}</div>
+        </div>
+      }
+      @if (outerTitle || outerDescription) {
+        <div
+          (click)="detailRedirect(slide.slug)"
+          class="related-photos-data-box"
+        >
+          @if (outerTitle) {
+            <div class="related-photos-title">{{ slide.title }}</div>
+          }
+          @if (slide.author || slide.date) {
+            <div class="related-photos-data">
+              {{ slide.author }}{{ slide.author && slide.date ? ", " : "" }}
+              {{ slide.date }}
+            </div>
+          }
+          @if (outerDescription) {
+            <div class="related-photos-data">{{ slide.description }}</div>
+          }
+        </div>
+      }
+    </div>
+    </swiper-slide>
+  }
+  </swiper-container>
+  <!-- Next Button -->
+   @if(slides?.length){
+    <button class="nav-btn next"></button>
+   }
+</div>
+
+
+
+
+
+
+
+
+
+

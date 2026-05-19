@@ -1,0 +1,179 @@
+@use "mixins" as *;
+@use "variables.scss" as *;
+
+.photo-details-top {
+  .photo-div {
+    text-align: center;
+    width: fit-content;
+    margin: auto;
+  }
+  .photo-data {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    @media (max-width: 767px) {
+      flex-direction: column;
+    }
+    .photo-data-box {
+      width: 50%;
+      @media (max-width: 767px) {
+        width: 100%;
+      }
+      .photo-data-border {
+        border-left: 1px solid $black;
+        padding-left: 20px;
+      }
+      .photo-data-list {
+        &:last-child {
+          .photo-data-list-title {
+            margin-bottom: 0;
+          }
+        }
+        .photo-data-list-title {
+          font-size: var(--base-font-14);
+          font-family: "glacial_indifferencebold";
+          line-height: 24px;
+          margin-bottom: 30px;
+          letter-spacing: 2px;
+          span {
+            font-size: var(--base-font-14);
+            font-family: "glacial_indifferenceregular";
+            display: block;
+            letter-spacing: 0px;
+          }
+        }
+      }
+    }
+  }
+}
+.work-title-section {
+  margin-bottom: 80px !important;
+}
+.filter-option-link {
+  display: block;
+  font-family: "glacial_indifferenceregular";
+  text-decoration: underline;
+  cursor: pointer;
+}
+::ng-deep .related-photos {
+  .carousel.photo-detail {
+    .slick-next {
+      background-image: url("../../../../assets/images/right-arrow.png") !important;
+      background-color: transparent !important;
+      width: 40px;
+      height: 40px;
+      &:hover {
+        background-image: url("../../../../assets/images/right-arrow-hover.png") !important;
+      }
+    }
+    .slick-prev {
+      background-image: url("../../../../assets/images/left-arrow.png") !important;
+      background-color: transparent !important;
+      width: 40px;
+      height: 40px;
+      &:hover {
+        background-image: url("../../../../assets/images/left-arrow-hover.png") !important;
+      }
+    }
+    .slick-arrow:before {
+      content: initial;
+    }
+  }
+  .slick-initialized .slick-slide {
+    display: inline-block;
+    float: initial;
+    vertical-align: middle;
+    &:hover {
+      .related-photos-data-box {
+        background-color: $dark-blue;
+        color: $white;
+      }
+    }
+  }
+  .photographerItem {
+    padding: 0 3px;
+    margin-top: 50px !important;
+    margin: 0px 6px;
+    &.slick-slide.slick-center {
+      transition: all 0.4s ease-in-out;
+      margin-top: 0px !important;
+    }
+    img {
+      height: auto !important;
+    }
+    .related-photos-data-box {
+      background-color: $white;
+      padding: 12px;
+      text-align: center;
+      .related-photos-title {
+        font-family: "glacial_indifferencebold";
+        font-size: var(--base-font-14);
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+
+.margin-left {
+  justify-content: end;
+  display: flex;
+}
+.author-name-block {
+  display: flex;
+}
+.author-link {
+  color: $black;
+  display: block;
+  max-height: 46px;
+  margin-left: 16px;
+  mat-icon {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    margin-top: 7px;
+  }
+}
+
+.fit_screen_icon {
+  font-size: 24px;
+}
+
+.chips {
+  background-color: white;
+  border-radius: 32px;
+  margin: 7px;
+  padding: 4px 15px;
+  box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  @media (max-width: 767px) {
+    margin: 7px 0;
+    padding: 4px 12px;
+  }
+}
+.d-flex {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+mat-progress-spinner {
+  height: 30px;
+}
+
+.photo-details-top-right {
+  h3 {
+    font-size: var(--base-font-16);
+  }
+}
+.d-block {
+  display: block;
+}
+::ng-deep.slider_data {
+  .img-div {
+    height: 500px;
+    overflow: hidden;
+  }
+}
+::ng-deep .link-black a {
+  color: #11212d;
+  text-decoration: underline;
+}

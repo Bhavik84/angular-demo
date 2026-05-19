@@ -1,0 +1,21 @@
+@use "mixins.scss" as *;
+@use "variables" as *;
+@use "button" as *;
+@use "common" as *;
+@use "./assets/styles/fonts.scss" as *;
+@use "accordion" as *;
+@use "blogs" as *;
+@use "dropdown" as *;
+@use "spaces" as *;
+@use "tab" as *;
+@use 'swiper/css';
+@use 'swiper/css/navigation';
+@use 'swiper/css/pagination';
+
+/* Angular Material theme import */
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+b {
+  font-family: "glacial_indifferencebold", sans-serif;
+  font-weight: bold;
+}

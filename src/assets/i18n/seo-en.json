@@ -1,0 +1,116 @@
+{
+  "home": {
+    "title": "Home title en",
+    "description": "Home description en",
+    "keywords": "Home keyword en",
+    "image": "https://alabern.namastech.com/media/welcome-bg-CNHNJUHV.jpg"
+  },
+  "project": {
+    "title": "Project title en",
+    "description": "Project description en",
+    "keywords": "Project keyword en",
+    "image": "https://app.alabern.namastech.com/work/f0052/box/AFCEC_DAMIANS_E_0284.jpg?isPdf=true"
+  },
+  "acquisitions": {
+    "title": "Acquisitions title en",
+    "description": "Acquisitions description en",
+    "keywords": "Acquisitions keyword en",
+    "image": "https://app.alabern.namastech.com/work/f0010/list/219331-000_520083.jpg?isPdf=true"
+  },
+  "photography-plan": {
+    "title": "Photography plan title en",
+    "description": "Photography plan description en",
+    "keywords": "Photography plan keyword en",
+    "image": "https://app.alabern.namastech.com/work/f0010/list/219331-000_520083.jpg?isPdf=true"
+  },
+  "photographers-list": {
+    "title": "Photographers list title en",
+    "description": "Photographers list description en",
+    "keywords": "Photographers list keyword en",
+    "image": "https://app.alabern.namastech.com/authors/2017/W5nS3r9fTUa86muIjOz6tA.jpg?isPdf=true"
+  },
+  "photographies": {
+    "title": "Photographies title en",
+    "description": "Photographies description en",
+    "keywords": "Photographies keyword en",
+    "image": "https://app.alabern.namastech.com/work/f0077/list/rafanadal.jpg?isPdf=true"
+  },
+  "photographers": {
+    "title": "Photographers title en",
+    "description": "Photographers description en",
+    "keywords": "Photographers keyword en",
+    "image": "https://app.alabern.namastech.com/authors/2016/CI2OjCWUmkW0szNp4lepAQ.jpg?isPdf=true"
+  },
+  "artworks-funds": {
+    "title": "Artworks funds title en",
+    "description": "Artworks funds description en",
+    "keywords": "Artworks funds keyword en",
+    "image": "https://app.alabern.namastech.com/collections/fons_xavier_miserachs_202503171742209628049.jpg?isPdf=true"
+  },
+  "institutions": {
+    "title": "Institutions title en",
+    "description": "Institutions description en",
+    "keywords": "Institutions keyword en",
+    "image": "https://app.alabern.namastech.com/institutions/RWCIuhEVq0uiwV9EtBiqMg.jpg?isPdf=true"
+  },
+  "research": {
+    "title": "Research title en",
+    "description": "Research description en",
+    "keywords": "Research keyword en",
+    "image": "https://app.alabern.namastech.com/resource/wGeIOLnK6EeZyB9xF0yejg.jpg?isPdf=true"
+  },
+  "glossari": {
+    "title": "Glossari title en",
+    "description": "Glossari description en",
+    "keywords": "Glossari keyword en",
+    "image": "https://app.alabern.namastech.com/work/f0010/box/202470-000_083253.jpg?isPdf=true"
+  },
+  "calendar": {
+    "title": "Calendar title en",
+    "description": "Calendar description en",
+    "keywords": "Calendar keyword en",
+    "image": "https://app.alabern.namastech.com/activities/format.jpeg_202504031743673027412.jpg?isPdf=true"
+  },
+  "blog": {
+    "title": "Blog title en",
+    "description": "Blog description en",
+    "keywords": "Blog keyword en",
+    "image": "https://app.alabern.namastech.com/articles/DuMOi4Rs0kSdzDwdpBnKMg.jpg?isPdf=true"
+  },
+  "behind-the-camera": {
+    "title": "Behind the camera title en",
+    "description": "Behind the camera description en",
+    "keywords": "Behind the camera keyword en",
+    "image": "https://app.alabern.namastech.com/articles/PfvE58iijERh6A4gmFp8w.jpg?isPdf=true"
+  },
+  "virtual-exhibition": {
+    "title": "Virtual exhibition title en",
+    "description": "Virtual exhibition description en",
+    "keywords": "Virtual exhibition keyword en",
+    "image": ""
+  },
+  "who-we-are": {
+    "title": "Who we are title en",
+    "description": "Who we are description en",
+    "keywords": "Who we are keyword en",
+    "image": ""
+  },
+  "accessibility": {
+    "title": "Accessibility title en",
+    "description": "Accessibility description en",
+    "keywords": "Accessibility keyword en",
+    "image": ""
+  },
+  "legal-notice": {
+    "title": "Legal notice title en",
+    "description": "Legal notice description en",
+    "keywords": "Legal notice keyword en",
+    "image": ""
+  },
+  "cookies-policy": {
+    "title": "Cookies policy title en",
+    "description": "Cookies policy description en",
+    "keywords": "Cookies policy keyword en",
+    "image": ""
+  }
+}

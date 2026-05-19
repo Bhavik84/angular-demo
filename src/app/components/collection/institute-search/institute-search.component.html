@@ -1,0 +1,107 @@
+<div class="project-main-wrapper mt-10">
+  <div class="container">
+    <div class="page-top-box">
+      <div
+        class="title-main-section"
+        [innerHTML]="
+          'INSTITUTION_SEARCHER.SECTION_1_TITLE_HTML' | translate | sanitizeHtml
+        "
+      ></div>
+      <div
+        class="project-description-wrapper"
+        [innerHTML]="
+          'INSTITUTION_SEARCHER.SECTION_1_CONTENT_HTML'
+            | translate
+            | sanitizeHtml
+        "
+      ></div>
+    </div>
+    <div class="custom-search-box">
+      <app-custom-search
+        [initialSearch]="searchResult"
+        [totalCountData]="
+          ('COMMON.BEFORE_SEARCH_RESULT' | translate) +
+          ' ' +
+          totalCount +
+          ' ' +
+          ('COMMON.AFTER_SEARCH_RESULT' | translate)
+        "
+        [isReadOnly]="isLoading"
+        (searchResults)="searchResultEvent($event)"
+        placeHolder="INSTITUTION_SEARCHER.SECTION_2_SEARCH_PLACEHOLDER"
+      ></app-custom-search>
+    </div>
+    <div class="custom-filter-box justify-content-end">
+      <div class="custom-filter-box-list dark-custom-filter-box-list">
+        <app-order-selection
+          (selectionChange)="changeOrder($event)"
+          [activeType]="sortBy"
+        ></app-order-selection>
+        <a
+          [ngClass]="
+            view === commonService.constantsData.VIEWS.GRID ? 'active' : ''
+          "
+        >
+          <mat-icon
+            (click)="viewChange(commonService.constantsData.VIEWS.GRID)"
+            [svgIcon]="commonService.icons.SORTICON"
+          ></mat-icon>
+        </a>
+        <a
+          [ngClass]="
+            view === commonService.constantsData.VIEWS.LIST ? 'active' : ''
+          "
+        >
+          <mat-icon
+            (click)="viewChange(commonService.constantsData.VIEWS.LIST)"
+            [svgIcon]="commonService.icons.SORT"
+          ></mat-icon>
+        </a>
+      </div>
+    </div>
+    @defer {
+      <div class="">
+        <app-custom-masonry-layout
+          [isLoading]="isLoading"
+          [view]="view"
+          [isLoading]="isLoading"
+          [allImageItem]="imageList"
+          [showDescription]="false"
+          [showDate]="false"
+          (showDetailEvent)="redirectToDetailPage($event)"
+          [path]="commonService.environment.INSTITUTIONS"
+        />
+        @if (isLoading) {
+          <mat-progress-spinner
+            color="primary"
+            mode="indeterminate"
+            diameter="50"
+            class="spinnerLoader"
+          ></mat-progress-spinner>
+        }
+        <div class="show-more-wrapper">
+          @if (totalCount > imageList.length && !isLoading) {
+            <button
+              mat-flat-button
+              color="primary"
+              class="btn gradient-blue-yellow"
+              (click)="showMore()"
+            >
+              {{ "COMMON.SEE_MORE" | translate }}
+            </button>
+          }
+          @if (totalCount >= 24) {
+            <div
+              aria-hidden="true"
+              color="primary"
+              class="btn bg-black"
+              (click)="scrollTop()"
+            >
+              <mat-icon>arrow_upward</mat-icon>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

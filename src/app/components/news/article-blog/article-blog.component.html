@@ -1,0 +1,474 @@
+@if (isLoading) {
+  <mat-progress-spinner
+    color="primary"
+    mode="indeterminate"
+    diameter="50"
+    class="spinnerLoader mt-5"
+  ></mat-progress-spinner>
+}
+@if (articleData) {
+  <div class="project-main-wrapper blog-main">
+    <div class="container w-100">
+      <div class="blog-top">
+        <div class="blog-top-left d-block text-center">
+          <div class="d-flex w-100 img-wrap blog-top-left-img">
+            <img
+              [ngClass]="{
+                'image-zoom-cursor':
+                  articleData.article_language_images &&
+                  articleData.article_language_images.length > 0 &&
+                  articleData.article_language_images[0].url
+              }"
+              appImageError
+              [path]="environment.ARTICLES"
+              imageName="{{
+                articleData.article_language_images &&
+                articleData.article_language_images.length > 0 &&
+                articleData.article_language_images[0].url
+                  ? articleData.article_language_images[0].url
+                  : ''
+              }}"
+              (click)="
+                articleData.article_language_images &&
+                articleData.article_language_images.length > 0 &&
+                articleData.article_language_images[0].url
+                  ? openDynamicImage(
+                      articleData.articles_languages &&
+                        articleData.articles_languages.length > 0 &&
+                        articleData.articles_languages[0].title
+                        ? articleData.articles_languages[0].title
+                        : undefined
+                    )
+                  : ''
+              "
+              (error)="directive.errorHandle($event)"
+              alt="alt"
+              aria-hidden="true"
+            />
+          </div>
+          @if (
+            articleData.articles_images &&
+            articleData.articles_images.length > 0
+          ) {
+            <span>
+              {{
+                articleData.articles_images[0].articles_images_languages &&
+                articleData.articles_images[0].articles_images_languages
+                  .length > 0 &&
+                articleData.articles_images[0].articles_images_languages[0].source && articleData.articles_images[0].articles_images_languages[0].source.length > 0
+                  ? articleData.articles_images[0].articles_images_languages[0].source
+                  : ""
+              }}
+            </span>
+          }
+        </div>
+        <div class="blog-top-right">
+          <h4 class="author-name">
+            @if (articleData.articles_author.name) {
+              {{
+                (articleData.articles_author.name
+                  ? articleData.articles_author.name
+                  : "") +
+                  (articleData.articles_author.surnames
+                    ? " " + articleData.articles_author.surnames
+                    : "") +
+                  (articleData.articles_author.extra_info
+                    ? " " + "(" + articleData.articles_author.extra_info + ")"
+                    : "") | titlecase
+              }}
+            }
+          </h4>
+          <p>
+            {{ commonService.formatDateTo(articleData.date) }}
+          </p>
+          @if (
+            articleData.articles_languages &&
+            articleData.articles_languages.length > 0 &&
+            articleData.articles_languages[0].title &&
+            articleData.articles_languages[0].title.length > 0
+          ) {
+            <h2 class="blog-top-title">
+              {{ articleData.articles_languages[0].title | titlecase }}
+            </h2>
+          }
+          @if (
+            articleData.articles_languages &&
+            articleData.articles_languages.length > 0 &&
+            articleData.articles_languages[0].summary &&
+            articleData.articles_languages[0].summary.length > 0
+          ) {
+            <div
+              class="blog-details link-black editor_content"
+              [innerHTML]="
+                articleData.articles_languages[0].summary | sanitizeHtml
+              "
+            ></div>
+          }
+        </div>
+        @if (
+          articleData.articles_languages &&
+          articleData.articles_languages.length > 0 &&
+          articleData.articles_languages[0].content &&
+          articleData.articles_languages[0].content.length > 0
+        ) {
+          <div
+            class="blog-details link-black editor_content"
+            [innerHTML]="
+              articleData.articles_languages[0].content | sanitizeHtml
+            "
+          ></div>
+        }
+      </div>
+    </div>
+  </div>
+}
+@defer {
+  <section class="comments-main">
+    <div class="container mt-5">
+      <h2 class="text-italic">
+        {{ "ARTICLE_BLOG.SECTION_2_TITLE_1" | translate }}
+      </h2>
+      <div class="share-link">
+        <a>
+          <mat-icon
+            [svgIcon]="icons.SHARE_BLACK"
+            matTooltip="share url"
+            (click)="shareContent()"
+          ></mat-icon>
+        </a>
+        <a>
+          <mat-icon
+            [svgIcon]="icons.ATTATCHMENT_BLACK"
+            matTooltip="copy url"
+            (click)="copyUrlToClipboard()"
+          ></mat-icon>
+        </a>
+      </div>
+      @if (
+        articleData &&
+        articleData.articles_comments &&
+        articleData.articles_comments.length
+      ) {
+        <div class="comment-title">
+          {{ "ARTICLE_BLOG.SECTION_2_TITLE_2" | translate }}
+        </div>
+      }
+    </div>
+    @if (
+      articleData &&
+      articleData.articles_comments &&
+      articleData.articles_comments.length
+    ) {
+      <div #commentList class="actualitat-box-wrapper container mobile_hide">
+        @for (image of articleData.articles_comments; track $index) {
+          <div class="image-card-wrapper">
+            <div class="image-card">
+              <div class="card-description">
+                <div class="comments-list-icon">
+                  {{ image.user.charAt(0).toUpperCase() }}
+                </div>
+                <div class="comments-list-text">
+                  <h2>{{ image.user }}</h2>
+                  <p>{{ image.date | date: "dd.MM.yyyy - HH:mm" }}</p>
+                  <p></p>
+                  <p>{{ image.comment }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <div class="mobile_show">
+      @if (
+        articleData &&
+        articleData.articles_comments &&
+        articleData.articles_comments.length
+      ) {
+        <div class="actualitat-box-wrapper container">
+          @for (image of visibleComments; track $index) {
+            <div class="image-card-wrapper">
+              <div class="image-card">
+                <div class="card-description">
+                  <div class="comments-list-icon">
+                    {{ image.user.charAt(0).toUpperCase() }}
+                  </div>
+                  <div class="comments-list-text">
+                    <h2>{{ image.user }}</h2>
+                    <p>{{ image.date | date: "dd.MM.yyyy - HH:mm" }}</p>
+                    <p>{{ image.comment }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+          @if (visibleCommentCount < articleData.articles_comments.length) {
+            <div class="show-more-wrapper mobile-only w-100">
+              <button
+                (click)="showMoreComments()"
+                class="btn gradient-red-yellow"
+              >
+                {{ "COMMON.SEE_MORE" | translate }}
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </section>
+}
+@defer {
+  <section>
+    <div
+      class="container aticle-blog-form link-black"
+      [formGroup]="commentForm"
+    >
+      <h2>{{ "ARTICLE_BLOG.FORM_HEADING" | translate }}</h2>
+      <input
+        appInputRestriction
+        [placeholder]="'ARTICLE_BLOG.FORM_NAME' | translate"
+        formControlName="user"
+        type="text"
+        class="search"
+      />
+      @if (
+        commentForm.controls["user"].invalid &&
+        (commentForm.controls["user"].touched || isSubmit)
+      ) {
+        <div class="error-div">
+          @if (commentForm.get("user")?.errors?.["maxlength"]) {
+            {{ "ARTICLE_BLOG.FORM_NAME_MAX_LENGTH_VALIDATION" | translate }}
+          } @else {
+            {{ "ARTICLE_BLOG.FORM_NAME_USER_REQUIRED_VALIDATION" | translate }}
+          }
+        </div>
+      }
+      <textarea
+        formControlName="comment"
+        [placeholder]="'ARTICLE_BLOG.FORM_COMMENT' | translate"
+        class="textArea mt-2"
+        [value]="''"
+      >
+      </textarea>
+      @if (
+        commentForm.controls["comment"].invalid &&
+        (commentForm.controls["comment"].touched || isSubmit)
+      ) {
+        <div class="error-div">
+          @if (commentForm.get("comment")?.errors?.["maxlength"]) {
+            {{ "ARTICLE_BLOG.FORM_COMMENT_MAX_LENGTH_VALIDATION" | translate }}
+          } @else {
+            {{ "ARTICLE_BLOG.FORM_COMMENT_COMMENT_REQUIRED" | translate }}
+          }
+        </div>
+      }
+      <a
+        class="btn gradient-orange-red mt-3 btn-comment"
+        (click)="sendComment()"
+        routerLink=""
+        >{{ "ARTICLE_BLOG.FORM_BUTTON" | translate }}</a
+      >
+    </div>
+  </section>
+}
+@defer {
+  <section>
+    <div class="article_section">
+      @if (previousArticleData) {
+        <div class="blog-main pb-0 pt-2 mt-3 -mb-30">
+          <div class="container">
+            <div class="blog-top next-article-block">
+              <div class="blog-top-left d-block text-center">
+                <div class="d-flex w-100">
+                  @if (
+                    previousArticleData.articles_images &&
+                    previousArticleData.articles_images.length > 0 &&
+                    previousArticleData.articles_images[0].url
+                  ) {
+                    <img
+                      appImageError
+                      [path]="environment.ARTICLES"
+                      imageName="{{
+                        previousArticleData.articles_images[0].url
+                      }}"
+                      (error)="directive.errorHandle($event)"
+                      alt="alt"
+                      class="max-image-height"
+                      loading="lazy"
+                    />
+                  } @else {
+                    <img
+                      appImageError
+                      [path]="environment.ARTICLES"
+                      imageName=""
+                      (error)="directive.errorHandle($event)"
+                      alt="alt"
+                      loading="lazy"
+                    />
+                  }
+                </div>
+              </div>
+              <div class="blog-top-right">
+                <p>
+                  {{
+                    "ARTICLE_BLOG.SECTION_3_LABLE_PREVIOUS_ARTICLE" | translate
+                  }}
+                </p>
+                @if (
+                  previousArticleData.articles_languages &&
+                  previousArticleData.articles_languages.length > 0 &&
+                  previousArticleData.articles_languages[0].title &&
+                  previousArticleData.articles_languages[0].title.length > 0
+                ) {
+                  <h2 class="blog-top-title">
+                    {{
+                      previousArticleData.articles_languages[0].title
+                        | titlecase
+                    }}
+                  </h2>
+                }
+                @if (
+                  previousArticleData.articles_languages &&
+                  previousArticleData.articles_languages.length > 0 &&
+                  previousArticleData.articles_languages[0].summary
+                ) {
+                  <div class="limited-text">
+                    <ng-template nestedEllipsis>
+                      <div
+                        [innerHTML]="
+                          previousArticleData.articles_languages[0].summary
+                            | sanitizeHtml
+                        "
+                      ></div>
+                    </ng-template>
+                  </div>
+                } @else if (
+                  previousArticleData.articles_languages &&
+                  previousArticleData.articles_languages.length > 0 &&
+                  previousArticleData.articles_languages[0].content &&
+                  previousArticleData.articles_languages[0].content.length > 0
+                ) {
+                  <div class="limited-text">
+                    <ng-template nestedEllipsis>
+                      <div
+                        [innerHTML]="
+                          previousArticleData.articles_languages[0].content
+                            | sanitizeHtml
+                        "
+                      ></div>
+                    </ng-template>
+                  </div>
+                }
+                <button
+                  class="btn gradient-red-yellow mt-2 mb-2"
+                  mat-flat-button
+                  color="primary"
+                  (click)="doOpenNextArticle(previousArticleData.slug)"
+                >
+                  {{ "ARTICLE_BLOG.SECTION_3_BUTTON" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      @if (nextArticleData) {
+        <div class="blog-main pb-0 pt-2 mt-3 -mb-30">
+          <div class="container">
+            <div class="blog-top next-article-block">
+              <div class="blog-top-left d-block text-center">
+                <div class="d-flex w-100">
+                  @if (
+                    nextArticleData.articles_images &&
+                    nextArticleData.articles_images.length > 0 &&
+                    nextArticleData.articles_images[0].url
+                  ) {
+                    <img
+                      appImageError
+                      [path]="environment.ARTICLES"
+                      imageName="{{ nextArticleData.articles_images[0].url }}"
+                      (error)="directive.errorHandle($event)"
+                      alt="alt"
+                      class="max-image-height"
+                      loading="lazy"
+                    />
+                  } @else {
+                    <img
+                      appImageError
+                      [path]="environment.ARTICLES"
+                      imageName=""
+                      (error)="directive.errorHandle($event)"
+                      alt="alt"
+                      loading="lazy"
+                    />
+                  }
+                </div>
+              </div>
+              <div class="blog-top-right">
+                <p>
+                  {{ "ARTICLE_BLOG.SECTION_3_LABLE" | translate }}
+                </p>
+                @if (
+                  nextArticleData.articles_languages &&
+                  nextArticleData.articles_languages.length > 0 &&
+                  nextArticleData.articles_languages[0].title &&
+                  nextArticleData.articles_languages[0].title.length > 0
+                ) {
+                  <h2 class="blog-top-title">
+                    {{
+                      nextArticleData.articles_languages[0].title | titlecase
+                    }}
+                  </h2>
+                }
+                @if (
+                  nextArticleData.articles_languages &&
+                  nextArticleData.articles_languages.length > 0 &&
+                  nextArticleData.articles_languages[0].summary &&
+                  nextArticleData.articles_languages[0].summary.length > 0
+                ) {
+                  <div class="limited-text">
+                    <ng-template nestedEllipsis>
+                      <div
+                        [innerHTML]="
+                          nextArticleData.articles_languages[0].summary
+                            | sanitizeHtml
+                        "
+                      ></div>
+                    </ng-template>
+                  </div>
+                } @else if (
+                  nextArticleData.articles_languages &&
+                  nextArticleData.articles_languages.length > 0 &&
+                  nextArticleData.articles_languages[0].content &&
+                  nextArticleData.articles_languages[0].content.length > 0
+                ) {
+                  <div class="limited-text">
+                    <ng-template nestedEllipsis>
+                      <div
+                        [innerHTML]="
+                          nextArticleData.articles_languages[0].content
+                            | sanitizeHtml
+                        "
+                      ></div>
+                    </ng-template>
+                  </div>
+                }
+
+                <button
+                  class="btn gradient-red-yellow mt-2 mb-2"
+                  mat-flat-button
+                  color="primary"
+                  (click)="doOpenNextArticle(nextArticleData.slug)"
+                >
+                  {{ "ARTICLE_BLOG.SECTION_3_BUTTON" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+}

@@ -1,0 +1,36 @@
+$light-grey: #f6f8ff;
+$dark-blue: #11212d;
+$white: #ffffff;
+$black: #11212d;
+$grey-bg: #e3e6ef;
+$bg-light-grey: #f5f7ff;
+$dark-bg-light-grey: #2a3843;
+$dark-bg-light-grey-light: #293742;
+
+$sky-blue: #2c95a9;
+$yellow: #f8d20b;
+$red: #b42546;
+$orange: #f39a17;
+$green: #12a681;
+
+$gradient-red-orange: linear-gradient(90deg, $red 0%, $orange 100%);
+$gradient-orange-red: linear-gradient(90deg, $orange 0%, $red 100%);
+$gradient-red-yellow: linear-gradient(90deg, $red 0%, $yellow 100%);
+$gradient-yellow-red: linear-gradient(90deg, $yellow 0%, $red 100%);
+$gradient-orange-green: linear-gradient(90deg, $orange 0%, $green 100%);
+$gradient-green-orange: linear-gradient(90deg, $green 0%, $orange 100%);
+$gradient-green-blue: linear-gradient(90deg, $green 0%, $sky-blue 100%);
+$gradient-blue-green: linear-gradient(90deg, $sky-blue 0%, $green 100%);
+$gradient-blue-yellow: linear-gradient(90deg, $sky-blue 0%, $yellow 100%);
+$gradient-yellow-blue: linear-gradient(90deg, $yellow 0%, $sky-blue 100%);
+
+$barlow-condensed: "Barlow Condensed", sans-serif;
+
+$weight-400: 400;
+$weight-500: 500;
+$weight-600: 600;
+$weight-700: 700;
+
+// letterspacing
+$letter-spacing: 3px;
+$letter-spacing-m3: -3px;

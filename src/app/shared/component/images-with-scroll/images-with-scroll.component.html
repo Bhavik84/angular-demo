@@ -1,0 +1,39 @@
+<div class="container">
+  <div
+    #scrollContainer
+    id="images-div"
+    class="who-we-are-top-images custom-scrollbar"
+  >
+    @for (item of imageList; track $index) {
+      <picture>
+        <source [srcset]="getSrcSet(item)" [sizes]="getSizes(item)" />
+        <img
+          [src]="getImageUrl(item, common.constantsData.IMAGE_SIZES.LIST)"
+          [attr.width]="
+            getImageDimensions(item, common.constantsData.IMAGE_SIZES.LIST)
+              .width
+          "
+          [attr.height]="
+            getImageDimensions(item, common.constantsData.IMAGE_SIZES.LIST)
+              .height
+          "
+          alt="Test Image"
+          (error)="onImageError($event)"
+        />
+      </picture>
+    }
+  </div>
+</div>
+<div id="scroll-div">
+  <div class="placeholder"></div>
+</div>
+<button class="custom-scrollbar-arrow left-btn" appScroll data-direction="left">
+  <img [src]="common.localStaticLinks.LEFT_ARROW" alt="left-arrow" />
+</button>
+<button
+  class="custom-scrollbar-arrow right-btn scrollbar-arrow-right"
+  appScroll
+  data-direction="right"
+>
+  <img [src]="common.localStaticLinks.RIGHT_ARROW" alt="right-arrow" />
+</button>

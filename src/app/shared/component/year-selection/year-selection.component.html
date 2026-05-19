@@ -1,0 +1,39 @@
+<div class="container position-relative web-wrapper-filter">
+  <div class="previous-next-btn">
+    <div class="prev-arrow-wrap">
+      @if (page >= itemsPerPage) {
+        <button (click)="showPreviousYears()">
+          <img [src]="common.localStaticLinks.LEFT_ARROW" alt="left-arrow" />
+        </button>
+      }
+    </div>
+    <div class="nex-arrow-wrap">
+      @if (page + itemsPerPage < displayedDecades.length) {
+        <button (click)="showNextYears()">
+          <img [src]="common.localStaticLinks.RIGHT_ARROW" alt="right-arrow" />
+        </button>
+      }
+    </div>
+  </div>
+  <mat-stepper [linear]="false" (selectionChange)="changeYear($event)">
+    @for (decade of getDisplayedItems(); track $index) {
+      <ng-container>
+        <mat-step [completed]="false">
+          <ng-template matStepLabel>{{ decade }}</ng-template>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+      </ng-container>
+    }
+  </mat-stepper>
+</div>
+
+<mat-form-field class="mobile-right-wrapper-author">
+  <mat-select
+    placeholder="{{ 'YEAR_SELECTION.YEAR_PLACEHOLDER' | translate }}"
+    (selectionChange)="yearSelectionChanges($event.value)"
+  >
+    @for (year of displayedDecades; track $index) {
+      <mat-option [value]="year">{{ year }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>

@@ -1,0 +1,166 @@
+<div class="custom-scrollbar-btn">
+  @if (imageList.length === 0) {
+    <mat-progress-spinner
+      color="primary"
+      mode="indeterminate"
+      diameter="50"
+      class="spinnerLoader"
+    ></mat-progress-spinner>
+  } @else {
+    <app-images-with-scroll [imageList]="imageList"></app-images-with-scroll>
+  }
+</div>
+<div class="portal-wrapper">
+  <div class="container">
+    <div class="portal-data flex-wrapper-portal">
+      <div class="row">
+        <div class="w-60">
+          <div class="data-title data-title-70">
+            {{ "WHO_WE_ARE.SECTION_1_TITLE" | translate }}
+          </div>
+          <div
+            class="link-black"
+            [innerHTML]="
+              'WHO_WE_ARE.SECTION_1_CONTENT_HTML' | translate | sanitizeHtml
+            "
+          ></div>
+        </div>
+        <div class="w-40">
+          <div
+            class="data-title"
+            [innerHTML]="
+              'WHO_WE_ARE.SECTION_2_TITLE_HTML' | translate | sanitizeHtml
+            "
+          ></div>
+          <div
+            class="link-black"
+            [innerHTML]="
+              'WHO_WE_ARE.SECTION_2_CONTENT_HTML' | translate | sanitizeHtml
+            "
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="accordion-main who-we-are-accordion">
+  <mat-accordion>
+    <mat-expansion-panel
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div>
+            {{ "WHO_WE_ARE.SECTION_3_PANNEL_1_TITLE" | translate }}
+          </div>
+          <mat-icon>expand_more</mat-icon>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="">
+        <div
+          class="accordion-data"
+          [innerHTML]="
+            'WHO_WE_ARE.SECTION_3_PANNEL_1_CONTENT_HTML'
+              | translate
+              | sanitizeHtml
+          "
+        ></div>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div>
+            {{ "WHO_WE_ARE.SECTION_3_PANNEL_2_TITLE" | translate }}
+          </div>
+          <mat-icon>expand_more</mat-icon>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="">
+        <div
+          class="accordion-data"
+          [innerHTML]="
+            'WHO_WE_ARE.SECTION_3_PANNEL_2_CONTENT_HTML'
+              | translate
+              | sanitizeHtml
+          "
+        ></div>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div>
+            {{ "WHO_WE_ARE.SECTION_3_PANNEL_3_TITLE" | translate }}
+          </div>
+          <mat-icon>expand_more</mat-icon>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="">
+        <div
+          class="accordion-data"
+          [innerHTML]="
+            'WHO_WE_ARE.SECTION_3_PANNEL_3_CONTENT_HTML'
+              | translate
+              | sanitizeHtml
+          "
+        ></div>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div>
+            {{ "WHO_WE_ARE.SECTION_3_PANNEL_4_TITLE" | translate }}
+          </div>
+          <mat-icon>expand_more</mat-icon>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="">
+        <div
+          class="accordion-data"
+          [innerHTML]="
+            'WHO_WE_ARE.SECTION_3_PANNEL_4_CONTENT_HTML'
+              | translate
+              | sanitizeHtml
+          "
+        ></div>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel
+      (opened)="panelOpenState = true"
+      (closed)="panelOpenState = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <div
+            [innerHTML]="
+              'WHO_WE_ARE.SECTION_3_PANNEL_5_TITLE' | translate | sanitizeHtml
+            "
+          ></div>
+          <mat-icon>expand_more</mat-icon>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <div
+          class="accordion-data"
+          [innerHTML]="
+            'WHO_WE_ARE.SECTION_3_PANNEL_5_CONTENT_HTML'
+              | translate
+              | sanitizeHtml
+          "
+        ></div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

@@ -1,0 +1,109 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+.main-wrapper-tab {
+  strong.title-strong {
+    font-size: var(--base-font-24);
+    margin-bottom: 40px;
+    display: block;
+  }
+
+  .mini-title {
+    font-size: var(--base-font-20);
+    font-style: italic;
+    line-height: 30px;
+  }
+
+  h3.author {
+    font-size: var(--base-font-20);
+    font-family: "glacial_indifferenceregular" !important;
+    margin-left: 10px;
+  }
+
+  ul {
+    li {
+      display: flex;
+      width: 100%;
+      margin: 0 auto 50px;
+      overflow: auto;
+      gap: 5px;
+      padding-bottom: 15px;
+
+      img {
+        height: 200px;
+        width: auto;
+      }
+    }
+  }
+
+  .flex-wrapper {
+    @include flex-center;
+    gap: 15px;
+    margin-top: 55px;
+    color: $black;
+
+    span {
+      font-style: italic;
+    }
+  }
+
+  .flex-wrapper.mat-arrow {
+    justify-content: center;
+    gap: 10px;
+
+    mat-icon {
+      border: 1px solid #11212d;
+      border-radius: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+    .blog-details {
+        table {
+            tbody {
+                display: table-cell;
+                width: 100%;
+                tr {
+                    width: 100%;
+                    display: flex;
+                    flex-flow: column;
+                    td {
+                        width: 100%;
+                        display: flex;
+                        flex-flow: column;
+
+                    }
+                }
+             }
+        }
+    }
+}
+
+.blog-details {
+    table {
+        height: auto !important;
+        width: 100% !important;
+
+        tbody {
+            height: auto !important;
+            tr {
+                height: auto !important;
+                td {
+                    padding-bottom: 30px;
+                    height: auto !important;
+                    vertical-align: text-bottom !important;
+
+                    img {
+                        object-fit: contain;
+                        height: auto !important;
+                        margin-bottom: 7px !important;
+                    }
+                }
+            }
+        }
+    }
+}

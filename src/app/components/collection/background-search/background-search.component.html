@@ -1,0 +1,94 @@
+<div class="project-main-wrapper mt-10">
+  <div class="container">
+    <div class="page-top-box">
+      <div class="title-main-section">
+        {{ "ART_WORK_FINDER.SECTION_1_TITLE" | translate }}
+      </div>
+      <div
+        class="project-description-wrapper"
+        [innerHTML]="
+          'ART_WORK_FINDER.SECTION_1_CONTENT_HTML' | translate | sanitizeHtml
+        "
+      ></div>
+    </div>
+
+    <div class="custom-search-box">
+      <app-custom-search
+        [initialSearch]="searchResult"
+        [totalCountData]="
+          ('COMMON.BEFORE_SEARCH_RESULT' | translate) +
+          ' ' +
+          totalCount +
+          ' ' +
+          ('COMMON.AFTER_SEARCH_RESULT' | translate)
+        "
+        placeHolder="ART_WORK_FINDER.SECTION_2_SEARCH_PLACEHOLDER"
+        (searchResults)="handleSearch($event)"
+      ></app-custom-search>
+    </div>
+    <div class="custom-filter-box justify-content-end">
+      <div class="custom-filter-box-list dark-custom-filter-box-list">
+        <app-order-selection
+          (selectionChange)="changeOrder($event)"
+          [activeType]="sortBy"
+        ></app-order-selection>
+        <a [ngClass]="view === common.constantsData.VIEWS.GRID ? 'active' : ''">
+          <mat-icon
+            (click)="viewChange(common.constantsData.VIEWS.GRID)"
+            [svgIcon]="common.icons.SORTICON"
+          ></mat-icon>
+        </a>
+        <a [ngClass]="view === common.constantsData.VIEWS.LIST ? 'active' : ''">
+          <mat-icon
+            (click)="viewChange(common.constantsData.VIEWS.LIST)"
+            [svgIcon]="common.icons.SORT"
+          ></mat-icon>
+        </a>
+      </div>
+    </div>
+    @defer {
+      <div>
+        <app-custom-masonry-layout
+          [isLoading]="isLoading"
+          [view]="view"
+          [path]="common.environment.COLLECTIONS"
+          [allImageItem]="imageList"
+          [showDescription]="false"
+          [showDate]="false"
+          (showDetailEvent)="redirectToDetailPage($event)"
+        />
+
+        @if (isLoading) {
+          <mat-progress-spinner
+            color="primary"
+            mode="indeterminate"
+            diameter="50"
+            class="spinnerLoader"
+          ></mat-progress-spinner>
+        }
+        <div class="show-more-wrapper">
+          @if (totalCount > imageList.length && !isLoading) {
+            <button
+              mat-flat-button
+              color="primary"
+              class="btn gradient-orange-green"
+              (click)="showMore()"
+            >
+              {{ "COMMON.SEE_MORE" | translate }}
+            </button>
+          }
+          @if (totalCount >= 24) {
+            <div
+              aria-hidden="true"
+              color="primary"
+              class="btn bg-black"
+              (click)="scrollTop()"
+            >
+              <mat-icon>arrow_upward</mat-icon>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

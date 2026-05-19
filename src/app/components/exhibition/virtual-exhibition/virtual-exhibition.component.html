@@ -1,0 +1,87 @@
+<div class="project-main-wrapper mt-10">
+  <div class="container">
+    <div class="title-main-section">
+      {{ "VIRTUAL_EXHIBITION.SECTION_1_TITLE" | translate }}
+    </div>
+    <div class="calendar-search-right mt-5">
+      @if(imageList.length > 0){
+      <div class="exibition-data-box custom-scrollbar">
+        @for (image of imageList; track $index) {
+        <div class="exibition-data-list" (click)="redirectToDetailPage(image.slug)"
+          (keydown.enter)="redirectToDetailPage(image.slug)" (keydown.space)="redirectToDetailPage(image.slug)" tabindex="0">
+          <div class="exibition-data-img">
+            <img appImageError [path]="environment.EXHIBITION" [imageName]="image.image"
+              (error)="directive.errorHandle($event)" alt="image" />
+          </div>
+          <mat-card class="exibition-data">
+            <mat-card-header>
+              <mat-card-title-group>
+                <mat-card-title class="exhibition-organization">
+                  {{ image.organitzation }}
+                </mat-card-title>
+                <mat-card-subtitle>
+                  {{
+                  image.initial_date?.trim() && image.final_date?.trim()
+                  ? image.initial_date + " - " + image.final_date
+                  : image.initial_date?.trim() || image.final_date?.trim()
+                  }}
+                </mat-card-subtitle>
+              </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content class="m-0">
+              <mat-card-title class="mb-1 exhibition-title">
+                {{ image.title }}
+              </mat-card-title>
+              @if (image.description) {
+              <p class="card-data clamped-text" [innerHTML]="image.description | sanitizeHtml"></p>
+              }
+            </mat-card-content>
+          </mat-card>
+        </div>
+        }
+      </div>
+      } @else if(imageList.length == 0 && !isLoading) {
+      <div class="no-data-container">
+        <div class="no-data-content">
+          <div class="refresh-circle">
+            <img [src]="common.constantsData.LOCAL_STATIC_LINKS.VIRTUAL_EXHIBITION_NO_DATA" height="120" alt="Refresh" />
+          </div>
+          <div class="text-box">
+            <h3 class="no-data-title">{{ "VIRTUAL_EXHIBITION.NO_DATA_MESSAGE_1" | translate }}</h3>
+            <p class="no-data-subtitle">{{ "VIRTUAL_EXHIBITION.NO_DATA_MESSAGE_2" | translate }}</p>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+    @if (isLoading) {
+      <mat-progress-spinner
+        color="primary"
+        mode="indeterminate"
+        diameter="50"
+        class="spinnerLoader"
+      ></mat-progress-spinner>
+    }
+    @if (totalCount - (payload.limit + payload.offset) > 0 && !isLoading) {
+      <div class="show-more-wrapper">
+        <button
+          mat-flat-button
+          color="primary"
+          class="btn gradient-green-blue"
+          (click)="showMore()"
+        >
+          {{ "COMMON.SEE_MORE" | translate }}
+        </button>
+        <div
+          aria-hidden="true"
+          color="primary"
+          class="btn bg-black"
+          (click)="scrollTop()"
+        >
+          <mat-icon>arrow_upward</mat-icon>
+        </div>
+      </div>
+    }
+  </div>
+</div>

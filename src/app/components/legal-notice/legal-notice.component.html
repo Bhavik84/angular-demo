@@ -1,0 +1,13 @@
+<div class="photography-plan-wrapper">
+  <div class="container">
+    <div class="title-main-section">
+      {{ "LEGAL_NOTICE.SECTION_1_TITLE" | translate }}
+    </div>
+    <div
+      class="photography-decription-wrapper"
+      [innerHTML]="
+        'LEGAL_NOTICE.SECTION_1_CONTENT_HTML' | translate | sanitizeHtml
+      "
+    ></div>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+@use "mixins" as *;
+@use "variables" as *;
+@use "common" as *;
+
+.welcome-page {
+  text-align: center;
+  background-image: url(../../../assets/images/welcome-bg.jpg);
+  height: 100vh;
+  min-height: 600px;
+  background-size: cover;
+
+  .welcome-page-data {
+    @include flex-center-center;
+    height: 100%;
+    flex-direction: column;
+
+    .welcome-title {
+      font-size: var(--base-font-90);
+      color: $dark-blue;
+      letter-spacing: -4px;
+      font-family: "Barlow Condensed", sans-serif !important;
+      line-height: normal;
+
+      @media (max-width: 991px) {
+        font-size: var(--base-font-45);
+        letter-spacing: -1px;
+      }
+
+      &.title-bold {
+        font-weight: $weight-700;
+        line-height: 90px;
+
+        @media (max-width: 991px) {
+          line-height: initial;
+        }
+      }
+    }
+
+    .welcome-page-btn {
+      margin-top: 50px;
+      font-family: glacial_indifferenceregular, Arial, sans-serif !important;
+      @media (max-width: 991px) {
+        margin-top: 30px;
+      }
+
+      .btn {
+        // font-size: var(--base-font-30);
+        // padding: 16px 20px;
+        font-size: var(--base-font-18);
+        font-weight: $weight-700;
+        padding: 10px 20px;
+        gap: 114px;
+        border-radius: 24px;
+
+        @media (max-width: 991px) {
+          font-size: var(--base-font-20);
+          padding: 10px 15px;
+          gap: 40px;
+          border-radius: 16px;
+        }
+      }
+    }
+  }
+}
+
+@keyframes zoomInAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.zoom-in {
+  animation: zoomInAnimation 1s ease-in-out forwards;
+}
+
+.welcome-title {
+  animation: zoomInAnimation 3s ease-in-out forwards;
+}
+
+.welcome-page-btn {
+  animation: zoomInAnimation 1.5s ease-in-out forwards;
+}
+
+@keyframes zoomOutAnimation {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0);
+  }
+}
+
+.fade-out-zoom-out {
+  animation:
+    fadeOutAnimation 0.5s ease forwards,
+    zoomOutAnimation 3s ease forwards;
+}
+.rotate {
+  transform: rotate(180deg);
+}

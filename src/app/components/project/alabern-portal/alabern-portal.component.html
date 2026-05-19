@@ -1,0 +1,97 @@
+<div class="custom-scrollbar-btn">
+  @if (imageList.length === 0) {
+    <mat-progress-spinner
+      color="primary"
+      mode="indeterminate"
+      diameter="50"
+      class="spinnerLoader"
+    ></mat-progress-spinner>
+  } @else {
+    <div style="margin-bottom: 30px">
+      <app-images-with-scroll [imageList]="imageList"></app-images-with-scroll>
+    </div>
+  }
+</div>
+@defer {
+  <div class="portal-wrapper">
+    <div class="container">
+      <div
+        class="title-main-section mb-0"
+        [innerHTML]="
+          'ALABERN_PORTAL.MAIN_TITLE_HTML' | translate | sanitizeHtml
+        "
+      ></div>
+      <div class="portal-data data-one">
+        <div
+          class="sub-title"
+          [innerHTML]="
+            'ALABERN_PORTAL.SUB_TITLE_HTML' | translate | sanitizeHtml
+          "
+        ></div>
+        <div
+          class="title-mid"
+          [innerHTML]="
+            'ALABERN_PORTAL.SUB_TITLE_1_HTML' | translate | sanitizeHtml
+          "
+        ></div>
+        <div
+          [innerHTML]="
+            'ALABERN_PORTAL.SUB_CONTENT_1_HTML' | translate | sanitizeHtml
+          "
+        ></div>
+      </div>
+      <div class="portal-data">
+        <div class="title-mid">
+          {{ "ALABERN_PORTAL.SUB_TITLE_2" | translate }}
+        </div>
+        <div
+          [innerHTML]="
+            'ALABERN_PORTAL.SUB_CONTENT_2_HTML' | translate | sanitizeHtml
+          "
+        ></div>
+      </div>
+      <div class="portal-data flex-wrapper-portal">
+        <div>
+          <div class="title-mid">
+            {{ "ALABERN_PORTAL.SUB_TITLE_3" | translate }}
+          </div>
+          <div
+            [innerHTML]="
+              'ALABERN_PORTAL.SUB_CONTENT_3_HTML' | translate | sanitizeHtml
+            "
+          ></div>
+        </div>
+        <div>
+          <div class="title-mid">
+            {{ "ALABERN_PORTAL.SUB_TITLE_4" | translate }}
+          </div>
+          <div
+            [innerHTML]="
+              'ALABERN_PORTAL.SUB_CONTENT_4_HTML' | translate | sanitizeHtml
+            "
+          ></div>
+          <div class="mt-2">
+            <button
+              mat-flat-button
+              color="primary"
+              class="btn gradient-yellow-blue"
+              [routerLink]="['/' + common.getRoute('PHOTOGRAPHER_LIST')]"
+            >
+              {{ "ALABERN_PORTAL.SUB_CONTENT_4_BUTTON_LABEL" | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="portal-data last-data">
+        <div class="title-mid">
+          {{ "ALABERN_PORTAL.SUB_TITLE_5" | translate }}
+        </div>
+        <div
+          [innerHTML]="
+            'ALABERN_PORTAL.SUB_CONTENT_5_HTML' | translate | sanitizeHtml
+          "
+        ></div>
+      </div>
+    </div>
+  </div>
+}

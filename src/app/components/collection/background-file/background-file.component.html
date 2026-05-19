@@ -1,0 +1,366 @@
+<div class="project-main-wrapper mt-10">
+  <div class="container">
+    <div class="photo-details-top">
+      <div class="photo-details-top-left image-height" #photoDetailsLeft>
+        <div class="p-relative photo-div">
+          <img
+            [ngClass]="{
+              'image-zoom-cursor':
+                photographerDetail?.collections_images?.[0]?.url
+            }"
+            appImageError
+            width="400"
+            height="400"
+            [path]="commonService.environment.COLLECTIONS"
+            [imageName]="photographerDetail?.collections_images?.[0]?.url"
+            tabindex="0"
+            (click)="
+              photographerDetail?.collections_images?.[0]?.url
+                ? openDynamicImage(
+                    photographerDetail?.collections_languages?.[0]
+                      ?.title_short || ''
+                  )
+                : ''
+            "
+            (keydown.enter)="
+              photographerDetail?.collections_images?.[0]?.url
+                ? openDynamicImage(
+                    photographerDetail?.collections_languages?.[0]
+                      ?.title_short || ''
+                  )
+                : ''
+            "
+            (error)="directive.errorHandle($event)"
+            alt=""
+          />
+        </div>
+        <div class="d-flex chips-main">
+          @for (item of photographerDetail?.collections_tags; track $index) {
+            @if (item.tag) {
+              <div class="chips">{{ item.tag.tags_languages[0].name }}</div>
+            }
+          }
+        </div>
+      </div>
+      <div class="photo-details-top-right" #photoDetailsRight>
+        <div class="photo-title" #titleSection>
+          @if (
+            photographerDetail &&
+            photographerDetail.collections_languages &&
+            photographerDetail.collections_languages.length > 0
+          ) {
+            {{ photographerDetail.collections_languages[0].title_short }}
+          }
+        </div>
+        @if (
+          photographerDetail &&
+          photographerDetail.collections_languages &&
+          photographerDetail.collections_languages.length > 0 &&
+          photographerDetail.collections_languages[0].summary
+        ) {
+          <div class="fund-summary-content">
+            @if (showSummaryEllipsis && imageHeight > 0) {
+              <div class="max-content" [style.height.px]="imageHeight">
+                <div
+                  *nestedEllipsis="true; indicator: moreBibAnchor"
+                  [innerHTML]="
+                    photographerDetail.collections_languages[0].summary
+                      | sanitizeHtml
+                  "
+                ></div>
+                <ng-template #moreBibAnchor>
+                  <a
+                    (click)="showSummaryEllipsis = false"
+                    (keydown.enter)="showSummaryEllipsis = false"
+                    (keydown.space)="showSummaryEllipsis = false"
+                    tabindex="0"
+                  >
+                    {{ "COMMON.SEE_MORE" | translate }}
+                  </a>
+                </ng-template>
+              </div>
+            } @else if (imageHeight > 0) {
+              <div>
+                <span
+                  [innerHTML]="
+                    photographerDetail.collections_languages[0].summary
+                      | sanitizeHtml
+                  "
+                ></span>
+                <a
+                  (click)="showSummaryEllipsis = true"
+                  (keydown.enter)="showSummaryEllipsis = false"
+                  (keydown.space)="showSummaryEllipsis = false"
+                  tabindex="0"
+                >
+                  {{ "COMMON.SEE_LESS" | translate }}
+                </a>
+              </div>
+            }
+          </div>
+        }
+        <div class="information-box mt-2 desktop-hide">
+          <div class="download-link">
+            @if (isLoadingDownload) {
+              <mat-progress-spinner
+                color="primary"
+                mode="indeterminate"
+                diameter="50"
+                class="spinnerLoader"
+              ></mat-progress-spinner>
+            } @else if (!isLoadingDownload) {
+              <a
+                (click)="downloadPdf()"
+                (keydown.enter)="showSummaryEllipsis = false"
+                (keydown.space)="showSummaryEllipsis = false"
+                tabindex="0"
+              >
+                <mat-icon [svgIcon]="commonService.icons.DOWNLOAD"></mat-icon>
+                <div class="download-link-text">
+                  {{ "ART_WORK_DETAIL.SECTION_2_LABLE" | translate }}
+                </div>
+              </a>
+            }
+          </div>
+          <div class="share-link">
+            <a>
+              <mat-icon
+                [svgIcon]="commonService.icons.SHARE"
+                matTooltip="{{
+                  'ART_WORK_DETAIL.SECTION_2_SHARE_TOOLTIP' | translate
+                }}"
+                (click)="shareContent()"
+              ></mat-icon>
+            </a>
+            <a>
+              <mat-icon
+                [svgIcon]="commonService.icons.ATTATCHMENT"
+                matTooltip="{{
+                  'ART_WORK_DETAIL.SECTION_2_COPY_TOOLTIP' | translate
+                }}"
+                (click)="commonService.copyUrlToClipboard()"
+              ></mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  @defer {
+    <div class="bg-gradient-blue-green mobile-hide">
+      <div class="container" #collectionDetailsmansonryRef>
+        <div class="information-box mb-0">
+          <div class="download-link">
+            @if (isLoadingDownload) {
+              <mat-progress-spinner
+                color="primary"
+                mode="indeterminate"
+                diameter="50"
+                class="spinnerLoader"
+              ></mat-progress-spinner>
+            } @else if (!isLoadingDownload) {
+              <a
+                (click)="downloadPdf()"
+                (keydown.enter)="showSummaryEllipsis = false"
+                (keydown.space)="showSummaryEllipsis = false"
+                tabindex="0"
+              >
+                <mat-icon [svgIcon]="commonService.icons.DOWNLOAD"></mat-icon>
+                <div class="download-link-text">
+                  {{ "ART_WORK_DETAIL.SECTION_2_LABLE" | translate }}
+                </div>
+              </a>
+            }
+          </div>
+          <div class="share-link">
+            <a>
+              <mat-icon
+                [svgIcon]="commonService.icons.SHARE"
+                matTooltip="{{
+                  'ART_WORK_DETAIL.SECTION_2_SHARE_TOOLTIP' | translate
+                }}"
+                (click)="shareContent()"
+              ></mat-icon>
+            </a>
+            <a>
+              <mat-icon
+                [svgIcon]="commonService.icons.ATTATCHMENT"
+                matTooltip="{{
+                  'ART_WORK_DETAIL.SECTION_2_COPY_TOOLTIP' | translate
+                }}"
+                (click)="commonService.copyUrlToClipboard()"
+              ></mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+  <div>
+    @defer {
+      <mat-tab-group (selectedTabChange)="tabchange($event)">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div class="svg-icon-test">
+              <a>
+                <mat-icon [svgIcon]="commonService.icons.GALLERY"></mat-icon>
+              </a>
+            </div>
+            <div class="mobile-hide">
+              {{ "ART_WORK_DETAIL.SECTION_3_TAB_2" | translate }}
+            </div>
+          </ng-template>
+          <div class="container">
+            <div class="tab-data-main">
+              <div class="tab-search-box">
+                <app-custom-search
+                  class="white-input"
+                  [totalCountData]="
+                    ('COMMON.BEFORE_SEARCH_RESULT' | translate) +
+                    ' ' +
+                    totalCount +
+                    ' ' +
+                    ('COMMON.AFTER_SEARCH_RESULT' | translate)
+                  "
+                  [initialSearch]="searchResult"
+                  [isReadOnly]="isLoading"
+                  placeHolder="ART_WORK_DETAIL.SECTION_3_SEARCH_PLACEHOLDER"
+                  (searchResults)="handleSearch($event)"
+                ></app-custom-search>
+                <div class="tab-right-icons">
+                  <a
+                    [ngClass]="
+                      this.view === commonService.constantsData.VIEWS.GRID
+                        ? 'active'
+                        : ''
+                    "
+                  >
+                    <mat-icon
+                      (click)="
+                        viewChange(commonService.constantsData.VIEWS.GRID)
+                      "
+                      [svgIcon]="commonService.icons.SORTICON"
+                    ></mat-icon>
+                  </a>
+                  <a
+                    [ngClass]="
+                      this.view === commonService.constantsData.VIEWS.LIST
+                        ? 'active'
+                        : ''
+                    "
+                  >
+                    <mat-icon
+                      (click)="
+                        viewChange(commonService.constantsData.VIEWS.LIST)
+                      "
+                      [svgIcon]="commonService.icons.SORT"
+                    ></mat-icon>
+                  </a>
+                  @if (imageList.length > 0) {
+                    <a>
+                      <img
+                        (click)="slideShow()"
+                        aria-hidden="true"
+                        alt=""
+                        [src]="commonService.localStaticLinks.SLIDER_ICON"
+                        class="slider-icon"
+                      />
+                    </a>
+                  }
+                </div>
+              </div>
+              <div class="tab-masonry">
+                @if (tab === 0) {
+                  <app-custom-masonry-layout
+                    [isLoading]="isLoading"
+                    (showDetailEvent)="redirection($event)"
+                    [view]="view"
+                    [path]="commonService.environment.WORKS"
+                    [showDate]="true"
+                    [showDescription]="true"
+                    [showAuthor]="true"
+                    [allImageItem]="imageList"
+                    (loadedMasonary)="loadedMasonaryData($event)"
+                  />
+                  @if (isLoading) {
+                    <mat-progress-spinner
+                      color="primary"
+                      mode="indeterminate"
+                      diameter="50"
+                      class="spinnerLoader"
+                    ></mat-progress-spinner>
+                  }
+                }
+                <div class="show-more-wrapper">
+                  @if ( totalCount > imageList.length && !isLoading ) {
+                    @if (
+                      (isShowViewMore &&
+                        view === commonService.constantsData.VIEWS.GRID) ||
+                      (!isLoading &&
+                        view === commonService.constantsData.VIEWS.LIST)
+                    ) {
+                      <button class="gradient-blue-green" (click)="showMore()">
+                        {{ "COMMON.SEE_MORE" | translate }}
+                      </button>
+                    }
+                  }
+                  @if (totalCount >= 24) {
+                    <div
+                      aria-hidden="true"
+                      color="primary"
+                      class="btn bg-black"
+                      (click)="scrollTop()"
+                    >
+                      <mat-icon>arrow_upward</mat-icon>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div tab-right-icons>
+              <a>
+                <mat-icon [svgIcon]="commonService.icons.CAMERA"></mat-icon>
+              </a>
+            </div>
+            <div class="mobile-hide">
+              {{ "ART_WORK_DETAIL.SECTION_3_TAB_1" | translate }}
+            </div>
+          </ng-template>
+          <div class="container">
+            <div class="tab-data-main">
+              <div class="title-main-section">
+                @if (
+                  photographerDetail &&
+                  photographerDetail.collections_languages &&
+                  photographerDetail.collections_languages.length > 0
+                ) {
+                  {{ photographerDetail.collections_languages[0].title_long }}
+                }
+              </div>
+
+              <div class="">
+                @if (
+                  photographerDetail &&
+                  photographerDetail.collections_languages &&
+                  photographerDetail.collections_languages.length > 0 &&
+                  photographerDetail.collections_languages[0].about
+                ) {
+                  <p class="editor_content"
+                    [innerHTML]="
+                      photographerDetail.collections_languages[0].about
+                        | sanitizeHtml
+                    "
+                  ></p>
+                }
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    }
+  </div>
+</div>

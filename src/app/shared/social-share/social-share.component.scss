@@ -1,0 +1,36 @@
+.title-section {
+  margin-bottom: 0px;
+  font-size: var(--base-font-20);
+}
+.button-section {
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  a {
+    height: 50px;
+    width: 50px;
+    border: 1px solid #0b0e0d1f;
+    display: flex;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      background-color: #0b0e0d1f;
+    }
+  }
+}
+.cancel-button {
+  height: 40px;
+  width: 200px;
+  outline: none;
+  justify-content: center;
+  margin-top: 40px !important;
+}
+::ng-deep {
+  .button-section {
+    .mat-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
