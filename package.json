@@ -64,6 +64,6 @@
     "karma-jasmine-html-reporter": "~2.3.0",
     "lmdb": "^3.4.2",
     "prettier": "^3.2.5",
-    "typescript": "~5.9.0"
+    "typescript": "~7.0.0"
   }
 }
